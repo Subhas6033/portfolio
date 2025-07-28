@@ -8,8 +8,8 @@ const Home = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center w-full max-w-7xl">
         {/* Image Section — show first on mobile */}
         <div className="flex justify-center md:justify-end order-1 md:order-2">
-          <div className="w-40 h-40 md:w-96 md:h-96 rotate-45 transform-gpu rounded-3xl overflow-hidden shadow-lg border-4 border-white">
-            <div className="-rotate-45 transform-gpu w-full h-full scale-[1.42]">
+          <div className="w-40 h-40 md:w-80 md:h-80 rotate-45 transform-gpu rounded-3xl overflow-hidden shadow-lg border-4 border-white">
+            <div className="-rotate-45 transform-gpu w-full h-full scale-[1.42] md:scale-[1.64]">
               <img
                 src="./My Picture3.jpg"
                 alt="My profile"
