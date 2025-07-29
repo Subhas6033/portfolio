@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoReorderThree } from "react-icons/io5";
 import { HiX } from "react-icons/hi";
 import { motion, AnimatePresence } from "framer-motion";
+import {Loader} from '../index'
+
+
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);

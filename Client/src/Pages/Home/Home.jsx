@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "../../Components/index";
 import { FiDownload } from "react-icons/fi";
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
 import { motion } from "framer-motion";
 
 const Home = () => {
+
   return (
     <motion.section
       className="min-h-screen w-full bg-gradient-to-r from-[#7696CF] to-[#1B2549] flex items-center justify-center px-6 md:px-20 py-10"
