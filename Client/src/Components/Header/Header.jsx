@@ -2,24 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoReorderThree } from "react-icons/io5";
 import { HiX } from "react-icons/hi";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [renderMenu, setRenderMenu] = useState(false); //for slide up animation
-
-  useEffect(() => {
-    if (isMenuOpen) {
-      setRenderMenu(true);
-    } else {
-      // TO close the menuBar with slide-up animation
-      const timer = setTimeout(() => {
-        setRenderMenu(false);
-      }, 500);
-
-      return () => clearTimeout(timer);
-    }
-  }, [isMenuOpen]);
 
   useEffect(() => {
     const handelScroll = () => {
@@ -43,8 +30,8 @@ const Header = () => {
       slug: "/about",
     },
     {
-      title: "Education",
-      slug: "/education",
+      title: "Skill",
+      slug: "/skill",
     },
     {
       title: "Projects",
@@ -103,35 +90,38 @@ const Header = () => {
       </nav>
 
       {/* Navigations links for the small screen */}
-      {renderMenu && (
-        <nav
-          className={`
-            fixed top-14 left-0 w-full z-20 bg-[#1B2549] text-white shadow-md
-            transform transition-all duration-700 ease-linear
-            ${
-              isMenuOpen
-                ? "translate-y-0 opacity-100"
-                : "-translate-y-full opacity-0 pointer-events-none"
-            }
-          `}
-        >
-          <ul className="flex flex-col items-center p-4">
-            {navItems.map((nav, index) => (
-              <li className="py-3" key={index}>
-                <button
-                  onClick={() => {
-                    navigate(nav.slug);
-                    setIsMenuOpen(false); // triggers slide-up
-                  }}
-                  className="text-lg"
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.nav
+            initial={{ y: -200, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -200, opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="fixed top-14 left-0 w-full z-20 bg-[#1B2549] text-white shadow-md"
+          >
+            <ul className="flex flex-col items-center p-4">
+              {navItems.map((nav, index) => (
+                <motion.li
+                  key={index}
+                  className="py-3"
+                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.05 }}
                 >
-                  {nav.title}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
+                  <button
+                    onClick={() => {
+                      navigate(nav.slug);
+                      setIsMenuOpen(false);
+                    }}
+                    className="text-lg"
+                  >
+                    {nav.title}
+                  </button>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
