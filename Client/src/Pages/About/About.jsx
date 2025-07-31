@@ -6,7 +6,7 @@ import { LuSquareArrowOutUpRight } from "react-icons/lu";
 
 const Project = () => {
   return (
-    <section className="min-h-screen w-full bg-gradient-to-r from-[#7696CF] to-[#1B2549] flex flex-col items-center justify-center px-6 md:px-20 py-16 md:py-36 gap-20">
+    <section className="min-h-screen w-full flex flex-col items-center justify-center px-6 md:px-20 py-16 md:py-36 gap-20">
       {/* Top Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center w-full max-w-7xl">
         {/* Text Section - Left */}
