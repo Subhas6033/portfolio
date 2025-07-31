@@ -14,10 +14,13 @@ const App = () => {
     return () => clearTimeout(timer)
   }, [])
 
-  return isLoading ? <Loader /> : (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <>
-      <Header />
-      <main>
+        <Header />
+        {/* TODO: NO SCROLLBAR VISIBLE IN THE PAGE */}
+      <main className="bg-gradient-to-r from-[#7696CF] to-[#1B2549]">
         {/* TO Render the childrens of the page */}
         <Outlet />
       </main>

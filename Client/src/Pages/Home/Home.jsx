@@ -1,19 +1,16 @@
 /* eslint-disable no-unused-vars */
-import React, {  } from "react";
-import { Image } from "../../Components/index";
-import {Skill} from '../index'
+import React from "react";
+import { Image, Button } from "../../Components/index";
+import { Skill } from "../index";
 import { FiDownload } from "react-icons/fi";
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
 import { motion } from "framer-motion";
 
-
-
 const Home = () => {
-
   return (
     <>
       <motion.section
-        className="min-h-screen w-full bg-gradient-to-r from-[#7696CF] to-[#1B2549] flex items-center justify-center px-6 md:px-20 py-10"
+        className="min-h-screen w-full flex items-center justify-center px-6 md:px-20 py-10"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
@@ -54,18 +51,21 @@ const Home = () => {
             </p>
 
             <div className="flex flex-wrap justify-center gap-4 pt-4 md:pt-7">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                className="flex justify-center gap-2 bg-black text-white px-5 py-2 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md"
+              <Button
+                className={`flex justify-center gap-2 bg-black text-white px-5 py-2 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer`}
               >
-                View My Work <LuSquareArrowOutUpRight />
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                className="flex items-center gap-2 border-2 border-white text-white px-5 py-2 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md"
-              >
-                <FiDownload /> Download Resume
-              </motion.button>
+                <span>View my work</span>
+                <span>
+                  <LuSquareArrowOutUpRight />{" "}
+                </span>
+              </Button>
+
+              <Button className="flex items-center gap-2 border-2 border-white text-white px-5 py-2 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer">
+                <span>
+                  <FiDownload />
+                </span>
+                <span>Download Resume</span>
+              </Button>
             </div>
           </motion.div>
         </div>
