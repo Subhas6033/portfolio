@@ -1,5 +1,6 @@
 import React from "react";
-import { Image, Card, Button } from "../../Components/index";
+import { Card, Button } from "../../Components/index";
+import { ProfileImage } from "../../Components/profileImage/Image";
 import { FiDownload } from "react-icons/fi";
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
 import {
@@ -47,7 +48,10 @@ const Project = () => {
 
         {/* Image Section - Right */}
         <div className="order-1 md:order-2">
-          <Image imageUrl={"./Image/My Picture3.jpg"} alt={"My picture"} />
+          <ProfileImage
+            imageUrl={"./Image/My Picture3.jpg"}
+            alt={"My picture"}
+          />
         </div>
       </div>
 

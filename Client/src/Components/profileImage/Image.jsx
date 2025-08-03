@@ -1,7 +1,7 @@
 import React from "react";
 import { PopUpAnimation } from "../../utils/Animation";
 
-const Image = ({
+export const ProfileImage = ({
   imageUrl,
   alt = "image",
   wrapperClass = "",
@@ -30,4 +30,15 @@ const Image = ({
   );
 };
 
-export default Image;
+export const Image = ({
+  wrapperClass = "",
+  className = "",
+  imageURL,
+  alt = '',
+}) => {
+  return (
+    <PopUpAnimation className={`${wrapperClass}`}>
+      <img src={imageURL} alt={alt} className={`${className}`} />
+    </PopUpAnimation>
+  )
+}

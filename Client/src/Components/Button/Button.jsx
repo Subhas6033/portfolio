@@ -1,9 +1,9 @@
 import React from "react";
 import { ScaleUpAnimation } from "../../utils/Animation";
 
-const Button = ({ children, className = "", type = "submit", ...prop }) => {
+const Button = ({ children, className = "", wrapperClass ="", type = "submit", ...prop }) => {
   return (
-    <ScaleUpAnimation>
+    <ScaleUpAnimation className={wrapperClass}>
       <button className={`${className}`} type={type} {...prop}>
         {children}
       </button>
