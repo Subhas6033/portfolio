@@ -1,12 +1,8 @@
 import React from "react";
-import { Image, Button } from "../../Components/index";
-import { Skill } from "../index";
+import { Image, Button, Skill } from "../../Components/index";
 import { FiDownload } from "react-icons/fi";
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
-import {
-  SlideLeftAnimation,
-  SlideUpAnimation,
-} from "../../Components/utils/Animation";
+import { SlideLeftAnimation, SlideUpAnimation } from "../../utils/Animation";
 
 const Home = () => {
   return (
@@ -15,7 +11,7 @@ const Home = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center w-full max-w-7xl">
           {/* Image Section — show first on mobile */}
           <div className="order-1 md:order-2">
-            <Image imageUrl={"./My Picture3.jpg"} alt={"My picture"} />
+            <Image imageUrl={"./Image/My Picture3.jpg"} alt={"My picture"} />
           </div>
 
           {/* Text Section — show second on mobile */}
@@ -57,7 +53,12 @@ const Home = () => {
           </SlideLeftAnimation>
         </div>
       </SlideUpAnimation>
-      <Skill />
+
+      {/* Skill Section */}
+      <div className="min-h-screen">
+        <Skill />
+        {/* <Project /> */}
+      </div>
     </>
   );
 };

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import { motion } from "framer-motion";
+import { easeIn, easeInOut, motion } from "framer-motion";
 
 // slide in view animation
 export const SlideInViewAnimation = ({ className = "", children }) => {
@@ -23,7 +23,8 @@ export const SlideUpAnimation = ({ className = "", children }) => {
     <motion.div
       className={className}
       initial={{ y: 30, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      whileInView={{ y: 0, opacity: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
     >
       {children}
@@ -37,7 +38,8 @@ export const SlideLeftAnimation = ({ className = "", children }) => {
     <motion.div
       className={className}
       initial={{ x: -100, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
+      whileInView={{ x: 0, opacity: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
     >
       {children}
@@ -66,7 +68,8 @@ export const PopUpAnimation = ({ className = "", children }) => {
     <motion.div
       className={className}
       initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
+      whileInView={{ scale: 1, opacity: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
     >
       {children}
@@ -93,11 +96,11 @@ export const FadeInSlideUpAnimation = ({ className = "", children }) => {
 // Scael animation for button 
 export const ScaleUpAnimation = ({ className = "", children }) => {
   return (
-    <motion.button 
-      whileHover={{scale : 1.05}}
+    <motion.div 
+      whileHover={{ scale: 1.05 }}
     className={`${className}`}
     >
       {children}
-    </motion.button>
+    </motion.div>
   )
 }

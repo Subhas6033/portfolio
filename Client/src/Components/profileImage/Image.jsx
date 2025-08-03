@@ -1,5 +1,5 @@
 import React from "react";
-import { PopUpAnimation } from "../utils/Animation";
+import { PopUpAnimation } from "../../utils/Animation";
 
 const Image = ({
   imageUrl,
