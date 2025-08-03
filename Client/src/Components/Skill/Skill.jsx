@@ -1,45 +1,38 @@
 import React from "react";
-import { FadeInSlideUpAnimation, ScaleUpAnimation, SlideUpAnimation } from "../../utils/Animation";
+import {
+  FadeInSlideUpAnimation,
+  ScaleUpAnimation,
+  SlideUpAnimation,
+} from "../../utils/Animation";
 
 const Skill = () => {
   const skillItems = [
-  //TODO: Language 
-    { 
-      name: "C", 
-      category: "Language", 
-      logoURL: "./Skill/c.png" 
-
+    {
+      name: "C",
+      category: "Language",
+      logoURL: "./Skill/c.png",
     },
-    { 
-      name: "CPP", 
-      category: "Language", 
-      logoURL: "./Skill/cpp.png" 
-
+    {
+      name: "CPP",
+      category: "Language",
+      logoURL: "./Skill/cpp.png",
     },
-    { 
-      name: "Java", 
-      category: "Language", 
-      logoURL: "./Skill/java.png" 
-
+    {
+      name: "Java",
+      category: "Language",
+      logoURL: "./Skill/java.png",
     },
-    { name: "Python", 
-      category: "Language", 
-      logoURL: "./Skill/python.png" 
+    { name: "Python", category: "Language", logoURL: "./Skill/python.png" },
 
+    {
+      name: "HTML",
+      category: "Frontend Tools",
+      logoURL: "./Skill/html.png",
     },
-
-    // TODO:Frontend Tools
-    { 
-      name: "HTML", 
-      category: "Frontend Tools", 
-      logoURL: "./Skill/html.png" 
-
-    },
-    { 
-      name: "CSS", 
-      category: "Frontend Tools", 
-      logoURL: "./Skill/css.png" 
-      
+    {
+      name: "CSS",
+      category: "Frontend Tools",
+      logoURL: "./Skill/css.png",
     },
     {
       name: "JavaScript",
@@ -86,9 +79,6 @@ const Skill = () => {
       category: "Frontend Tools",
       logoURL: "./Skill/framer-motion.png",
     },
-    
-
-    //TODO: Backend
     {
       name: "Node JS",
       category: "Backend Tools",
@@ -102,50 +92,42 @@ const Skill = () => {
     {
       name: "MongoDB",
       category: "Backend Tools",
-      logoURL : "./Skill/mongodb.png"
+      logoURL: "./Skill/mongodb.png",
     },
     {
       name: "Appwrite",
       category: "Backend Tools",
       logoURL: "./Skill/appwrite.png",
     },
-    
-    // TODO: TOOLS
-    { 
-      name: "VS Code", 
-      category: "Tools", 
-      logoURL: "./Skill/vs.png" 
-      
+    {
+      name: "VS Code",
+      category: "Tools",
+      logoURL: "./Skill/vs.png",
     },
-    { 
-      name: "Vite", 
-      category: "Tools", 
-      logoURL: "./Skill/vite.png" 
-
+    {
+      name: "Vite",
+      category: "Tools",
+      logoURL: "./Skill/vite.png",
     },
-    { 
-      name: "Figma", 
-      category: "Tools", 
-      logoURL: "./Skill/figma.png" 
-
+    {
+      name: "Figma",
+      category: "Tools",
+      logoURL: "./Skill/figma.png",
     },
-    { 
-      name: "Git", 
-      category: "Tools", 
-      logoURL: "./Skill/git.png" 
-
+    {
+      name: "Git",
+      category: "Tools",
+      logoURL: "./Skill/git.png",
     },
-    { 
-      name: "Github", 
-      category: "Tools", 
-      logoURL: "./Skill/github2.png" 
-
+    {
+      name: "Github",
+      category: "Tools",
+      logoURL: "./Skill/github2.png",
     },
-    { 
-      name: "Postman", 
-      category: "Tools", 
-      logoURL: "./Skill/postman.png" 
-
+    {
+      name: "Postman",
+      category: "Tools",
+      logoURL: "./Skill/postman.png",
     },
   ];
 
@@ -161,7 +143,9 @@ const Skill = () => {
               alt="Skill logo"
               className="w-10 h-10"
             />
-            <span className="text-5xl font-orbitron font-medium text-transparent bg-clip-text bg-gradient-to-b from-yellow-400 to-amber-600">Skill</span>
+            <span className="text-5xl font-orbitron font-medium text-transparent bg-clip-text bg-gradient-to-b from-yellow-400 to-amber-600">
+              Skill
+            </span>
           </div>
         </div>
       </div>
@@ -180,20 +164,20 @@ const Skill = () => {
                 .filter((skill) => skill.category === category)
                 .map((skill, index) => (
                   <ScaleUpAnimation key={index}>
-                  <FadeInSlideUpAnimation
-                    key={skill.name}
-                    className="relative group p-3 bg-white/10 border border-white/10 rounded-lg transition-transform hover:cursor-pointer"
-                  >
+                    <FadeInSlideUpAnimation
+                      key={skill.name}
+                      className="relative group p-3 bg-white/10 border border-white/10 rounded-lg transition-transform hover:cursor-pointer"
+                    >
                       <img
-                      src={skill.logoURL}
-                      alt={skill.name}
-                      className="w-12 h-12 object-contain rounded"
-                    />
-                    <div className="absolute top-[-2rem] left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition text-sm text-white bg-black px-2 py-1 rounded shadow-lg z-10 whitespace-nowrap">
-                      {skill.name}
-                    </div>
-                  </FadeInSlideUpAnimation>
-                    </ScaleUpAnimation>
+                        src={skill.logoURL}
+                        alt={skill.name}
+                        className="w-12 h-12 object-contain rounded"
+                      />
+                      <div className="absolute top-[-2rem] left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition text-sm text-white bg-black px-2 py-1 rounded shadow-lg z-10 whitespace-nowrap">
+                        {skill.name}
+                      </div>
+                    </FadeInSlideUpAnimation>
+                  </ScaleUpAnimation>
                 ))}
             </div>
           </SlideUpAnimation>

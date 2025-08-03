@@ -9,7 +9,7 @@ export const SlideInViewAnimation = ({ className = "", children }) => {
       className={`${className}`}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.6, ease : easeInOut }}
       viewport={{ once: true }}
     >
       {children}
@@ -25,7 +25,7 @@ export const SlideUpAnimation = ({ className = "", children }) => {
       initial={{ y: 30, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+      transition={{ duration: 0.6, delay: 0.2, ease: easeInOut }}
     >
       {children}
     </motion.div>
@@ -40,7 +40,7 @@ export const SlideLeftAnimation = ({ className = "", children }) => {
       initial={{ x: -100, opacity: 0 }}
       whileInView={{ x: 0, opacity: 1 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+      transition={{ duration: 0.6, delay: 0.2, ease: easeInOut }}
     >
       {children}
     </motion.div>
@@ -55,7 +55,7 @@ export const SlideRightAnimation = ({ className = "", children }) => {
       initial={{ x: 100, opacity: 0 }}
       whileInView={{ x: 0, opacity: 1 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: 0.6, ease: easeInOut }}
     >
       {children}
     </motion.div>
@@ -70,7 +70,7 @@ export const PopUpAnimation = ({ className = "", children }) => {
       initial={{ scale: 0.8, opacity: 0 }}
       whileInView={{ scale: 1, opacity: 1 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+      transition={{ duration: 0.5, delay: 0.2, ease: easeInOut }}
     >
       {children}
     </motion.div>
@@ -85,22 +85,22 @@ export const FadeInSlideUpAnimation = ({ className = "", children }) => {
       initial={{ y: 30, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: 0.2 }}
+      transition={{ duration: 0.5, delay: 0.2, ease : easeInOut }}
     >
       {children}
     </motion.div>
   );
 };
 
-
 // Scael animation for button 
 export const ScaleUpAnimation = ({ className = "", children }) => {
   return (
-    <motion.div 
+    <motion.div
       whileHover={{ scale: 1.05 }}
-    className={`${className}`}
+      transition={{ ease: easeInOut }}
+      className={`${className}`}
     >
       {children}
     </motion.div>
-  )
+  );
 }
