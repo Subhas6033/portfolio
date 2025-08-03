@@ -8,7 +8,7 @@ import {
   SlideLeftAnimation,
   SlideRightAnimation,
   SlideInViewAnimation,
-} from "../../Components/utils/Animation.jsx";
+} from "../../utils/Animation.jsx";
 
 const Contact = () => {
   const { register, handleSubmit } = useForm();

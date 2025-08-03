@@ -5,7 +5,7 @@ import { LuSquareArrowOutUpRight } from "react-icons/lu";
 import {
   FadeInSlideUpAnimation,
   SlideLeftAnimation,
-} from "../../Components/utils/Animation";
+} from "../../utils/Animation";
 
 const Project = () => {
   return (
@@ -47,7 +47,7 @@ const Project = () => {
 
         {/* Image Section - Right */}
         <div className="order-1 md:order-2">
-          <Image imageUrl={"./My Picture3.jpg"} alt={"My picture"} />
+          <Image imageUrl={"./Image/My Picture3.jpg"} alt={"My picture"} />
         </div>
       </div>
 

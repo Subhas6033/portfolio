@@ -9,8 +9,12 @@
 
 @theme{
     --tracking-tightest: -2rem;  /* letter spacing */
+
+    /* Custom Fonts */
     --font-orbitron : "Orbitron",sans-serif;
     --font-boldonse : "Boldonse",system-ui;
     --font-gothic : "Special Gothic Expanded One",sans-serif;
+
+    /* Custom Color  */
 }
 

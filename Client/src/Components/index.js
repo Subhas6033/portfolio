@@ -5,6 +5,9 @@ import Card from "./Card/Card.jsx";
 import Loader from "./Loader/Loader.jsx";
 import Button from "./Button/Button.jsx";
 import Input from "./Input/Input.jsx";
+import Skill from "./Skill/Skill.jsx";
+
+
 
 export {
     Header,
@@ -13,5 +16,6 @@ export {
     Card,
     Loader,
     Button,
-    Input
+    Input,
+    Skill
 }
