@@ -2,8 +2,13 @@ import React from "react";
 import { Button, Input } from "../../Components/index.js";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { motion } from "framer-motion";
 import { IoIosSend } from "react-icons/io";
+import {
+  SlideUpAnimation,
+  SlideLeftAnimation,
+  SlideRightAnimation,
+  SlideInViewAnimation,
+} from "../../Components/utils/Animation.jsx";
 
 const Contact = () => {
   const { register, handleSubmit } = useForm();
@@ -14,12 +19,7 @@ const Contact = () => {
 
   return (
     <section className="min-h-screen pt-8 pb-16 px-6 md:px-20 text-white">
-      <motion.div
-        className="flex flex-col items-start gap-4 max-w-3xl mb-10"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-      >
+      <SlideUpAnimation className="flex flex-col items-start gap-4 max-w-3xl mb-10">
         <h1
           className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-black via-gray-400 via-60% to-[#e0f2ff]
 "
@@ -30,24 +30,12 @@ const Contact = () => {
           I'm open to freelance work, internships, and full-time opportunities.
           Let's connect and bring ideas to life together.
         </p>
-      </motion.div>
+      </SlideUpAnimation>
 
       {/* Main Content */}
-      <motion.div
-        className="flex flex-col md:flex-row justify-between items-start gap-8 overflow-x-hidden"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-      >
+      <SlideInViewAnimation className="flex flex-col md:flex-row justify-between items-start gap-8 overflow-x-hidden">
         {/* Map */}
-        <motion.div
-          className="w-full md:w-1/2 h-fit rounded-xl"
-          initial={{ opacity: 0, x: -100 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          viewport={{ once: true }}
-        >
+        <SlideLeftAnimation className="w-full md:w-1/2 h-fit rounded-xl">
           <div className="flex flex-col justify-center items-center w-full max-w-xl mx-auto rounded-xl overflow-hidden shadow-2xl backdrop-blur-lg bg-white/5 border border-white/10">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27087.54237793838!2d87.55139030326843!3d22.991178668497923!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f8202efc0def93%3A0x65256395609fca4!2sBalitha%2C%20West%20Bengal!5e1!3m2!1sen!2sin!4v1753995002863!5m2!1sen!2sin"
@@ -73,16 +61,12 @@ const Contact = () => {
               </ul>
             </div>
           </div>
-        </motion.div>
+        </SlideLeftAnimation>
 
         {/* Contact Form */}
-        <motion.form
+        <SlideRightAnimation
           onSubmit={handleSubmit(onSubmit)}
           className="w-full md:w-1/2 bg-slate-900/40 backdrop-blur-lg rounded-xl p-6 shadow-xl text-white space-y-4"
-          initial={{ opacity: 0, x: 100 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-          viewport={{ once: true }}
         >
           {/* Name */}
           <Input
@@ -141,8 +125,8 @@ const Contact = () => {
           <Button className="flex justify-center gap-2 text-xl bg-slate-500 p-2 rounded-md hover:cursor-pointer hover:text-black hover:bg-white transition-all duration-500">
             Send <IoIosSend />
           </Button>
-        </motion.form>
-      </motion.div>
+        </SlideRightAnimation>
+      </SlideInViewAnimation>
     </section>
   );
 };

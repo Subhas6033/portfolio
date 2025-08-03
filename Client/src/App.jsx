@@ -9,7 +9,7 @@ const App = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 6500)
+    }, 0)
 
     return () => clearTimeout(timer)
   }, [])
@@ -18,11 +18,11 @@ const App = () => {
     <Loader />
   ) : (
     <>
-        <Header />
-        {/* TODO: NO SCROLLBAR VISIBLE IN THE PAGE */}
-      <main className="bg-gradient-to-r from-[#7696CF] to-[#1B2549]">
+      <Header />
+      {/* TODO: NO SCROLLBAR VISIBLE IN THE PAGE */}
+      <main className="bg-gradient-to-r from-[#7696CF] to-[#1b2549] scrollbar-none">
         {/* TO Render the childrens of the page */}
-        <Outlet />
+          <Outlet />
       </main>
       <Footer />
     </>
