@@ -1,4 +1,5 @@
 import React from "react";
+import { PopUpAnimation } from "../utils/Animation";
 
 const Image = ({
   imageUrl,
@@ -9,7 +10,7 @@ const Image = ({
   imageClass = "",
 }) => {
   return (
-    <div
+    <PopUpAnimation
       className={`flex justify-center md:justify-end order-1 md:order-2 ${wrapperClass}`}
     >
       <div
@@ -25,7 +26,7 @@ const Image = ({
           />
         </div>
       </div>
-    </div>
+    </PopUpAnimation>
   );
 };
 

@@ -1,38 +1,25 @@
-/* eslint-disable no-unused-vars */
 import React from "react";
 import { Image, Button } from "../../Components/index";
 import { Skill } from "../index";
 import { FiDownload } from "react-icons/fi";
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
-import { motion } from "framer-motion";
+import {
+  SlideLeftAnimation,
+  SlideUpAnimation,
+} from "../../Components/utils/Animation";
 
 const Home = () => {
   return (
     <>
-      <motion.section
-        className="min-h-screen w-full flex items-center justify-center px-6 md:px-20 py-10"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-      >
+      <SlideUpAnimation className="min-h-screen w-full flex items-center justify-center px-6 md:px-20 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center w-full max-w-7xl">
           {/* Image Section — show first on mobile */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="order-1 md:order-2"
-          >
+          <div className="order-1 md:order-2">
             <Image imageUrl={"./My Picture3.jpg"} alt={"My picture"} />
-          </motion.div>
+          </div>
 
           {/* Text Section — show second on mobile */}
-          <motion.div
-            className="space-y-6 text-white order-2 md:order-1"
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-          >
+          <SlideLeftAnimation className="space-y-6 text-white order-2 md:order-1">
             <h1 className="text-4xl md:text-5xl font-bold leading-tight">
               Hi, I’m{" "}
               <span className="font-orbitron text-black drop-shadow-lg">
@@ -67,9 +54,9 @@ const Home = () => {
                 <span>Download Resume</span>
               </Button>
             </div>
-          </motion.div>
+          </SlideLeftAnimation>
         </div>
-      </motion.section>
+      </SlideUpAnimation>
       <Skill />
     </>
   );

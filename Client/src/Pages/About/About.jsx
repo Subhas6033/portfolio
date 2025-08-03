@@ -1,8 +1,11 @@
 import React from "react";
-import { Image, Card } from "../../Components/index";
-import { motion } from "framer-motion";
+import { Image, Card, Button } from "../../Components/index";
 import { FiDownload } from "react-icons/fi";
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
+import {
+  FadeInSlideUpAnimation,
+  SlideLeftAnimation,
+} from "../../Components/utils/Animation";
 
 const Project = () => {
   return (
@@ -10,12 +13,7 @@ const Project = () => {
       {/* Top Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center w-full max-w-7xl">
         {/* Text Section - Left */}
-        <motion.div
-          initial={{ x: -100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.9, ease: "easeOut" }}
-          className="space-y-6 text-white order-2 md:order-1"
-        >
+        <SlideLeftAnimation className="space-y-6 text-white order-2 md:order-1">
           <span className="text-lg md:text-xl font-semibold">Hello,👋</span>
           <p className="text-sm md:text-base leading-relaxed">
             I'm <strong className="text-yellow-300">Subhas Mondal</strong>, from
@@ -38,34 +36,24 @@ const Project = () => {
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 text-center">
-            <button className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer">
+            <Button className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer">
               View My Work <LuSquareArrowOutUpRight />
-            </button>
-            <button className="flex items-center gap-2 border-2 border-white text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer">
+            </Button>
+            <Button className="flex items-center gap-2 border-2 border-white text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer">
               <FiDownload /> Download Resume
-            </button>
+            </Button>
           </div>
-        </motion.div>
+        </SlideLeftAnimation>
 
         {/* Image Section - Right */}
-        <motion.div
-          initial={{ scale: 0.5, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="order-1 md:order-2"
-        >
+        <div className="order-1 md:order-2">
           <Image imageUrl={"./My Picture3.jpg"} alt={"My picture"} />
-        </motion.div>
+        </div>
       </div>
 
       {/* Card Section */}
       <div className="mt-5 md:mt-16 w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
+        <FadeInSlideUpAnimation>
           <Card
             cardClassName="min-h-[200px] w-full flex flex-col justify-between border border-white/20 backdrop-blur-md"
             shadow="shadow-lg"
@@ -82,14 +70,9 @@ const Project = () => {
               <li>Hindi</li>
             </ul>
           </Card>
-        </motion.div>
+        </FadeInSlideUpAnimation>
 
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
+        <FadeInSlideUpAnimation>
           <Card
             cardClassName="min-h-[200px] w-full flex flex-col justify-between border border-white/20 backdrop-blur-md hover:scale-[1.02] transition-all duration-300"
             shadow="shadow-xl"
@@ -105,14 +88,9 @@ const Project = () => {
             </p>
             <p className="text-sm text-white/90">📍 Place: Jalpaiguri</p>
           </Card>
-        </motion.div>
+        </FadeInSlideUpAnimation>
 
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
+        <FadeInSlideUpAnimation>
           <Card
             cardClassName="min-h-[200px] w-full flex flex-col justify-between border border-white/20 backdrop-blur-md hover:scale-[1.02] transition-all duration-300"
             shadow="shadow-xl"
@@ -129,7 +107,7 @@ const Project = () => {
               <li>Codeforces</li>
             </ul>
           </Card>
-        </motion.div>
+        </FadeInSlideUpAnimation>
       </div>
     </section>
   );

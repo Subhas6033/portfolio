@@ -4,9 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoReorderThree } from "react-icons/io5";
 import { HiX } from "react-icons/hi";
 import { motion, AnimatePresence } from "framer-motion";
-import {Loader} from '../index'
-
-
+import { Loader } from "../index";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,12 +32,12 @@ const Header = () => {
       slug: "/about",
     },
     {
-      title: "Skill",
-      slug: "/skill",
-    },
-    {
       title: "Projects",
       slug: "/projects",
+    },
+    {
+      title: "Achievement",
+      slug: "/achievement",
     },
     {
       title: "Contact me",
@@ -64,7 +62,7 @@ const Header = () => {
 
       {/* Navigations Link */}
       <nav className="">
-        <ul className="hidden md:flex justify-center gap-6 md:px-3">
+        <ul className="hidden md:flex justify-center gap-6 md:px-5">
           {navItems.map((nav, index) => (
             <li key={index} className="group relative transition duration-300">
               <button

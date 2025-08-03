@@ -1,0 +1,103 @@
+/* eslint-disable no-unused-vars */
+import React from "react";
+import { motion } from "framer-motion";
+
+// slide in view animation
+export const SlideInViewAnimation = ({ className = "", children }) => {
+  return (
+    <motion.div
+      className={`${className}`}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// Slide Up Animation
+export const SlideUpAnimation = ({ className = "", children }) => {
+  return (
+    <motion.div
+      className={className}
+      initial={{ y: 30, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// Slide Left Animation
+export const SlideLeftAnimation = ({ className = "", children }) => {
+  return (
+    <motion.div
+      className={className}
+      initial={{ x: -100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// Slide Right Animation
+export const SlideRightAnimation = ({ className = "", children }) => {
+  return (
+    <motion.div
+      className={className}
+      initial={{ x: 100, opacity: 0 }}
+      whileInView={{ x: 0, opacity: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// Pop Up Animation
+export const PopUpAnimation = ({ className = "", children }) => {
+  return (
+    <motion.div
+      className={className}
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// Fade in with Slide up Animation
+export const FadeInSlideUpAnimation = ({ className = "", children }) => {
+  return (
+    <motion.div
+      className={`${className}`}
+      initial={{ y: 30, opacity: 0 }}
+      whileInView={{ y: 0, opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+
+// Scael animation for button 
+export const ScaleUpAnimation = ({ className = "", children }) => {
+  return (
+    <motion.button 
+      whileHover={{scale : 1.05}}
+    className={`${className}`}
+    >
+      {children}
+    </motion.button>
+  )
+}
