@@ -3,7 +3,6 @@ import React from "react";
 const Card = ({
   children,
   wrapperClassName = "",
-  height = "",
   cardClassName = "",
   shadow = "shadow-md",
   rounded = "rounded-2xl",
@@ -12,7 +11,7 @@ const Card = ({
   hoverEffect = true,
 }) => {
   return (
-    <div className={`${wrapperClassName} ${height}`}>
+    <div className={`${wrapperClassName}`}>
       <div
         className={`${background} ${rounded} ${shadow} ${padding} ${
           hoverEffect
