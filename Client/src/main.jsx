@@ -4,6 +4,8 @@ import "./index.css";
 import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Home, About, Project, Contact, Achievements } from "./Pages/index.js";
+import RouteTitleUpdater from "./Components/RouteTitleUpdater.jsx";
+
 
 const Router = createBrowserRouter([
   {
@@ -36,6 +38,6 @@ const Router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={Router} />
+      <RouterProvider router={Router} />
   </StrictMode>
 );

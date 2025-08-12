@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Header, Footer, Loader } from "./Components/index";
 import { Outlet } from "react-router-dom";
+import RouteTitleUpdater from "./Components/RouteTitleUpdater";
 
 const App = () => {
 
@@ -18,7 +19,8 @@ const App = () => {
     <Loader />
   ) : (
     <>
-      <Header />
+        <RouteTitleUpdater />
+          <Header />
       <main className="bg-gradient-to-r from-[#7696CF] to-[#1b2549] scrollbar-none">
         {/* TO Render the childrens of the page */}
           <Outlet />
