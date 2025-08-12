@@ -6,7 +6,7 @@ import Button from "./Button/Button.jsx";
 import Input from "./Input/Input.jsx";
 import Skill from "./Skill/Skill.jsx";
 import Project from "./Project/Project.jsx";
-
+import ProjectCard from "./Project/ProjectCard.jsx";
 
 export {
     Header,
@@ -16,5 +16,6 @@ export {
     Button,
     Input,
     Skill,
-    Project
+    Project,
+    ProjectCard
 }

@@ -10,6 +10,7 @@ const Project = () => {
 
   const projectData = [
     {
+      category: "Frontend",
       imageURL: "./Projects/EV.jpeg",
       title: "Electric Vehicle Dashboard",
       description:
@@ -18,6 +19,7 @@ const Project = () => {
       liveLink: "https://ev-eosin.vercel.app/",
     },
     {
+      category: "Fullstack",
       imageURL: "./Projects/employee.png",
       title: "Employee Management System",
       description:
@@ -26,6 +28,7 @@ const Project = () => {
       liveLink: "https://emsbysubhas.vercel.app/",
     },
     {
+      category: "Frontend",
       imageURL: "./Projects/PanduAI.png",
       title: "PANDU the AI",
       description:
