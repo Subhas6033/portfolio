@@ -63,7 +63,7 @@ const Project = () => {
               <Button
                 children={nav.category}
                 onClick={() => setSelectCategory(nav.category)}
-                className="font-gothic text-slate-200 px-3 py-2 rounded-md border transition-all duration-300 hover:bg-gray-900 hover:cursor-pointer"
+                className={`font-gothic px-3 py-2 rounded-md border transition-all duration-300 hover:bg-gray-900 hover:cursor-pointer ${(selectCategory === nav.category) ? "text-slate-200 bg-amber-500" : "text-slate-300"}`}
               />
             </li>
           ))}
