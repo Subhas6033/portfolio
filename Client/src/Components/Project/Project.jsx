@@ -1,12 +1,39 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaArrowCircleRight } from "react-icons/fa";
-import { Button, Card } from "../index";
-import { Image } from "../profileImage/Image";
+import { Button } from "../index";
 import { PopUpAnimation, SlideUpAnimation } from "../../utils/Animation";
+import ProjectCard from "./ProjectCard";
 
 const Project = () => {
   const navigate = useNavigate();
+
+  const projectData = [
+    {
+      imageURL: "./Projects/EV.jpeg",
+      title: "Electric Vehicle Dashboard",
+      description:
+        "is a React-based web application that allows users to explore detailed information about electric vehicles. Users can view specifications, track vehicle data, and explore manufacturing history based on selected years for deeper insights.",
+      githubLink: "https://github.com/Subhas6033/Electric-Vehicle-Dashboard",
+      liveLink: "https://ev-eosin.vercel.app/",
+    },
+    {
+      imageURL: "./Projects/employee.png",
+      title: "Employee Management System",
+      description:
+        "is a role-based web application that streamlines workplace operations with task assignment, real-time chat, and instant notifications. Designed to enhance collaboration between employees and co-workers while ensuring secure access control.",
+      githubLink: "https://github.com/Subhas6033/Employee-Management-System",
+      liveLink: "https://emsbysubhas.vercel.app/",
+    },
+    {
+      imageURL: "./Projects/PanduAI.png",
+      title: "PANDU the AI",
+      description:
+        "is an AI-powered personal assistant that can play songs, search the internet, and launch applications using your custom voice or text commands. I have to fix the issue or bug that is occuring here is about the height of the card.",
+      githubLink: "https://github.com/Subhas6033/PANDU",
+      liveLink: "https://pandutheai.netlify.app/",
+    },
+  ];
 
   return (
     <SlideUpAnimation className="mt-5 px-2 overflow-x-hidden">
@@ -15,147 +42,11 @@ const Project = () => {
           Project
         </p>
       </PopUpAnimation>
+
       <div className="flex flex-col w-full md:flex-row justify-center items-center gap-10">
-        {/* First Project */}
-        <Card
-          wrapperClassName="md:w-[400px]"
-          padding="pt-5 px-3 pb-3"
-          background="bg-white/25"
-        >
-          <Image
-            imageURL={"./Projects/EV.jpeg"}
-            wrapperClass="flex justify-center"
-            className="h-60 md:w-96 rounded-md"
-          />
-          <div className="h-fit mt-5 w-full">
-            <p>
-              <strong>Electric Vehicle Dashboard</strong> is a React-based web
-              application that allows users to explore detailed information
-              about electric vehicles. Users can view specifications, track
-              vehicle data, and explore manufacturing history based on selected
-              years for deeper insights.
-            </p>
-            <div className="mt-5 flex justify-end items-center">
-              <ul className="flex justify-between gap-6">
-                <li>
-                  <Link
-                    to={
-                      "https://github.com/Subhas6033/Electric-Vehicle-Dashboard"
-                    }
-                    target="_blank"
-                  >
-                    <Image
-                      imageURL={"./Skill/github2.png"}
-                      className="h-10 w-10 text-black"
-                    />
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"https://ev-eosin.vercel.app/"} target="_blank">
-                    <Image
-                      imageURL={"./Projects/Website.webp"}
-                      className="h-10 w-10"
-                    />
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </Card>
-
-        {/* Second Project */}
-        <Card
-          wrapperClassName="md:w-[400px]"
-          padding="pt-5 px-3 pb-3"
-          background="bg-white/25"
-        >
-          <Image
-            imageURL={"./Projects/EV.jpeg"}
-            wrapperClass="flex justify-center"
-            className="h-60 md:w-96 rounded-md"
-          />
-          <div className="h-fit mt-5 w-full">
-            <p>
-              <strong>Electric Vehicle Dashboard</strong> is a React-based web
-              application that allows users to explore detailed information
-              about electric vehicles. Users can view specifications, track
-              vehicle data, and explore manufacturing history based on selected
-              years for deeper insights.
-            </p>
-            <div className="mt-5 flex justify-end items-center">
-              <ul className="flex justify-between gap-6">
-                <li>
-                  <Link
-                    to={
-                      "https://github.com/Subhas6033/Electric-Vehicle-Dashboard"
-                    }
-                    target="_blank"
-                  >
-                    <Image
-                      imageURL={"./Skill/github2.png"}
-                      className="h-10 w-10 text-black"
-                    />
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"https://ev-eosin.vercel.app/"} target="_blank">
-                    <Image
-                      imageURL={"./Projects/Website.webp"}
-                      className="h-10 w-10"
-                    />
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </Card>
-
-        {/* Third Project */}
-        <Card
-          wrapperClassName="md:w-[400px]"
-          padding="pt-5 px-3 pb-3"
-          background="bg-white/25"
-        >
-          <Image
-            imageURL={"./Projects/EV.jpeg"}
-            wrapperClass="flex justify-center"
-            className="h-60 md:w-96 rounded-md"
-          />
-          <div className="h-fit mt-5 w-full">
-            <p>
-              <strong>Electric Vehicle Dashboard</strong> is a React-based web
-              application that allows users to explore detailed information
-              about electric vehicles. Users can view specifications, track
-              vehicle data, and explore manufacturing history based on selected
-              years for deeper insights.
-            </p>
-            <div className="mt-5 flex justify-end items-center">
-              <ul className="flex justify-between gap-6">
-                <li>
-                  <Link
-                    to={
-                      "https://github.com/Subhas6033/Electric-Vehicle-Dashboard"
-                    }
-                    target="_blank"
-                  >
-                    <Image
-                      imageURL={"./Skill/github2.png"}
-                      className="h-10 w-10 text-black"
-                    />
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"https://ev-eosin.vercel.app/"} target="_blank">
-                    <Image
-                      imageURL={"./Projects/Website.webp"}
-                      className="h-10 w-10"
-                    />
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </Card>
+        {projectData.map((project, idx) => (
+          <ProjectCard key={idx} {...project} />
+        ))}
       </div>
 
       <PopUpAnimation className="mt-10 mb-20 flex justify-center items-center">
