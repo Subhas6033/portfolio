@@ -46,7 +46,7 @@ const Project = () => {
         </p>
       </PopUpAnimation>
 
-      <div className="flex flex-col w-full md:flex-row justify-center items-center gap-10">
+      <div className="flex flex-col w-full md:flex-row justify-center items-center flex-wrap gap-10">
         {projectData.map((project, idx) => (
           <ProjectCard key={idx} {...project} />
         ))}
