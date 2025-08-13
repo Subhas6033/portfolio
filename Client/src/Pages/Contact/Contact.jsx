@@ -64,67 +64,69 @@ const Contact = () => {
         </SlideLeftAnimation>
 
         {/* Contact Form */}
-        <SlideRightAnimation
-          onSubmit={handleSubmit(onSubmit)}
-          className="w-full md:w-1/2 bg-slate-900/40 backdrop-blur-lg rounded-xl p-6 shadow-xl text-white space-y-4"
-        >
-          {/* Name */}
-          <Input
-            type="text"
-            label=""
-            placeholder="Enter your name"
-            className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("name", { required: true })}
-          />
-
-          {/* Email */}
-          <Input
-            type="email"
-            label=""
-            placeholder="Enter your email"
-            className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("email", {
-              required: true,
-              validate: {
-                matchPattern: (value) =>
-                  /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                  "Enter a valid email address",
-              },
-            })}
-          />
-
-          {/* Mobile */}
-          <Input
-            type="tel"
-            label=""
-            placeholder="Enter your mobile number"
-            className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("mobile", { required: true })}
-          />
-
-          {/* Subjct */}
-          <Input
-            type="text"
-            label=""
-            placeholder="What's the subject?"
-            className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("subject", { required: true })}
-          />
-
-          {/* Message Textarea */}
-          <div className="flex flex-col gap-1">
-            <textarea
-              id="message"
-              rows="2"
-              placeholder="Type your message..."
-              className="w-full p-3 rounded bg-white/25 text-white resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-              {...register("message", { required: true })}
+        <SlideRightAnimation className="w-full md:w-1/2">
+          <form
+            className="bg-slate-900/40 backdrop-blur-lg rounded-xl p-6 shadow-xl text-white space-y-4"
+            onClick={handleSubmit(onSubmit)}
+          >
+            {/* Name */}
+            <Input
+              type="text"
+              label=""
+              placeholder="Enter your name"
+              className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("name", { required: true })}
             />
-          </div>
 
-          <Button className="flex justify-center gap-2 text-xl bg-slate-500 p-2 rounded-md hover:cursor-pointer hover:text-black hover:bg-white transition-all duration-500">
-            Send <IoIosSend />
-          </Button>
+            {/* Email */}
+            <Input
+              type="email"
+              label=""
+              placeholder="Enter your email"
+              className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("email", {
+                required: true,
+                validate: {
+                  matchPattern: (value) =>
+                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                    "Enter a valid email address",
+                },
+              })}
+            />
+
+            {/* Mobile */}
+            <Input
+              type="tel"
+              label=""
+              placeholder="Enter your mobile number"
+              className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("mobile", { required: true })}
+            />
+
+            {/* Subjct */}
+            <Input
+              type="text"
+              label=""
+              placeholder="What's the subject?"
+              className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("subject", { required: true })}
+            />
+
+            {/* Message Textarea */}
+            <div className="flex flex-col gap-1">
+              <textarea
+                id="message"
+                rows="2"
+                placeholder="Type your message..."
+                className="w-full p-3 rounded bg-white/25 text-white resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                {...register("message", { required: true })}
+              />
+            </div>
+
+            <Button className="flex justify-center gap-2 text-xl bg-slate-500 p-2 rounded-md hover:cursor-pointer hover:text-black hover:bg-white transition-all duration-500">
+              Send <IoIosSend />
+            </Button>
+          </form>
         </SlideRightAnimation>
       </SlideInViewAnimation>
     </section>
