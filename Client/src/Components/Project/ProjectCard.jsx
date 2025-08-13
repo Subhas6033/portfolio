@@ -26,7 +26,7 @@ const ProjectCard = ({
         />
 
         {/* Project title and descriptions goes here */}
-        <div className="min-h-fit my-5 w-full">
+        <div className="min-h-fit my-5 w-full ">
           <p className="mt-5 h-32 max-h-60">
             <strong>{title}</strong> {description}
           </p>
