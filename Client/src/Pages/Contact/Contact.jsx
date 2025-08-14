@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Input } from "../../Components/index.js";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { IoIosSend } from "react-icons/io";
-import axios from 'axios'
+import axios from "axios";
 import {
   SlideUpAnimation,
   SlideLeftAnimation,
@@ -12,20 +12,31 @@ import {
 } from "../../utils/Animation.jsx";
 
 const Contact = () => {
-  const { register, handleSubmit,reset } = useForm();
+  const [sentMail, setSentMail] = useState(false);
+  const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data) => {
     try {
-      await axios.post(`https://portfolio-mizk.onrender.com/api/v1/contact`, data, {
-        headers: { "Content-Type": "application/json" },
-      });
+      await axios.post(
+        `https://portfolio-mizk.onrender.com/api/v1/contact`,
+        data,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       reset();
+      setSentMail(true);
       console.log("Successfully sent the data to the owner", data);
     } catch (error) {
+      setSentMail(false);
       console.error("Error while sending data from frontend to backend", error);
     }
   };
 
+  // Close the toast after 2 sec
+  setTimeout(() => {
+    setSentMail(null);
+  }, 2000);
 
   return (
     <section className="min-h-screen pt-8 pb-16 px-6 md:px-20 text-white">
@@ -138,6 +149,24 @@ const Contact = () => {
             </Button>
           </form>
         </SlideRightAnimation>
+
+        {/* Toast after sending the mail */}
+        {sentMail !== null && (
+          <div
+            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-6 py-3 
+      font-semibold rounded-lg shadow-lg
+      animate-[fadeIn_0.4s_ease-in-out,scaleBounce_0.5s_ease-in-out]
+      ${
+        sentMail
+          ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white"
+          : "bg-gradient-to-r from-red-500 to-rose-600 text-white"
+      }`}
+          >
+            {sentMail
+              ? "✅ Successfully sent the mail!"
+              : "❌ Failed to send the mail."}
+          </div>
+        )}
       </SlideInViewAnimation>
     </section>
   );
