@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Input } from "../../Components/index.js";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -13,6 +13,7 @@ import {
 
 const Contact = () => {
   const [sentMail, setSentMail] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false)
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data) => {
@@ -26,17 +27,25 @@ const Contact = () => {
       );
       reset();
       setSentMail(true);
+      setFormSubmitted(true)
       console.log("Successfully sent the data to the owner", data);
     } catch (error) {
       setSentMail(false);
+      setFormSubmitted(false)
       console.error("Error while sending data from frontend to backend", error);
     }
   };
 
-  // Close the toast after 2 sec
-  setTimeout(() => {
-    setSentMail(null);
-  }, 2000);
+  // Automatically hide toast after 2 seconds when sentMail changes
+ useEffect(() => {
+   if (formSubmitted) {
+     const timer = setTimeout(() => {
+       setSentMail(null);
+       setFormSubmitted(false);
+     }, 2000);
+     return () => clearTimeout(timer);
+   }
+ }, [formSubmitted]);
 
   return (
     <section className="min-h-screen pt-8 pb-16 px-6 md:px-20 text-white">
@@ -151,20 +160,40 @@ const Contact = () => {
         </SlideRightAnimation>
 
         {/* Toast after sending the mail */}
-        {sentMail !== null && (
+        {formSubmitted && (
           <div
-            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-6 py-3 
-      font-semibold rounded-lg shadow-lg
-      animate-[fadeIn_0.4s_ease-in-out,scaleBounce_0.5s_ease-in-out]
-      ${
-        sentMail
-          ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white"
-          : "bg-gradient-to-r from-red-500 to-rose-600 text-white"
-      }`}
+            className={`absolute top-20 left-1/2 -translate-x-1/2 px-6 py-3 
+    font-semibold rounded-xl shadow-2xl border border-white/20 backdrop-blur-md
+    transition-all duration-500 ease-out transform
+    ${
+      sentMail ? (
+        <SlideUpAnimation className="bg-white/55 text-green-500"></SlideUpAnimation>
+      ) : (
+        <SlideUpAnimation className="bg-white/55 border text-red-500"></SlideUpAnimation>
+      )
+    }`}
           >
-            {sentMail
-              ? "✅ Successfully sent the mail!"
-              : "❌ Failed to send the mail."}
+            <span className="flex items-center gap-2">
+              {sentMail ? (
+                <>
+                  <SlideUpAnimation>
+                    <span className="text-xl">✅</span>
+                    <span className="text-sm md:text-base">
+                      Successfully sent the mail!
+                    </span>
+                  </SlideUpAnimation>
+                </>
+              ) : (
+                <>
+                  <SlideUpAnimation>
+                    <span className="text-xl">❌</span>
+                    <span className="text-sm md:text-base">
+                      Failed to send the mail.
+                    </span>
+                  </SlideUpAnimation>
+                </>
+              )}
+            </span>
           </div>
         )}
       </SlideInViewAnimation>
