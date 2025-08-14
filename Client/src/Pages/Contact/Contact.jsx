@@ -3,6 +3,7 @@ import { Button, Input } from "../../Components/index.js";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { IoIosSend } from "react-icons/io";
+import axios from 'axios'
 import {
   SlideUpAnimation,
   SlideLeftAnimation,
@@ -11,11 +12,20 @@ import {
 } from "../../utils/Animation.jsx";
 
 const Contact = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit,reset } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      await axios.post(`http://localhost:8000/api/v1/contact`, data, {
+        headers: { "Content-Type": "application/json" },
+      });
+      reset();
+      console.log("Successfully sent the data to the owner", data);
+    } catch (error) {
+      console.error("Error while sending data from frontend to backend", error);
+    }
   };
+
 
   return (
     <section className="min-h-screen pt-8 pb-16 px-6 md:px-20 text-white">
@@ -67,7 +77,7 @@ const Contact = () => {
         <SlideRightAnimation className="w-full md:w-1/2">
           <form
             className="bg-slate-900/40 backdrop-blur-lg rounded-xl p-6 shadow-xl text-white space-y-4"
-            onClick={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit)}
           >
             {/* Name */}
             <Input
@@ -75,7 +85,7 @@ const Contact = () => {
               label=""
               placeholder="Enter your name"
               className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              {...register("name", { required: true })}
+              {...register("userName", { required: true })}
             />
 
             {/* Email */}
@@ -100,7 +110,7 @@ const Contact = () => {
               label=""
               placeholder="Enter your mobile number"
               className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              {...register("mobile", { required: true })}
+              {...register("mobileNumber", { required: true })}
             />
 
             {/* Subjct */}
