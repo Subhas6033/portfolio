@@ -41,9 +41,9 @@ const handleContactForm = asyncHandeler(async (req, res) => {
     await new Promise((resolve, reject) => {
       client.send(
         {
-          text: `Hello ${userName},\n\nThank you for reaching out to me.\nI have received your request and will get back to you soon.\n\nHere’s a copy of your message:\n"${message}"\n\n— Regards,\nYour Company`,
-          from: `Your Name <${process.env.EMAIL_USER}>`,
-          to: email, // send directly to user
+          text: `Hello ${userName},\n\nThank you for reaching out to me.\nI have received your request and will get back to you soon.\n\nHere’s a copy of your message:\n"${message}"\n\n— Regards,\n Subhas Mondal`,
+          from: `Subhas Mondal <${process.env.EMAIL_USER}>`,
+          to: email,
           subject: `We received your message: ${subject}`,
         },
         (err, messageInfo) => {
