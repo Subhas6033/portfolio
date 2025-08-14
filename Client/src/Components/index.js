@@ -7,6 +7,7 @@ import Input from "./Input/Input.jsx";
 import Skill from "./Skill/Skill.jsx";
 import Project from "./Project/Project.jsx";
 import ProjectCard from "./Project/ProjectCard.jsx";
+import Academic from './Academic/Academic.jsx'
 
 export {
     Header,
@@ -17,5 +18,6 @@ export {
     Input,
     Skill,
     Project,
-    ProjectCard
+    ProjectCard,
+    Academic
 }

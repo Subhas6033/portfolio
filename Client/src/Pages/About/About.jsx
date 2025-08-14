@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button } from "../../Components/index";
+import { Card, Button, Academic } from "../../Components/index";
 import { ProfileImage } from "../../Components/profileImage/Image";
 import { FiDownload } from "react-icons/fi";
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
@@ -111,6 +111,7 @@ const Project = () => {
               <li>Codeforces</li>
             </ul>
           </Card>
+          <Academic />
         </FadeInSlideUpAnimation>
       </div>
     </section>
