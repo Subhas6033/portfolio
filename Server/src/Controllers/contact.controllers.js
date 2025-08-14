@@ -2,9 +2,9 @@ import { SMTPClient } from "emailjs";
 import { asyncHandeler, ApiError, ApiResponse } from "../Utils/index.js";
 
 const client = new SMTPClient({
-  user: process.env.EMAIL_USER, // SMTP username (your email)
-  password: process.env.EMAIL_PASSWORD, // App password or SMTP pass
-  host: process.env.EMAIL_HOST, // e.g., smtp.gmail.com
+  user: process.env.EMAIL_USER,
+  password: process.env.EMAIL_PASSWORD,
+  host: process.env.EMAIL_HOST,
   ssl: true,
 });
 
@@ -16,7 +16,7 @@ const handleContactForm = asyncHandeler(async (req, res) => {
   }
 
   try {
-    // 1️⃣ Send email to YOU
+    // Send email to ME
     await new Promise((resolve, reject) => {
       client.send(
         {
@@ -37,7 +37,7 @@ const handleContactForm = asyncHandeler(async (req, res) => {
       );
     });
 
-    // 2️⃣ Send confirmation email to USER
+    // Send confirmation email to USER
     await new Promise((resolve, reject) => {
       client.send(
         {
