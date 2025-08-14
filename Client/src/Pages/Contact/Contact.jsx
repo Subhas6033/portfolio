@@ -16,7 +16,7 @@ const Contact = () => {
 
   const onSubmit = async (data) => {
     try {
-      await axios.post(`http://localhost:8000/api/v1/contact`, data, {
+      await axios.post(`https://portfolio-mizk.onrender.com/`, data, {
         headers: { "Content-Type": "application/json" },
       });
       reset();
