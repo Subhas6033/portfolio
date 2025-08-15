@@ -13,10 +13,11 @@ import {
 
 const Contact = () => {
   const [sentMail, setSentMail] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false)
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data, e) => {
+    e.preventDefault();
     try {
       await axios.post(
         `https://portfolio-mizk.onrender.com/api/v1/contact`,
@@ -27,25 +28,25 @@ const Contact = () => {
       );
       reset();
       setSentMail(true);
-      setFormSubmitted(true)
+      setFormSubmitted(true);
       console.log("Successfully sent the data to the owner", data);
     } catch (error) {
       setSentMail(false);
-      setFormSubmitted(false)
+      setFormSubmitted(false);
       console.error("Error while sending data from frontend to backend", error);
     }
   };
 
   // Automatically hide toast after 2 seconds when sentMail changes
- useEffect(() => {
-   if (formSubmitted) {
-     const timer = setTimeout(() => {
-       setSentMail(null);
-       setFormSubmitted(false);
-     }, 2000);
-     return () => clearTimeout(timer);
-   }
- }, [formSubmitted]);
+  useEffect(() => {
+    if (formSubmitted) {
+      const timer = setTimeout(() => {
+        setSentMail(null);
+        setFormSubmitted(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [formSubmitted]);
 
   return (
     <section className="min-h-screen pt-8 pb-16 px-6 md:px-20 text-white">
