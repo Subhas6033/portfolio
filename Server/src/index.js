@@ -2,11 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import { app } from "./app.js";
 import { connectDB } from "./DB/DB.js";
-import path from 'path'
-
 
 dotenv.config({
-  path: path.resolve(process.cwd(), "../.env"),
+  path: "./env",
 });
 
 connectDB()
