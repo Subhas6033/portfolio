@@ -5,7 +5,7 @@ const contactSchema = new mongoose.Schema(
     userName: {
       type: String,
       required: true,
-      lowercase: true,
+      lowercase: false,
     },
     email: {
       type: String,
@@ -17,18 +17,17 @@ const contactSchema = new mongoose.Schema(
     mobileNumber: {
       type: String,
       required: true,
-      unique: true,
       match: [/^\d{10}$/, "Please enter a valid 10-digit mobile number"],
     },
     subject: {
       type: String,
-      required: Boolean,
+      required: true,
     },
     message: {
       type: String,
       required: [true, "Message is required"],
-      min: [50, "Minimum 50 character is required"],
-      max: [250, "You reach your character limits"],
+      minlength: [5, "Minimum 50 characters are required"],
+      maxlength: [250, "You reached your character limit"],
     },
   },
   { timestamps: true }
