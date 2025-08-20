@@ -4,7 +4,7 @@ import { app } from "./app.js";
 import { connectDB } from "./DB/DB.js";
 
 dotenv.config({
-  path: "./env",
+  path: "./.env" ,
 });
 
 connectDB()
@@ -24,3 +24,12 @@ connectDB()
   .catch(() => {
     console.log(`Unwanted ERR!! coming from index ${err}`);
   });
+
+
+app.get('/', (req,res) =>{
+  res.send("Welcome to our site")
+})
+
+app.listen(process.env.PORT || 8000, () => {
+  console.log('Server is running on ', process.env.PORT || 8000 )
+})

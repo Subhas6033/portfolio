@@ -10,8 +10,7 @@ const client = new SMTPClient({
 
 const handleContactForm = asyncHandeler(async (req, res) => {
   const { userName, email, mobileNumber, subject, message } = req.body || {};
-
-  if (!userName || !email || !mobileNumber || !subject || !message) {
+  if (!userName || !email || !mobileNumber | !subject || !message) {
     throw new ApiError(400, "All fields are required!!!");
   }
 
