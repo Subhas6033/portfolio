@@ -20,7 +20,7 @@ const Contact = () => {
     try {
       setLoading(true)
       await axios.post(
-        `http://localhost:8000/api/v1/contact`,
+        `https://portfolio-mizk.onrender.com/api/v1/contact`,
         data,
         {
           headers: { "Content-Type": "application/json" },
