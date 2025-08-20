@@ -26,7 +26,14 @@ app.use(
   })
 );
 
+// Serve Static file
+app.use(express.static("public"));
+
+// Configure Cookies as request of the client
+app.use(cookieParser());
+
 import contactRouter from './Routes/contact.routes.js'
 app.use("/api/v1", contactRouter)
+
 
 export { app };
