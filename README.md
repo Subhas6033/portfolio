@@ -41,7 +41,6 @@ myPortfolio/
     │   ├── Features/       # Redux slices or feature-specific logic
     │   ├── Pages/          # Individual page components (e.g., Home, About)
     │   │   └── index.js    # Barrel file to export all pages
-    │   ├── Store/          # Redux store configuration and setup
     │   ├── App.jsx         # Root component that contains app layout
     │   ├── index.css       # Global styles
     │   └── main.jsx        # Entry point of the React app
