@@ -6,6 +6,7 @@ import { LuSquareArrowOutUpRight } from "react-icons/lu";
 import {
   FadeInSlideUpAnimation,
   SlideLeftAnimation,
+  SlideUpAnimation,
 } from "../../utils/Animation";
 
 const Project = () => {
@@ -111,9 +112,13 @@ const Project = () => {
               <li>Codeforces</li>
             </ul>
           </Card>
-          <Academic />
         </FadeInSlideUpAnimation>
       </div>
+      {/* Academic Details */}
+      <SlideUpAnimation>
+        <p className="my-5 text-2xl font-orbitron text-center text-white font-bold tracking-widest underline">Academic Details</p>
+        <Academic />
+          </SlideUpAnimation>
     </section>
   );
 };

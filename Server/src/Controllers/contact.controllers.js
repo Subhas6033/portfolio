@@ -10,10 +10,17 @@ const client = new SMTPClient({
 
 const handleContactForm = asyncHandeler(async (req, res) => {
   const { userName, email, mobileNumber, subject, message } = req.body || {};
-  if (!userName || !email || !mobileNumber | !subject || !message) {
+
+  // Validation
+  if ([userName, email, mobileNumber, subject, message].some((field) => field.trim === "")) {
     throw new ApiError(400, "All fields are required!!!");
   }
 
+  if (String(message).length < 50) {
+    throw new ApiError(400, "Minimum 50 characters are required!!");
+  }
+
+  // If validation passes → send emails
   try {
     // Send email to ME
     await new Promise((resolve, reject) => {
