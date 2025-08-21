@@ -21,7 +21,7 @@ const App = () => {
     <>
         <RouteTitleUpdater />
           <Header />
-      <main className="bg-gradient-to-r from-[#7696CF] to-[#1b2549] scrollbar-none">
+      <main className="bg-gradient-to-r from-[#7696CF] to-[#1b2549] scrollbar-none overflow-x-hidden">
         {/* TO Render the childrens of the page */}
           <Outlet />
       </main>
