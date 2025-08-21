@@ -1,5 +1,4 @@
 {
-	
 	"printWidth": 100,
 	"tabWidth": 4, 
 	"useTabs": true,
@@ -12,6 +11,5 @@
 	"endOfLine": "lf", 
 	"singleAttributePerLine": false,
 	"plugins": ["prettier-plugin-tailwindcss"],
-
 	"tailwindConfig": "./frontend/tailwind.config.js"
 }

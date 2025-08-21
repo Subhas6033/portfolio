@@ -8,6 +8,7 @@ import Skill from "./Skill/Skill.jsx";
 import Project from "./Project/Project.jsx";
 import ProjectCard from "./Project/ProjectCard.jsx";
 import Academic from './Academic/Academic.jsx'
+import { ProfileImage, Image } from "./profileImage/Image.jsx";
 
 export {
     Header,
@@ -19,5 +20,7 @@ export {
     Skill,
     Project,
     ProjectCard,
-    Academic
+    Academic,
+    ProfileImage,
+    Image
 }

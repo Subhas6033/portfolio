@@ -102,6 +102,7 @@ const Contact = () => {
               type="text"
               label=""
               placeholder="Enter your name"
+              required = {true}
               className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               {...register("userName", { required: true })}
             />
@@ -110,6 +111,7 @@ const Contact = () => {
             <Input
               type="email"
               label=""
+              required ={true}
               placeholder="Enter your email"
               className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               {...register("email", {
@@ -126,6 +128,7 @@ const Contact = () => {
             <Input
               type="tel"
               label=""
+              required={true}
               placeholder="Enter your mobile number"
               className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               {...register("mobileNumber", { required: true })}
@@ -135,6 +138,7 @@ const Contact = () => {
             <Input
               type="text"
               label=""
+              required ={true}
               placeholder="What's the subject?"
               className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               {...register("subject", { required: true })}
@@ -145,6 +149,8 @@ const Contact = () => {
               <textarea
                 id="message"
                 rows="2"
+                required={true}
+                // minLength={50}
                 placeholder="Type your message..."
                 className="w-full p-3 rounded bg-white/25 text-white resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                 {...register("message", { required: true })}
