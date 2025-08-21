@@ -29,11 +29,9 @@ const Contact = () => {
       reset();
       setStatus("success")
       setLoading(false)
-      console.log("Successfully sent the data to the owner", data);
-    } catch (error) {
+    } catch{
       setLoading(false)
       setStatus("error")
-      console.error("Error while sending data from frontend to backend", error);
     }
   };
 

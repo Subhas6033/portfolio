@@ -75,11 +75,11 @@ const AcademicTimeline = () => {
               <SlideUpAnimation
                 className="absolute left-4 sm:left-1/2 top-1/2 
                 -translate-y-1/2 -translate-x-1/2
-                bg-pink-600 w-12 h-12 sm:w-20 sm:h-20 
-                rounded-full border-4 border-white 
+                bg-slate-200 w-12 h-12 sm:w-20 sm:h-20 
+                rounded-full border-4 border-slate-950
                 flex items-center justify-center shadow-lg"
               >
-                <GraduationCap size={22} className="sm:size-40 text-white" />
+                <GraduationCap size={22} className="sm:size-40 text-black" />
               </SlideUpAnimation>
             </AnimationWrapper>
           );
