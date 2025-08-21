@@ -13,15 +13,15 @@ const timelineData = [
     period: "2023 - 2027",
     description:
       "I am a B.Tech student in the Information Technology department at Jalpaiguri Government Engineering College (Autonomous). I had got 7.2 DGPA.",
-    result: "Result",
+    resultUrl: "https://drive.google.com/file/d/12zrDxno-YFq3RrKnvk2-TdJtauOabt5P/view?usp=sharing",
     align: "left",
   },
   {
     title: "Higher Secondary",
     period: "2020 - 2022",
     description:
-      "I have done my Higher Secondary Education at Kotalpur High School in science with physics, chemistry, mathematics and biology, affiliated with the WBCHSE, with 374 out of 500 marks in the year of 2022.",
-    result: "Result",
+      "I have done my Higher Secondary Education at Kotalpur High School in science with physics, chemistry, mathematics and biology, affiliated with the WBCHSE, with 372 out of 500 marks in the year of 2022.",
+    resultUrl: "https://drive.google.com/file/d/14KT2z0JYxmaf2iPtcBrxO7hcE64aPLHc/view?usp=sharing",
     align: "right",
   },
   {
@@ -29,7 +29,7 @@ const timelineData = [
     period: "2015 - 2020",
     description:
       "I have done my Secondary Education at Balitha High School, affiliated with the West Bengal Council of Higher Secondary Education, with 647 out of 700 marks in the year of 2020",
-    result: "Result",
+    resultUrl: "https://drive.google.com/file/d/1lWRINT_aThbhnxO0rt8oOEtvua-4USuS/view?usp=sharing",
     align: "left",
   },
 ];
@@ -67,7 +67,13 @@ const AcademicTimeline = () => {
                 </p>
                 <p className="mt-3 text-sm leading-relaxed">{item.description}</p>
                 <span className="inline-block mt-4 px-3 py-1 rounded-md bg-green-400 text-black text-xs font-semibold">
-                  <Button>{item.result}</Button>
+                  <Button
+                    onClick={
+                      () => {
+                        window.open(item.resultUrl)
+                      }
+                  }
+                  >Result</Button>
                 </span>
               </div>
 
