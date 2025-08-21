@@ -63,7 +63,6 @@ const handleContactForm = asyncHandeler(async (req, res) => {
       .status(200)
       .json(new ApiResponse(200, "Contact saved and emails sent successfully"));
   } catch (error) {
-    console.error("Error while sending the message:", error);
     throw new ApiError(500, "Failed to send email");
   }
 });

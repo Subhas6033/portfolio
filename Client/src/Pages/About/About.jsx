@@ -114,6 +114,7 @@ const Project = () => {
           </Card>
         </FadeInSlideUpAnimation>
       </div>
+      
       {/* Academic Details */}
       <SlideUpAnimation>
         <p className="my-5 text-2xl font-orbitron text-center text-white font-bold tracking-widest underline">Academic Details</p>
