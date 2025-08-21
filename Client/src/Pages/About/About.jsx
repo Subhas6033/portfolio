@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from 'react-router-dom'
 import { Card, Button, Academic } from "../../Components/index";
 import { ProfileImage } from "../../Components/profileImage/Image";
 import { FiDownload } from "react-icons/fi";
@@ -39,10 +40,25 @@ const Project = () => {
 
           <div className="flex flex-wrap justify-center gap-4 text-center">
             <Button className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer">
-              View My Work <LuSquareArrowOutUpRight />
+              <Link to={'/projects'}>
+                <span className="flex justify-center items-center gap-3">
+                  <span>View my work</span>
+              <span><LuSquareArrowOutUpRight /></span>
+              </span>
+              </Link>
             </Button>
-            <Button className="flex items-center gap-2 border-2 border-white text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer">
-              <FiDownload /> Download Resume
+            <Button className="flex items-center gap-2 border-2 border-white text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer"
+            onClick={() => {
+    const link = document.createElement("a");
+    link.href = "https://drive.google.com/uc?export=download&id=1JH89YuRRU9zB-XxWBEzwXMSmVDtYhoOf"; 
+    link.download = "Subhas Mondal's Resume.pdf";
+    link.click();
+  }}
+            >
+              <span className="flex justify-center items-center gap-3">
+                <span><FiDownload /></span>
+                <span>Download Resume</span>
+              </span>
             </Button>
           </div>
         </SlideLeftAnimation>

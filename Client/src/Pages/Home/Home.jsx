@@ -1,10 +1,9 @@
 import React from "react";
-import {  Button, Skill } from "../../Components/index";
-import { ProfileImage } from "../../Components/profileImage/Image";
+import {Link} from 'react-router-dom'
+import {  Button, Skill, Project, ProfileImage } from "../../Components/index";
 import { FiDownload } from "react-icons/fi";
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
 import { SlideLeftAnimation, SlideUpAnimation } from "../../utils/Animation";
-import {Project} from '../../Components/index'
 
 const Home = () => {
   return (
@@ -42,7 +41,9 @@ const Home = () => {
               <Button
                 className={`flex justify-center gap-2 bg-black text-white px-5 py-2 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer`}
               >
-                <span>View my work</span>
+                <span>
+                  <Link to={'/projects'}>View my work</Link>
+                </span>
                 <span>
                   <LuSquareArrowOutUpRight />{" "}
                 </span>
@@ -52,7 +53,18 @@ const Home = () => {
                 <span>
                   <FiDownload />
                 </span>
-                <span>Download Resume</span>
+                <span>
+                  <Button
+  onClick={() => {
+    const link = document.createElement("a");
+    link.href = "https://drive.google.com/uc?export=download&id=1JH89YuRRU9zB-XxWBEzwXMSmVDtYhoOf"; 
+    link.download = "Subhas Mondal's Resume.pdf";
+    link.click();
+  }}
+>
+  Download Resume
+</Button>
+                </span>
               </Button>
             </div>
           </SlideLeftAnimation>
