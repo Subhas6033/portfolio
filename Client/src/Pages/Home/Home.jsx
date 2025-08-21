@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from 'react-router-dom'
 import {  Button, Skill, Project, ProfileImage } from "../../Components/index";
-import { FiDownload } from "react-icons/fi";
+import { Eye } from 'lucide-react';
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
 import { SlideLeftAnimation, SlideUpAnimation } from "../../utils/Animation";
 
@@ -51,18 +51,15 @@ const Home = () => {
 
               <Button className="flex items-center gap-2 border-2 border-white text-white px-5 py-2 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer">
                 <span>
-                  <FiDownload />
+                  <Eye />
                 </span>
                 <span>
                   <Button
   onClick={() => {
-    const link = document.createElement("a");
-    link.href = "https://drive.google.com/uc?export=download&id=1JH89YuRRU9zB-XxWBEzwXMSmVDtYhoOf"; 
-    link.download = "Subhas Mondal's Resume.pdf";
-    link.click();
+    window.open("https://drive.google.com/file/d/1dILUENsijudLfQwSY3KTfhQbIWb4Ws9_/view?usp=drive_link")
   }}
 >
-  Download Resume
+   Resume
 </Button>
                 </span>
               </Button>

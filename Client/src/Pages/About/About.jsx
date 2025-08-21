@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from 'react-router-dom'
 import { Card, Button, Academic } from "../../Components/index";
 import { ProfileImage } from "../../Components/profileImage/Image";
-import { FiDownload } from "react-icons/fi";
+import { Eye } from 'lucide-react';
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
 import {
   FadeInSlideUpAnimation,
@@ -49,15 +49,12 @@ const Project = () => {
             </Button>
             <Button className="flex items-center gap-2 border-2 border-white text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer"
             onClick={() => {
-    const link = document.createElement("a");
-    link.href = "https://drive.google.com/uc?export=download&id=1JH89YuRRU9zB-XxWBEzwXMSmVDtYhoOf"; 
-    link.download = "Subhas Mondal's Resume.pdf";
-    link.click();
+    window.open("https://drive.google.com/file/d/1dILUENsijudLfQwSY3KTfhQbIWb4Ws9_/view?usp=drive_link")
   }}
             >
               <span className="flex justify-center items-center gap-3">
-                <span><FiDownload /></span>
-                <span>Download Resume</span>
+                <span><Eye /></span>
+                <span>Resume</span>
               </span>
             </Button>
           </div>
