@@ -102,7 +102,7 @@ const Project = () => {
               Personal Details
             </h1>
             <p className="text-sm text-white/90">
-              📅 Date of Birth: 21/02/2025
+              📅 Date of Birth: 11/08/2003
             </p>
             <p className="text-sm text-white/90">📍 Place: Jalpaiguri</p>
           </Card>
