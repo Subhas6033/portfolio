@@ -20,12 +20,13 @@ const Contact = () => {
     try {
       setLoading(true)
       await axios.post(
-        `https://portfolio-mizk.onrender.com/api/v1/contact`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/contact`,
         data,
         {
           headers: { "Content-Type": "application/json" },
         }
       );
+      console.log(import.meta.env.VITE_BACKEND_URL)
       reset();
       setStatus("success")
       setLoading(false)
@@ -36,7 +37,7 @@ const Contact = () => {
     }
   };
 
-  // Automatically hide toast after 2 seconds when sentMail changes
+  // Automatically hide toast after 2 seconds when sentMail done
  useEffect(() => {
   if (status) {
     const timer = setTimeout(() => setStatus(null), 2000);
