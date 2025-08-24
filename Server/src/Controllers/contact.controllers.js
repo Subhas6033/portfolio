@@ -18,10 +18,6 @@ const handleContactForm = asyncHandeler(async (req, res) => {
     throw new ApiError(400, "All fields are required!!!");
   }
 
-  if (String(message).length < 50) {
-    throw new ApiError(400, "Minimum 50 characters are required!!");
-  }
-
   // If validation passes → send emails
   try {
     // Send email to ME
