@@ -20,7 +20,7 @@ const Contact = () => {
     try {
       setLoading(true)
       await axios.post(
-        `https://portfolio-mizk.onrender.com/api/v1/contact`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/contact`,
         data,
         {
           headers: { "Content-Type": "application/json" },
@@ -29,9 +29,10 @@ const Contact = () => {
       reset();
       setStatus("success")
       setLoading(false)
-    } catch{
+    } catch(err){
       setLoading(false)
       setStatus("error")
+      console.log(err)
     }
   };
 
@@ -195,13 +196,14 @@ const Contact = () => {
 
         {/* Toast after sending the mail */}
 {status && (
-  <div
-    className={`absolute top-20 left-1/2 -translate-x-1/2 px-6 py-3 
-      font-semibold rounded-xl shadow-2xl border border-white/20 backdrop-blur-md
-      transition-all duration-500 ease-out transform
-      ${status === "success" ? "bg-white/55 text-green-500" : "bg-white/55 text-red-500"}
-    `}
-  >
+ <div
+  className={`fixed bottom-5 md:bottom-auto md:top-20 left-1/2 -translate-x-1/2 px-6 py-3
+    font-semibold rounded-xl shadow-2xl border border-white/20 backdrop-blur-md
+    transition-all duration-500 ease-out transform
+    ${status === "success" ? "bg-white/55 text-green-500" : "bg-white/55 text-red-500"}
+  `}
+>
+
     <SlideUpAnimation>
       <span className="flex items-center gap-2">
         {status === "success" ? (
