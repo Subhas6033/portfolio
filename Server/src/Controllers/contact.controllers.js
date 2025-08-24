@@ -11,6 +11,8 @@ const client = new SMTPClient({
 const handleContactForm = asyncHandeler(async (req, res) => {
   const { userName, email, mobileNumber, subject, message } = req.body || {};
 
+  console.log("Your data is : ", userName + email + mobileNumber + subject + message)
+
   // Validation
   if ([userName, email, mobileNumber, subject, message].some((field) => field.trim() === "")) {
     throw new ApiError(400, "All fields are required!!!");
