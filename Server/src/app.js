@@ -5,7 +5,6 @@ const app = express();
 
 // Enable CORS for the specific origin
 const allowedOrigins = [
-  "http://localhost:5173",
   process.env.CORS_ORIGIN, 
 ];
 
@@ -36,9 +35,6 @@ app.use(
     extended: true,
   })
 );
-
-// Serve Static file
-app.use(express.static("public"));
 
 // Configure Cookies as request of the client
 app.use(cookieParser());
