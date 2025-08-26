@@ -26,7 +26,6 @@ const Contact = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(import.meta.env.VITE_BACKEND_URL)
       reset();
       setStatus("success")
       setLoading(false)
