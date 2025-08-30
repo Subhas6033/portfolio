@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import { IoReorderThree } from "react-icons/io5";
 import { HiX } from "react-icons/hi";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader } from "../index";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -64,17 +63,21 @@ const Header = () => {
       <nav className="">
         <ul className="hidden md:flex justify-center gap-6 md:px-5">
           {navItems.map((nav, index) => (
-            <li key={index} className="group relative transition duration-300">
-              <button
-                onClick={() => navigate(nav.slug)}
-                className="text-white group-hover:text-yellow-300 transition duration-300 hover:cursor-pointer"
-              >
-                {nav.title}
-              </button>
 
-              {/* Underline animation */}
-              <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-yellow-300 transition-all duration-300 group-hover:w-full" />
-            </li>
+<li key={index} className="group relative transition duration-300">
+  <NavLink
+    to={nav.slug}
+    className={({ isActive }) =>
+      `${isActive ? "text-amber-200" : "text-white"} group-hover:text-yellow-300 transition duration-300 hover:cursor-pointer`
+    }
+  >
+    {nav.title}
+  </NavLink>
+
+  {/* Underline animation */}
+  <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-yellow-300 transition-all duration-300 group-hover:w-full" />
+</li>
+
           ))}
         </ul>
 
