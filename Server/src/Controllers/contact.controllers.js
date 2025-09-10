@@ -1,5 +1,7 @@
 import { SMTPClient } from "emailjs";
 import { asyncHandeler, ApiError, ApiResponse } from "../Utils/index.js";
+import {Contact} from '../Models/Contact.models.js'
+
 
 const client = new SMTPClient({
   user: process.env.EMAIL_USER,
@@ -56,6 +58,13 @@ const handleContactForm = asyncHandeler(async (req, res) => {
         }
       );
     });
+
+    // Save the response in DB
+   await Contact.create({
+     userName,
+     email,
+     mobileNumber
+    })
 
     res
       .status(200)
