@@ -24,6 +24,7 @@ const Contact = () => {
         data,
         {
           headers: { "Content-Type": "application/json" },
+          withCredentials : true
         }
       );
       reset();

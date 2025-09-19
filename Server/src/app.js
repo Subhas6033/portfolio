@@ -22,22 +22,17 @@ app.use(
 );
 
 // Configuration for handelling the JSON data
-app.use(
-  express.json({
-    limit: "50kb",
-  })
-);
+app.use(express.json({
+  limit : '100kb'
+}));
 
 // Configuration for the URL data
 app.use(
   express.urlencoded({
-    limit: "100kb",
+    limit : '100kb',
     extended: true,
   })
 );
-
-// Configure Cookies as request of the client
-app.use(cookieParser());
 
 import contactRouter from './Routes/contact.routes.js'
 app.use("/api/v1", contactRouter)

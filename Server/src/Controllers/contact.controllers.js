@@ -11,9 +11,7 @@ const client = new SMTPClient({
 });
 
 const handleContactForm = asyncHandeler(async (req, res) => {
-  const { userName, email, mobileNumber, subject, message } = req.body || {};
-
-  console.log("Your data is : ", userName + email + mobileNumber + subject + message)
+  const { userName, email, mobileNumber, subject, message } = req.body;
 
   // Validation
   if ([userName, email, mobileNumber, subject, message].some((field) => field.trim() === "")) {
@@ -60,15 +58,18 @@ const handleContactForm = asyncHandeler(async (req, res) => {
     });
 
     // Save the response in DB
-   await Contact.create({
+   const dbDetails =  await Contact.create({
      userName,
      email,
-     mobileNumber
+     mobileNumber,
+     subject,
+     message
     })
 
+    console.log(dbDetails)
     res
       .status(200)
-      .json(new ApiResponse(200, "Contact saved and emails sent successfully"));
+      .json(new ApiResponse(200,"Contact saved and emails sent successfully"));
   } catch (error) {
     throw new ApiError(500, "Failed to send email");
   }
