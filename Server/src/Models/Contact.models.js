@@ -22,7 +22,7 @@ const contactSchema = new mongoose.Schema(
     },
     subject: {
       type: String,
-      required: Boolean,
+      required: [true, 'Subject is Required'],
     },
     message: {
       type: String,
