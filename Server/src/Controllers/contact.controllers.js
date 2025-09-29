@@ -65,8 +65,6 @@ const handleContactForm = asyncHandeler(async (req, res) => {
      subject,
      message
     })
-
-    console.log(dbDetails)
     res
       .status(200)
       .json(new ApiResponse(200,"Contact saved and emails sent successfully"));
