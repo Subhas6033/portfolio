@@ -1,7 +1,7 @@
 import { SMTPClient } from "emailjs";
+import { promisify } from "util";
 import { asyncHandeler, ApiError, ApiResponse } from "../Utils/index.js";
-import {Contact} from '../Models/Contact.models.js'
-
+import { Contact } from "../Models/Contact.models.js";
 
 const client = new SMTPClient({
   user: process.env.EMAIL_USER,
@@ -10,66 +10,65 @@ const client = new SMTPClient({
   ssl: true,
 });
 
+// Promisify the send function
+const sendMail = promisify(client.send.bind(client));
+
 const handleContactForm = asyncHandeler(async (req, res) => {
   const { userName, email, mobileNumber, subject, message } = req.body;
 
-  // Validation
-  if ([userName, email, mobileNumber, subject, message].some((field) => field.trim() === "")) {
-    throw new ApiError(400, "All fields are required!!!");
+  if ([userName, email, mobileNumber, subject, message].some((f) => f.trim() === "")) {
+    throw new ApiError(400, "All fields are required!");
   }
 
-  // If validation passes → send emails
+  // Prepare messages
+  const adminMail = {
+    text: `New contact form submission:\n
+Name: ${userName}\n
+Email: ${email}\n
+Mobile: ${mobileNumber}\n
+Message: ${message}`,
+    from: `Website Contact Form <${process.env.EMAIL_USER}>`,
+    to: process.env.EMAIL_USER,
+    "reply-to": email,
+    subject: `New Contact Form Submission: ${subject}`,
+  };
+
+  const userMail = {
+    text: `Hello ${userName},
+
+Thank you for reaching out to me.
+I have received your message and will get back to you soon.
+
+Here’s a copy of your message:
+"${message}"
+
+— Regards,
+Subhas Mondal`,
+    from: `Subhas Mondal <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: `We received your message: ${subject}`,
+  };
+
   try {
-    // Send email to ME
-    await new Promise((resolve, reject) => {
-      client.send(
-        {
-          text: `New contact form submission:\n
-                 Name: ${userName}\n
-                 Email: ${email}\n
-                 Mobile: ${mobileNumber}\n
-                 Message: ${message}`,
-          from: `Website Contact Form <${process.env.EMAIL_USER}>`,
-          to: process.env.EMAIL_USER,
-          "reply-to": email,
-          subject: `New Contact Form Submission: ${subject}`,
-        },
-        (err, messageInfo) => {
-          if (err) return reject(err);
-          resolve(messageInfo);
-        }
-      );
+    // Send both emails sequentially
+    await sendMail(adminMail);
+    await sendMail(userMail);
+
+    // Save to DB after both succeed
+    const dbDetails = await Contact.create({
+      userName,
+      email,
+      mobileNumber,
+      subject,
+      message,
     });
 
-    // Send confirmation email to USER
-    await new Promise((resolve, reject) => {
-      client.send(
-        {
-          text: `Hello ${userName},\n\nThank you for reaching out to me.\nI have received your request and will get back to you soon.\n\nHere’s a copy of your message:\n"${message}"\n\n— Regards,\n Subhas Mondal`,
-          from: `Subhas Mondal <${process.env.EMAIL_USER}>`,
-          to: email,
-          subject: `We received your message: ${subject}`,
-        },
-        (err, messageInfo) => {
-          if (err) return reject(err);
-          resolve(messageInfo);
-        }
-      );
-    });
-
-    // Save the response in DB
-   const dbDetails =  await Contact.create({
-     userName,
-     email,
-     mobileNumber,
-     subject,
-     message
-    })
-    res
-      .status(200)
-      .json(new ApiResponse(200,"Contact saved and emails sent successfully"));
+    res.status(200).json(
+      new ApiResponse(200, "Contact saved and emails sent successfully", dbDetails)
+    );
   } catch (error) {
-    throw new ApiError(500, "Failed to send email");
+    console.error("Email or DB Error:", error);
+    throw new ApiError(500, "Failed to send email or save contact");
   }
 });
 

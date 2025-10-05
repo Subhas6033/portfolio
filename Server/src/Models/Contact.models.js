@@ -5,7 +5,6 @@ const contactSchema = new mongoose.Schema(
     userName: {
       type: String,
       required: true,
-      lowercase: true,
     },
     email: {
       type: String,
