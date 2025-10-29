@@ -20,6 +20,7 @@ const handleContactForm = asyncHandeler(async (req, res) => {
     throw new ApiError(400, "All fields are required!");
   }
 
+
   // Prepare messages
   const adminMail = {
     text: `New contact form submission:\n
@@ -67,9 +68,15 @@ Subhas Mondal`,
       new ApiResponse(200, "Contact saved and emails sent successfully", dbDetails)
     );
   } catch (error) {
-    console.error("Email or DB Error:", error);
-    throw new ApiError(500, "Failed to send email or save contact");
+  console.error("Email or DB Error:", error);
+
+  // Reveal actual email error message in logs
+  if (error.message?.includes("quota") || error.message?.includes("limit")) {
+    throw new ApiError(429, "Email quota exceeded. Please try again later.");
   }
+
+  throw new ApiError(500, error.message || "Failed to send email or save contact");
+}
 });
 
 export { handleContactForm };
