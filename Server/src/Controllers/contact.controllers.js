@@ -1,40 +1,38 @@
-import { SMTPClient } from "emailjs";
-import { promisify } from "util";
+import { Resend } from "resend";
 import { asyncHandeler, ApiError, ApiResponse } from "../Utils/index.js";
 import { Contact } from "../Models/Contact.models.js";
 
-const client = new SMTPClient({
-  user: process.env.EMAIL_USER,
-  password: process.env.EMAIL_PASSWORD,
-  host: process.env.EMAIL_HOST,
-  ssl: true,
-});
-
-// Promisify the send function
-const sendMail = promisify(client.send.bind(client));
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const handleContactForm = asyncHandeler(async (req, res) => {
   const { userName, email, mobileNumber, subject, message } = req.body;
 
-  if ([userName, email, mobileNumber, subject, message].some((f) => f.trim() === "")) {
+  console.log("Coming From the Body:", userName, email, mobileNumber, subject, message);
+
+  // Validate fields
+  if ([userName, email, mobileNumber, subject, message].some((f) => !f || f.trim() === "")) {
     throw new ApiError(400, "All fields are required!");
   }
 
-
-  // Prepare messages
+  // Prepare emails
   const adminMail = {
-    text: `New contact form submission:\n
-Name: ${userName}\n
-Email: ${email}\n
-Mobile: ${mobileNumber}\n
-Message: ${message}`,
-    from: `Website Contact Form <${process.env.EMAIL_USER}>`,
-    to: process.env.EMAIL_USER,
-    "reply-to": email,
+    from: process.env.EMAIL_FROM || "Website Contact Form <onboarding@resend.dev>",
+    to: process.env.EMAIL_FROM || "youremail@example.com",
     subject: `New Contact Form Submission: ${subject}`,
+    text: `
+New contact form submission:
+
+Name: ${userName}
+Email: ${email}
+Mobile: ${mobileNumber}
+Message: ${message}
+    `,
   };
 
   const userMail = {
+    from: process.env.EMAIL_FROM || "Subhas Mondal <onboarding@resend.dev>",
+    to: email,
+    subject: `We received your message: ${subject}`,
     text: `Hello ${userName},
 
 Thank you for reaching out to me.
@@ -45,15 +43,12 @@ Here’s a copy of your message:
 
 — Regards,
 Subhas Mondal`,
-    from: `Subhas Mondal <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: `We received your message: ${subject}`,
   };
 
   try {
     // Send both emails sequentially
-    await sendMail(adminMail);
-    await sendMail(userMail);
+    await resend.emails.send(adminMail);
+    await resend.emails.send(userMail);
 
     // Save to DB after both succeed
     const dbDetails = await Contact.create({
@@ -64,19 +59,18 @@ Subhas Mondal`,
       message,
     });
 
-    res.status(200).json(
-      new ApiResponse(200, "Contact saved and emails sent successfully", dbDetails)
-    );
+    res
+      .status(200)
+      .json(new ApiResponse(200, "Contact saved and emails sent successfully", dbDetails));
   } catch (error) {
-  console.error("Email or DB Error:", error);
+    console.error("Email or DB Error:", error);
 
-  // Reveal actual email error message in logs
-  if (error.message?.includes("quota") || error.message?.includes("limit")) {
-    throw new ApiError(429, "Email quota exceeded. Please try again later.");
+    if (error.message?.includes("quota") || error.message?.includes("limit")) {
+      throw new ApiError(429, "Email quota exceeded. Please try again later.");
+    }
+
+    throw new ApiError(500, error.message || "Failed to send email or save contact");
   }
-
-  throw new ApiError(500, error.message || "Failed to send email or save contact");
-}
 });
 
 export { handleContactForm };
