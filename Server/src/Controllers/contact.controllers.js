@@ -2,7 +2,6 @@ import { SMTPClient } from "emailjs";
 import { asyncHandeler, ApiError, ApiResponse } from "../Utils/index.js";
 import { Contact } from "../Models/Contact.models.js";
 
-console.log("Email details => ", process.env.EMAIL_HOST, process.env.EMAIL_PASSWORD,process.env.EMAIL_USER, "Subhas")
 const client = new SMTPClient({
   user: process.env.EMAIL_USER,
   password: process.env.EMAIL_PASSWORD,
