@@ -49,7 +49,7 @@ const Project = () => {
             </Button>
             <Button className="flex items-center gap-2 border-2 border-white text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer"
             onClick={() => {
-    window.open("https://drive.google.com/file/d/1DOYFBjDEpap8n5_JoO413o-s0fqE_Yk5/view?usp=sharing")
+    window.open("https://drive.google.com/file/d/1zJEK-F8R1GcRmWqBtuy59lO3haTpV_JX/view?usp=sharing")
   }}
             >
               <span className="flex justify-center items-center gap-3">
