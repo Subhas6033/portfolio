@@ -56,7 +56,7 @@ const Home = () => {
                 <span>
                   <Button
   onClick={() => {
-    window.open("https://drive.google.com/file/d/1DOYFBjDEpap8n5_JoO413o-s0fqE_Yk5/view?usp=sharing")
+    window.open("https://drive.google.com/file/d/1zJEK-F8R1GcRmWqBtuy59lO3haTpV_JX/view?usp=sharing")
   }}
 >
    Resume
