@@ -1,14 +1,16 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { SectionLabel, ArrowBtn, Reveal } from '../../../Components/ui'
 
 const WORKS = [
-  { num: '01', title: 'Talk2Hire Platform',     cat: 'Fullstack Development', year: '2025' },
-  { num: '02', title: 'CDC Portal',             cat: 'MERN · College Project', year: '2024' },
-  { num: '03', title: 'EV Dashboard',           cat: 'React · Data Viz',       year: '2024' },
-  { num: '04', title: 'Brand Identity System',  cat: 'UI/UX Design',           year: '2025' },
+  { num: '01', title: 'Talk2Hire Platform', url : "https://talk2hire.com",     cat: 'Fullstack Development', year: '2026' },
+  { num: '02', title: 'CDC Portal',     url : "https://cdcjgec.vercel.app",        cat: 'MERN · College Project', year: '2025' },
+  { num: '03', title: 'EV Dashboard',    url : "https://ev-eosin.vercel.app",       cat: 'React · Data Viz',       year: '2025' },
+  // { num: '04', title: 'Brand Identity System',  cat: 'UI/UX Design',           year: '2025' },
 ]
 
 export default function FeaturedWork() {
+  const navigate = useNavigate()
   return (
     <section id="work" className="bg-zinc-900 py-24">
       <div className="max-w-7xl mx-auto px-6">
@@ -20,7 +22,7 @@ export default function FeaturedWork() {
             </h2>
           </Reveal>
           <Reveal dir="right" delay={0.1}>
-            <ArrowBtn outline>All Projects</ArrowBtn>
+            <ArrowBtn className='hover:cursor-pointer' outline onClick={() => navigate("/projects")}>All Projects</ArrowBtn>
           </Reveal>
         </div>
 
@@ -28,7 +30,7 @@ export default function FeaturedWork() {
         <div className="border-t border-zinc-800">
           {WORKS.map((w, i) => (
             <Reveal key={w.title} delay={i * 0.08}>
-              <div className="group flex items-center gap-6 py-6 border-b border-zinc-800 cursor-pointer hover:pl-3 transition-all duration-300">
+              <div className="group flex items-center gap-6 py-6 border-b border-zinc-800 cursor-pointer hover:pl-3 transition-all duration-300" onClick={() => window.open(w.url, '_blank', 'noopener,noreferrer')}>
                 <span className="text-zinc-800 text-sm font-black font-mono group-hover:text-lime-400 transition-colors duration-300 w-8 shrink-0">
                   {w.num}
                 </span>

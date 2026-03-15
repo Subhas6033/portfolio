@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Check } from 'lucide-react'
 import { ArrowBtn, Tag } from '../../../Components/ui'
 import useInView from '../../../hooks/useInView'
@@ -33,7 +34,7 @@ export default function Hero() {
   const [typed, setTyped] = useState('')
   const [phase, setPhase] = useState('typing')
   const wRef = useRef(0)
-
+  const navigate = useNavigate()
   useEffect(() => {
     const word = WORDS[wRef.current]
     if (phase === 'typing') {
@@ -116,8 +117,8 @@ export default function Hero() {
 
             {/* CTAs */}
             <div className="anim-fadeUp d-5 flex items-center gap-4 mb-12">
-              <ArrowBtn>Start a Project</ArrowBtn>
-              <ArrowBtn outline>View My Work</ArrowBtn>
+              <ArrowBtn onClick={() => window.open("https://drive.google.com/file/d/1Du7IFCujKnLB4m3vwFuowdjJYCsFQIgg/view?usp=sharing")}>See my CV</ArrowBtn>
+              <ArrowBtn outline onClick={() => navigate("/projects")}>View My Work</ArrowBtn>
             </div>
 
             {/* Stats */}

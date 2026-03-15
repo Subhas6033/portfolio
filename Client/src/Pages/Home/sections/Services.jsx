@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { MoveUpRight } from 'lucide-react'
 import { Tag, SectionLabel, ArrowBtn, Reveal } from '../../../Components/ui'
 
@@ -37,7 +38,7 @@ const SERVICES = [
 
 export default function Services() {
   const [open, setOpen] = useState(0)
-
+  const navigate = useNavigate()
   return (
     <section id="services" className="bg-zinc-950 py-24">
       <div className="max-w-7xl mx-auto px-6">
@@ -65,7 +66,7 @@ export default function Services() {
                 </p>
               </div>
 
-              <ArrowBtn>Start a Project Now</ArrowBtn>
+              <ArrowBtn className='hover:cursor-pointer' onClick={() => navigate("/contact")}>Hire me</ArrowBtn>
 
               {/* Preview card */}
               <div className="rounded-2xl border border-zinc-800 overflow-hidden bg-zinc-900/60">

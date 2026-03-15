@@ -36,8 +36,8 @@ export default function CTABanner() {
                 I take on select projects each quarter to ensure every client gets my full focus and best work.
               </p>
               <div className="flex items-center gap-4">
-                <ArrowBtn onClick={() => navigate('/contact')}>Send a Message</ArrowBtn>
-                <ArrowBtn outline onClick={() => navigate('/projects')}>View Portfolio</ArrowBtn>
+                <ArrowBtn className='hover:cursor-pointer' onClick={() => navigate('/contact')}>Send a Message</ArrowBtn>
+                <ArrowBtn className='hover:cursor-pointer' outline onClick={() => navigate('/projects')}>View my Work</ArrowBtn>
               </div>
             </Reveal>
           </div>
