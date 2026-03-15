@@ -1,98 +1,196 @@
-import React, { useState } from "react";
-import { Button, ProjectCard } from "../../Components/index";
-import { SlideInViewAnimation, SlideUpAnimation } from "../../utils/Animation";
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { MoveUpRight, Github } from 'lucide-react'
+import { SlideInViewAnimation } from '../../utils/Animation'
+import { KEYFRAMES } from '../../Components/ui/animations'
+
+const CATEGORIES = ['All', 'Fullstack', 'Frontend', 'Backend', 'College Related']
+
+const PROJECTS = [
+  {
+    category: 'Fullstack',
+    image: '/Projects/Talk2Hire.png',
+    title: 'Talk2Hire',
+    subtitle: 'AI powered Hiring & Interview Platform',
+    tags: ['React', 'Node.js', 'AI', 'MongoDB'],
+    github: 'https://github.com/Subhas6033',
+    live: 'https://talk2hire.com',
+    featured: true,
+  },
+  {
+    category: 'College Related',
+    image: '/Projects/CDC.png',
+    title: 'CDC Portal',
+    subtitle: 'Carrier and Development Cell – JGEC',
+    tags: ['MERN', 'MongoDB', 'College'],
+    github: 'https://github.com/Subhas6033',
+    live: '#',
+  },
+  {
+    category: 'Frontend',
+    image: '/Projects/EV.png',
+    title: 'EV Dashboard',
+    subtitle: 'Electrical Vehicle Dashboard',
+    tags: ['React', 'Tailwind', 'Data Viz'],
+    github: 'https://github.com/Subhas6033/Electric-Vehicle-Dashboard',
+    live: 'https://ev-eosin.vercel.app/',
+  },
+  {
+    category: 'Fullstack',
+    image: '/Projects/employee.png',
+    title: 'Employee Management System',
+    subtitle: 'Role-based task & team management app',
+    tags: ['MERN', 'Socket.io', 'Auth'],
+    github: 'https://github.com/Subhas6033/Employee-Management-System',
+    live: 'https://emsbysubhas.vercel.app/',
+  },
+  {
+    category: 'Frontend',
+    image: '/Projects/PanduAI.png',
+    title: 'PANDU the AI',
+    subtitle: 'Voice & text powered personal AI assistant',
+    tags: ['React', 'AI', 'Voice API'],
+    github: 'https://github.com/Subhas6033/PANDU',
+    live: 'https://pandutheai.netlify.app/',
+  },
+]
+
+function ProjectCard({ project, index }) {
+  return (
+    <SlideInViewAnimation>
+      <div
+        className="group relative rounded-2xl border border-zinc-800 bg-zinc-900/50 hover:border-lime-400/30 hover:bg-zinc-900 transition-all duration-500 overflow-hidden"
+        style={{ animationDelay: `${index * 0.08}s` }}
+      >
+        {/* Image */}
+        <div className="relative overflow-hidden" style={{ height: '220px' }}>
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
+
+          {/* Featured badge */}
+          {project.featured && (
+            <div className="absolute top-3 left-3 bg-lime-400 text-zinc-950 text-xs font-black px-2.5 py-1 rounded-full">
+              Featured
+            </div>
+          )}
+
+          {/* Category badge */}
+          <div className="absolute top-3 right-3 bg-zinc-950/80 backdrop-blur-sm border border-zinc-700/60 text-zinc-400 text-xs font-medium px-2.5 py-1 rounded-full">
+            {project.category}
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-5">
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {project.tags.map(t => (
+              <span key={t} className="text-xs font-medium px-2.5 py-0.5 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-400">
+                {t}
+              </span>
+            ))}
+          </div>
+
+          <h3 className="text-white font-black text-lg tracking-tight group-hover:text-lime-400 transition-colors duration-300 mb-0.5">
+            {project.title}
+          </h3>
+          <p className="text-zinc-500 text-xs mb-5 leading-relaxed">{project.subtitle}</p>
+
+          {/* Links */}
+          <div className="flex items-center gap-3 pt-4 border-t border-zinc-800">
+            <Link
+              to={project.github}
+              target="_blank"
+              className="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl border border-zinc-800 text-zinc-500 text-xs font-semibold hover:border-zinc-600 hover:text-zinc-300 transition-all duration-200"
+            >
+              <Github size={13} /> Code
+            </Link>
+            <Link
+              to={project.live}
+              target="_blank"
+              className="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl border border-zinc-800 bg-lime-400/0 text-zinc-500 text-xs font-semibold hover:bg-lime-400 hover:border-lime-400 hover:text-zinc-950 transition-all duration-200"
+            >
+              <MoveUpRight size={13} /> Live
+            </Link>
+          </div>
+        </div>
+      </div>
+    </SlideInViewAnimation>
+  )
+}
 
 const Project = () => {
-  const [selectCategory, setSelectCategory] = useState("Frontend");
+  const [active, setActive] = useState('All')
 
-  const projectsNav = [
-    {
-      category: "Frontend",
-    },
-    {
-      category: "Backend",
-    },
-    {
-      category: "Fullstack",
-    },
-    {
-      category: "Client Projects",
-    },
-    {
-      category: "College Related",
-    },
-  ];
-
-  const projectData = [
-    {
-      category: "Frontend",
-      imageURL: "./Projects/EV.jpeg",
-      title: "Electric Vehicle Dashboard",
-      description:
-        "is a React-based web application that allows users to explore detailed information about electric vehicles. Users can view specifications, track vehicle data, and explore manufacturing history based on selected years for deeper insights.",
-      githubLink: "https://github.com/Subhas6033/Electric-Vehicle-Dashboard",
-      liveLink: "https://ev-eosin.vercel.app/",
-    },
-    {
-      category: "Fullstack",
-      imageURL: "./Projects/employee.png",
-      title: "Employee Management System",
-      description:
-        "is a role-based web application that streamlines workplace operations with task assignment, real-time chat, and instant notifications. Designed to enhance collaboration between employees and co-workers while ensuring secure access control.",
-      githubLink: "https://github.com/Subhas6033/Employee-Management-System",
-      liveLink: "https://emsbysubhas.vercel.app/",
-    },
-    {
-      category: "Frontend",
-      imageURL: "./Projects/PanduAI.png",
-      title: "PANDU the AI",
-      description:
-        "is an AI-powered personal assistant that can play songs, search the internet, and launch applications using your custom voice or text commands. I have to fix the issue or bug that is occuring here is about the height of the card.",
-      githubLink: "https://github.com/Subhas6033/PANDU",
-      liveLink: "https://pandutheai.netlify.app/",
-    },
-  ];
-
-  const filteredProjects = projectData.filter(
-    (project) => project.category === selectCategory
-  );
+  const filtered = active === 'All'
+    ? PROJECTS
+    : PROJECTS.filter(p => p.category === active)
 
   return (
-    <SlideUpAnimation className={`min-h-screen `}>
-      <div className="pt-10 md:pt-20">
-        <ul className="flex justify-evenly items-center flex-wrap gap-3 md:gap-0">
-          {projectsNav.map((nav) => (
-            <li key={nav.category}>
-              <Button
-                children={nav.category}
-                onClick={() => setSelectCategory(nav.category)}
-                className={`font-gothic px-3 py-2 rounded-md border transition-all duration-300 hover:bg-gray-900 hover:cursor-pointer ${
-                  selectCategory === nav.category
-                    ? "text-slate-200 bg-amber-500"
-                    : "text-slate-300"
-                }`}
-              />
-            </li>
-          ))}
-        </ul>
+    <>
+      <style>{KEYFRAMES}</style>
+      <div className="min-h-screen bg-zinc-950 pt-28 pb-24">
+        <div className="max-w-7xl mx-auto px-6">
 
-        {/* Project cards goes here  */}
-        <div className="py-10 px-5 flex justify-evenly items-center flex-wrap gap-10">
-          {filteredProjects.length > 0 ? (
-            filteredProjects.map((projects, index) => (
-              <SlideInViewAnimation key={index}>
-                <ProjectCard {...projects} />
-              </SlideInViewAnimation>
-            ))
-          ) : (
-            <p className="text-2xl text-white text-center pt-10">
-              Currently no projects is available here
+          {/* Header */}
+          <div className="mb-14">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-5 h-5 bg-lime-400/10 border border-lime-400/30 rounded flex items-center justify-center"
+                style={{ animation: 'pulseGlow 2.5s ease-in-out infinite' }}>
+                <div className="w-2 h-2 bg-lime-400 rounded-sm" />
+              </div>
+              <span className="text-lime-400 text-xs font-bold uppercase tracking-widest">Portfolio</span>
+            </div>
+            <h1 className="font-black text-white tracking-tighter leading-none mb-4"
+              style={{ fontSize: 'clamp(40px, 7vw, 80px)' }}>
+              All <span className="shimmer-text">Projects</span>
+            </h1>
+            <p className="text-zinc-500 text-base max-w-lg">
+              A collection of things I've built — from production apps to experiments.
             </p>
+          </div>
+
+          {/* Filter pills */}
+          <div className="flex flex-wrap gap-2 mb-10">
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setActive(cat)}
+                className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all duration-200 ${
+                  active === cat
+                    ? 'bg-lime-400 border-lime-400 text-zinc-950'
+                    : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200'
+                }`}
+              >
+                {cat}
+                {active === cat && (
+                  <span className="ml-2 text-zinc-800 text-xs font-black">{filtered.length}</span>
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Grid */}
+          {filtered.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filtered.map((p, i) => (
+                <ProjectCard key={p.title} project={p} index={i} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-32 text-center">
+              <div className="text-6xl mb-4">🚧</div>
+              <h3 className="text-white font-bold text-xl mb-2">No projects yet</h3>
+              <p className="text-zinc-500 text-sm">Check back soon — more work is on the way.</p>
+            </div>
           )}
         </div>
       </div>
-    </SlideUpAnimation>
-  );
-};
+    </>
+  )
+}
 
-export default Project;
+export default Project

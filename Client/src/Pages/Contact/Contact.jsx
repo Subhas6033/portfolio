@@ -1,19 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { Button, Input } from "../../Components/index.js";
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { IoIosSend } from "react-icons/io";
-import axios from "axios";
-import {
-  SlideUpAnimation,
-  SlideLeftAnimation,
-  SlideRightAnimation,
-  SlideInViewAnimation,
-} from "../../utils/Animation.jsx";
+import React, { useState, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { Send, Loader2 } from 'lucide-react'
+import axios from 'axios'
+import { KEYFRAMES } from '../../Components/ui/animations'
 
-const Contact = () => {
+const CONTACT_INFO = [
+  { icon: '📧', label: 'Email',    val: 'goalkeepersubhas07@gmail.com', href: 'mailto:goalkeepersubhas07@gmail.com' },
+  { icon: '📞', label: 'Phone',    val: '+91 9832395096',               href: 'tel:+919832395096' },
+  { icon: '🌐', label: 'Website',  val: 'subhas.vercel.app',            href: 'https://subhas.vercel.app' },
+  { icon: '📍', label: 'Location', val: 'Balitha, West Bengal, India',  href: null },
+]
+
+const inputCls = `w-full bg-zinc-900 border border-zinc-800 text-white text-sm rounded-xl px-4 py-3
+  placeholder-zinc-600 focus:outline-none focus:border-lime-400/50 focus:ring-1 focus:ring-lime-400/20
+  transition-all duration-200`
+
+export default function Contact() {
+  const { register, handleSubmit, reset } = useForm()
   const [loading, setLoading] = useState(false)
-  const { register, handleSubmit, reset } = useForm();
   const [status, setStatus] = useState(null)
 
   const onSubmit = async (data) => {
@@ -22,214 +26,183 @@ const Contact = () => {
       await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/v1/contact`,
         data,
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials : true
-        }
-      );
-      reset();
-      setStatus("success")
+        { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+      )
+      reset()
+      setStatus('success')
+    } catch {
+      setStatus('error')
+    } finally {
       setLoading(false)
-    } catch(err){
-      setLoading(false)
-      setStatus("error")
-      console.log(err)
     }
-  };
-
-  // Automatically hide toast after 2 seconds when sentMail done
- useEffect(() => {
-  if (status) {
-    const timer = setTimeout(() => setStatus(null), 2000);
-    return () => clearTimeout(timer);
   }
-}, [status]);
+
+  useEffect(() => {
+    if (!status) return
+    const t = setTimeout(() => setStatus(null), 3000)
+    return () => clearTimeout(t)
+  }, [status])
 
   return (
-    <section className="min-h-screen pt-8 pb-16 px-6 md:px-20 text-white">
-      <SlideUpAnimation className="flex flex-col items-start gap-4 max-w-3xl mb-10">
-        <h1
-          className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-black via-gray-400 via-60% to-[#e0f2ff]
-"
-        >
-          Get in Touch
-        </h1>
-        <p className="text-md md:text-lg text-gray-300 leading-relaxed">
-          I'm open to freelance work, internships, and full-time opportunities.
-          Let's connect and bring ideas to life together.
-        </p>
-      </SlideUpAnimation>
+    <>
+      <style>{KEYFRAMES}</style>
+      <div className="min-h-screen bg-zinc-950 pt-28 pb-24 px-6">
+        <div className="max-w-6xl mx-auto">
 
-      {/* Main Content */}
-      <SlideInViewAnimation className="flex flex-col md:flex-row justify-between items-start gap-8 overflow-x-hidden">
-        {/* Map */}
-        <SlideLeftAnimation className="w-full md:w-1/2 h-fit rounded-xl">
-          <div className="flex flex-col justify-center items-center w-full max-w-xl mx-auto rounded-xl overflow-hidden shadow-2xl backdrop-blur-lg bg-white/5 border border-white/10">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27087.54237793838!2d87.55139030326843!3d22.991178668497923!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f8202efc0def93%3A0x65256395609fca4!2sBalitha%2C%20West%20Bengal!5e1!3m2!1sen!2sin!4v1753995002863!5m2!1sen!2sin"
-              width="100%"
-              height="300"
-              loading="lazy"
-              className="w-full border-none"
-            ></iframe>
+          {/* Header */}
+          <div className="anim-fadeUp mb-16">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-5 h-5 bg-lime-400/10 border border-lime-400/30 rounded flex items-center justify-center"
+                style={{ animation: 'pulseGlow 2.5s ease-in-out infinite' }}>
+                <div className="w-2 h-2 bg-lime-400 rounded-sm" />
+              </div>
+              <span className="text-lime-400 text-xs font-bold uppercase tracking-widest">Contact</span>
+            </div>
+            <h1 className="font-black text-white tracking-tighter leading-none mb-4"
+              style={{ fontSize: 'clamp(40px, 7vw, 80px)' }}>
+              Let's <span className="shimmer-text">Talk</span>
+            </h1>
+            <p className="text-zinc-500 text-base max-w-lg leading-relaxed">
+              Open to freelance work, internships, and full-time opportunities. Drop me a message and I'll get back within 24 hours.
+            </p>
+          </div>
 
-            <div className="w-full py-6 px-6 bg-slate-900/40 text-white text-sm md:text-base">
-              <ul className="flex flex-col gap-2">
-                <li className="hover:text-blue-300 transition duration-200">
-                  <Link to={"https://subhas.vercel.app"}>🌐 Website</Link>
-                </li>
-                <li className="hover:text-blue-300 transition duration-200">
-                  <a href="mailto:sm2733@it.jgec.ac.in">
-                    ✉️ sm2733@it.jgec.ac.in
-                  </a>
-                </li>
-                <li className="hover:text-blue-300 transition duration-200">
-                  📍 Balitha, West Bengal
-                </li>
-              </ul>
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10 items-start">
+
+            {/* LEFT — form */}
+            <div className="anim-fadeUp">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-zinc-500 text-xs uppercase tracking-widest mb-2 block">Your Name</label>
+                    <input
+                      type="text"
+                      placeholder="Subhas Mondal"
+                      required
+                      className={inputCls}
+                      {...register('userName', { required: true })}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-zinc-500 text-xs uppercase tracking-widest mb-2 block">Email Address</label>
+                    <input
+                      type="email"
+                      placeholder="you@example.com"
+                      required
+                      className={inputCls}
+                      {...register('email', {
+                        required: true,
+                        validate: v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Invalid email',
+                      })}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-zinc-500 text-xs uppercase tracking-widest mb-2 block">Phone Number</label>
+                    <input
+                      type="tel"
+                      placeholder="+91 98765 43210"
+                      required
+                      className={inputCls}
+                      {...register('mobileNumber', { required: true })}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-zinc-500 text-xs uppercase tracking-widest mb-2 block">Subject</label>
+                    <input
+                      type="text"
+                      placeholder="Project inquiry, collaboration..."
+                      required
+                      className={inputCls}
+                      {...register('subject', { required: true })}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-zinc-500 text-xs uppercase tracking-widest mb-2 block">Message</label>
+                  <textarea
+                    rows={5}
+                    required
+                    placeholder="Tell me about your project, idea, or opportunity..."
+                    className={`${inputCls} resize-none`}
+                    {...register('message', { required: true })}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="inline-flex items-center gap-2 bg-lime-400 text-zinc-950 font-bold text-sm px-6 py-3 rounded-full hover:bg-lime-300 hover:shadow-[0_0_30px_rgba(163,230,53,0.35)] transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? (
+                    <><Loader2 size={16} className="animate-spin" /> Sending...</>
+                  ) : (
+                    <><Send size={16} /> Send Message</>
+                  )}
+                </button>
+              </form>
+            </div>
+
+            {/* RIGHT — info + map */}
+            <div className="anim-fadeRight space-y-4">
+
+              {/* Contact info card */}
+              <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 space-y-4">
+                <div className="text-zinc-500 text-xs uppercase tracking-widest">Get in Touch</div>
+                {CONTACT_INFO.map(c => (
+                  <div key={c.label} className="flex items-center gap-4 group">
+                    <div className="w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700 flex items-center justify-center text-base shrink-0 group-hover:border-lime-400/40 group-hover:bg-lime-400/10 transition-all duration-200">
+                      {c.icon}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-zinc-600 text-xs">{c.label}</div>
+                      {c.href ? (
+                        <a href={c.href} className="text-white text-sm font-medium truncate block hover:text-lime-400 transition-colors duration-200">
+                          {c.val}
+                        </a>
+                      ) : (
+                        <div className="text-white text-sm font-medium">{c.val}</div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+                <div className="pt-3 border-t border-zinc-800 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-lime-400 animate-pulse" />
+                  <span className="text-zinc-500 text-xs">Available for new projects</span>
+                </div>
+              </div>
+
+              {/* Map */}
+              <div className="rounded-2xl border border-zinc-800 overflow-hidden">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27087.54237793838!2d87.55139030326843!3d22.991178668497923!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f8202efc0def93%3A0x65256395609fca4!2sBalitha%2C%20West%20Bengal!5e1!3m2!1sen!2sin!4v1753995002863!5m2!1sen!2sin"
+                  width="100%"
+                  height="220"
+                  loading="lazy"
+                  className="w-full border-none grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all duration-500"
+                />
+              </div>
             </div>
           </div>
-        </SlideLeftAnimation>
+        </div>
 
-        {/* Contact Form */}
-        <SlideRightAnimation className="w-full md:w-1/2">
-          <form
-            className="bg-slate-900/40 backdrop-blur-lg rounded-xl p-6 shadow-xl text-white space-y-4"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            {/* Name */}
-            <Input
-              type="text"
-              label=""
-              placeholder="Enter your name"
-              required = {true}
-              className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              {...register("userName", { required: true })}
-            />
-
-            {/* Email */}
-            <Input
-              type="email"
-              label=""
-              required ={true}
-              placeholder="Enter your email"
-              className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              {...register("email", {
-                required: true,
-                validate: {
-                  matchPattern: (value) =>
-                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                    "Enter a valid email address",
-                },
-              })}
-            />
-
-            {/* Mobile */}
-            <Input
-              type="tel"
-              label=""
-              required={true}
-              placeholder="Enter your mobile number"
-              className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              {...register("mobileNumber", { required: true })}
-            />
-
-            {/* Subjct */}
-            <Input
-              type="text"
-              label=""
-              required ={true}
-              placeholder="What's the subject?"
-              className="w-full p-3 rounded bg-white/25 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              {...register("subject", { required: true })}
-            />
-
-            {/* Message Textarea */}
-            <div className="flex flex-col gap-1">
-              <textarea
-                id="message"
-                rows="2"
-                required={true}
-                // minLength={50}
-                placeholder="Type your message..."
-                className="w-full p-3 rounded bg-white/25 text-white resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-                {...register("message", { required: true })}
-              />
-            </div>
-
-            {/* Submit Button with loader */}
-            <Button
-              disabled={loading}
-              className="flex justify-center gap-2 text-xl bg-slate-500 p-2 rounded-md hover:cursor-pointer hover:text-black hover:bg-white transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <span className="flex items-center gap-2">
-                  <svg
-                    className="animate-spin h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                    ></path>
-                  </svg>
-                  Sending...
-                </span>
-              ) : (
-                <>
-                  Send <IoIosSend />
-                </>
-              )}
-            </Button>
-          </form>
-        </SlideRightAnimation>
-
-        {/* Toast after sending the mail */}
-{status && (
- <div
-  className={`fixed bottom-5 md:bottom-auto md:top-20 left-1/2 -translate-x-1/2 px-6 py-3
-    font-semibold rounded-xl shadow-2xl border border-white/20 backdrop-blur-md
-    transition-all duration-500 ease-out transform
-    ${status === "success" ? "bg-white/55 text-green-500" : "bg-white/55 text-red-500"}
-  `}
->
-
-    <SlideUpAnimation>
-      <span className="flex items-center gap-2">
-        {status === "success" ? (
-          <>
-            <span className="text-xl">✅</span>
-            <span className="text-sm md:text-base">
-              Successfully sent the mail!
+        {/* Toast */}
+        {status && (
+          <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 px-5 py-3 rounded-2xl border backdrop-blur-md shadow-2xl transition-all duration-300 anim-fadeUp ${
+            status === 'success'
+              ? 'bg-zinc-900/90 border-lime-400/30 text-lime-400'
+              : 'bg-zinc-900/90 border-red-500/30 text-red-400'
+          }`}>
+            <span>{status === 'success' ? '✅' : '❌'}</span>
+            <span className="text-sm font-semibold">
+              {status === 'success' ? 'Message sent successfully!' : 'Failed to send. Try again.'}
             </span>
-          </>
-        ) : (
-          <>
-            <span className="text-xl">❌</span>
-            <span className="text-sm md:text-base">
-              Failed to send the mail.
-            </span>
-          </>
+          </div>
         )}
-      </span>
-    </SlideUpAnimation>
-  </div>
-)}
-
-      </SlideInViewAnimation>
-    </section>
-  );
-};
-
-export default Contact;
+      </div>
+    </>
+  )
+}

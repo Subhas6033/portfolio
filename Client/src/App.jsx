@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Header, Footer, Loader } from "./Components/index";
 import { Outlet } from "react-router-dom";
+import Layout from "./Layout/Layout";
+import {Loader} from "./Components/index"
 import RouteTitleUpdater from "./Components/RouteTitleUpdater";
 
 const App = () => {
@@ -10,7 +11,7 @@ const App = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 6000)
+    }, 3200)
 
     return () => clearTimeout(timer)
   }, [])
@@ -20,12 +21,9 @@ const App = () => {
   ) : (
     <>
         <RouteTitleUpdater />
-          <Header />
-      <main className="bg-gradient-to-r from-[#7696CF] to-[#1b2549] scrollbar-none overflow-x-hidden">
-        {/* TO Render the childrens of the page */}
-          <Outlet />
-      </main>
-      <Footer />
+          <Layout>
+            <Outlet />
+          </Layout>
     </>
   );
 };
