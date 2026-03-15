@@ -1,45 +1,164 @@
-/* eslint-disable no-unused-vars */
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+
+const BOOT_LINES = [
+  '> Initializing runtime environment...',
+  '> Loading core modules [React, Node, MongoDB]',
+  '> Establishing secure connection...',
+  '> Compiling portfolio assets...',
+  '> Mounting UI components...',
+  '> All systems operational.',
+]
+
+function useTypingLines(lines, charDelay = 18, lineDelay = 320) {
+  const [displayed, setDisplayed] = useState([])
+  const [currentLine, setCurrentLine] = useState(0)
+  const [currentChar, setCurrentChar] = useState(0)
+
+  useEffect(() => {
+    if (currentLine >= lines.length) return
+    const line = lines[currentLine]
+    if (currentChar < line.length) {
+      const t = setTimeout(() => setCurrentChar(c => c + 1), charDelay)
+      return () => clearTimeout(t)
+    }
+    const t = setTimeout(() => {
+      setDisplayed(d => [...d, line])
+      setCurrentLine(l => l + 1)
+      setCurrentChar(0)
+    }, lineDelay)
+    return () => clearTimeout(t)
+  }, [currentLine, currentChar, lines, charDelay, lineDelay])
+
+  const typing = currentLine < lines.length ? lines[currentLine].slice(0, currentChar) : null
+  return { displayed, typing }
+}
 
 const Loader = () => {
-  const pathVariants = {
-    hidden: {
-      pathLength: 0,
-      opacity: 0,
-    },
-    visible: {
-      pathLength: 1,
-      opacity: 1,
-      transition: {
-        duration: 6,
-        ease: "easeInOut",
-      },
-    },
-  };
+  const [progress, setProgress] = useState(0)
+  const { displayed, typing } = useTypingLines(BOOT_LINES)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress(p => {
+        if (p >= 100) { clearInterval(interval); return 100 }
+        const step = p < 60 ? Math.random() * 8 + 4 : Math.random() * 3 + 1
+        return Math.min(p + step, 100)
+      })
+    }, 120)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-r from-[#7696CF] to-[#1B2549]">
-      <svg
-        width="390"
-        height="250"
-        viewBox="0 0 380 220"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-[50%] h-[100%]"
-      >
-        <motion.path
-          d="M92.4 22C91.352 23.32 82.056 31.808 70.356 45.096C56.5967 60.7228 48.952 74.232 46.152 80.752C43.8608 86.0874 45.728 90.52 47.32 93.18C48.1987 94.6482 49.968 95.84 51.444 96.52C52.92 97.2 54.24 97.2 64.424 94.296C74.608 91.392 93.616 85.584 104.596 82.064C121.852 76.532 126.512 75.072 131.98 75.196C134.309 75.2488 135.856 78.256 137.588 80.648C140.924 85.2547 136.944 93.68 135.736 101.576C133.997 112.945 124.416 130.24 120.684 135.708C117.391 140.533 111.376 149.144 98.112 163.484C89.5473 172.743 75.344 184.16 64.576 192.524C47.006 206.171 34.312 212.112 26.324 215.576C17.0709 219.589 10.832 220.128 4.68802 219.34C3.2543 219.156 2.28803 218.016 1.87603 216.816C0.970713 214.179 3.84802 209.496 8.49603 203.644C13.9339 196.798 27.776 190.048 44.676 181.396C52.5374 177.371 59.2 174.592 68.276 169.796C88.9578 158.867 103.832 150.016 111.936 145.9C122.687 140.44 137.904 131.12 154.284 122.196C170.358 113.439 177.952 108.96 186.236 103.62C190.641 100.78 195.312 98.016 210.392 89.016C223.22 81.3602 247.12 68.4 260.68 60.544C277.139 51.0088 280.656 47.344 285.424 43.632C295.033 36.1511 305.168 29.496 312.476 23.248C328.51 9.53957 335.048 3.88001 337.188 1.74801C338.242 0.697704 329.784 3.04001 316.508 9.02001C297.428 17.6145 283.352 20.664 276.988 21.724C252.767 25.7583 239.888 24.944 235.084 21.88C233.882 21.1131 233.216 19.888 232.94 18.552C232.349 15.6924 233.728 12.944 234.924 10.948C238.33 5.26412 248.112 3.07202 254.772 1.47202C256.615 1.02921 258.496 1.20001 259.844 1.59601C262.192 2.28589 263.328 4.92001 264.128 7.58001C265.909 13.5 255.92 27.504 250.148 35.716C248.388 38.2204 244.168 43.824 237.252 51.808C230.843 59.2072 220.728 66.752 210.34 75.14C199.348 84.0158 191.664 92.88 182.964 99.708C177.359 104.107 167.408 112.88 154.096 121.936C144.398 128.533 138.544 130.264 137.076 130.004C132.472 129.189 143.04 120.16 146.124 115.616C149.706 110.338 150.8 103.88 150.536 102.408C150.482 102.108 149.744 103.312 149.604 104.384C149.464 105.456 149.728 106.512 150.392 107.188C151.056 107.864 152.112 108.128 153.58 107.604C157.153 106.328 159.328 103.344 160.26 101.216C161.155 99.173 161.2 96.68 161.332 95.208C161.35 95.0075 161.728 96.112 162.392 96.788C163.056 97.464 164.112 97.728 165.184 97.6C170.694 96.9421 177.424 82.624 180.264 73.224C181.188 70.1656 179.344 64.968 177.216 60.56C176.586 59.2544 175.088 61.168 174.28 64.228C172.323 71.6393 172.928 79.04 174.124 83.7C174.653 85.7608 175.584 87.04 176.916 87.852C178.248 88.664 180.096 88.928 181.708 88.668C183.32 88.408 184.64 87.616 185.716 86.68C186.792 85.744 187.584 84.688 187.464 83.352C187.344 82.016 186.288 80.432 184.688 79.616C183.088 78.8 180.976 78.8 180.548 78.14C177.171 72.9323 194.208 62.352 199.324 52.56C200.169 50.9419 200.128 49.232 200 47.888C199.872 46.544 199.344 45.488 198.412 44.548C197.48 43.608 196.16 42.816 194.688 43.596C186.389 47.9933 190.256 63.264 191.592 77.028C191.78 78.9671 193.968 78.016 195.312 76.816C198.054 74.3679 199.592 71.608 201.452 70.936C202.463 70.5708 203.84 72.112 205.444 72.392C208.853 72.9871 212.648 69.752 215.316 66.292C216.42 64.8598 215.872 63.36 215.208 62.416C214.544 61.472 213.488 60.944 212.416 60.936C211.344 60.928 210.288 61.456 209.612 62.256C208.936 63.056 208.672 64.112 208.668 65.184C208.66 67.3278 210.256 69.456 212.648 71.188C213.861 72.0661 215.568 72.128 216.912 72C218.256 71.872 219.312 71.344 219.988 70.544C220.664 69.744 220.928 68.688 220.8 67.616C220.536 65.4049 218.808 63.344 218.136 62.14C215.335 57.1209 231.312 67.328 243.152 67.336C251.312 64.944 258.768 61.216 265.044 57.88C266.52 56.944 267.84 55.888 270.8 53.2"
-          stroke="white"
-          strokeWidth={3}
-          strokeLinecap="round"
-          variants={pathVariants}
-          initial="hidden"
-          animate="visible"
-        />
-      </svg>
-    </div>
-  );
-};
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-zinc-950 relative overflow-hidden font-mono">
 
-export default Loader;
+      {/* Scanlines overlay */}
+      <div className="absolute inset-0 pointer-events-none z-10"
+        style={{
+          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px)',
+        }} />
+
+      {/* Grid */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(163,230,53,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(163,230,53,0.025) 1px,transparent 1px)',
+          backgroundSize: '40px 40px',
+        }} />
+
+      {/* Ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse, rgba(163,230,53,0.05) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+
+      {/* Terminal window */}
+      <motion.div
+        initial={{ opacity: 0, y: 24, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-20 w-full max-w-lg mx-6"
+      >
+        {/* Terminal title bar */}
+        <div className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 border-b-0 rounded-t-xl px-4 py-3">
+          <div className="flex gap-1.5">
+            <div className="w-3 h-3 rounded-full bg-red-500/70" />
+            <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
+            <div className="w-3 h-3 rounded-full bg-green-500/70" />
+          </div>
+          <div className="flex-1 text-center text-zinc-600 text-xs tracking-widest">
+            subhas@portfolio:~
+          </div>
+          <div className="w-12" />
+        </div>
+
+        {/* Terminal body */}
+        <div className="bg-zinc-950/95 border border-zinc-800 rounded-b-xl p-5 min-h-[220px]"
+          style={{ boxShadow: '0 0 60px rgba(163,230,53,0.06), inset 0 0 60px rgba(0,0,0,0.4)' }}>
+
+          {/* Static header */}
+          <div className="text-lime-400/50 text-xs mb-4">
+            <div>SUBHAS MONDAL — PORTFOLIO OS v2.0</div>
+            <div>Booting system... please wait.</div>
+            <div className="mt-1 border-t border-zinc-800/80 pt-2" />
+          </div>
+
+          {/* Boot lines */}
+          <div className="space-y-1.5 mb-3">
+            {displayed.map((line, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-xs"
+              >
+                <span className={line.includes('operational') ? 'text-lime-400' : 'text-zinc-500'}>
+                  {line}
+                </span>
+                {line.includes('operational') && (
+                  <span className="ml-2 text-lime-400">✓</span>
+                )}
+              </motion.div>
+            ))}
+
+            {/* Currently typing line */}
+            {typing !== null && (
+              <div className="text-zinc-400 text-xs">
+                {typing}
+                <span className="inline-block w-1.5 h-3 bg-lime-400 ml-0.5 align-middle"
+                  style={{ animation: 'blink 1s step-end infinite' }} />
+              </div>
+            )}
+          </div>
+
+          {/* Progress bar */}
+          <div className="mt-5 pt-4 border-t border-zinc-800/60">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-zinc-600 text-xs uppercase tracking-widest">Loading</span>
+              <span className="text-lime-400 text-xs font-bold tabular-nums">{Math.floor(progress)}%</span>
+            </div>
+            <div className="h-1 w-full bg-zinc-800 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-lime-400 rounded-full"
+                style={{ width: `${progress}%`, boxShadow: '0 0 10px rgba(163,230,53,0.7)' }}
+                transition={{ ease: 'linear' }}
+              />
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Bottom label */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6 }}
+        className="absolute bottom-8 text-zinc-700 text-xs tracking-widest uppercase z-20"
+      >
+        Fullstack Developer · MERN Stack
+      </motion.div>
+
+      {/* Keyframe for blink */}
+      <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
+    </div>
+  )
+}
+
+export default Loader

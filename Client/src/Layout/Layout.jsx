@@ -1,83 +1,192 @@
 import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+
+/* ── Social SVG Icons ─────────────────────────────────── */
+const GithubIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+    <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+  </svg>
+)
+const LinkedinIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+  </svg>
+)
+const TwitterIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+  </svg>
+)
+const EmailIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="15" height="15">
+    <rect width="20" height="16" x="2" y="4" rx="2"/>
+    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+  </svg>
+)
 
 /* ── Header ──────────────────────────────────────────── */
 function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [active, setActive] = useState('home')
+  const location = useLocation()
 
+  const links = [
+    { label: 'Home',     href: '/#home',     id: 'home'     },
+    { label: 'About',    href: '/#about',    id: 'about'    },
+    { label: 'Services', href: '/#services', id: 'services' },
+    { label: 'Projects', href: '/#projects', id: 'projects' },
+    { label: 'Contact',  href: '/#contact',  id: 'contact'  },
+  ]
+
+  // Sync from URL hash on route change
+  useEffect(() => {
+    const hash = location.hash.replace('#', '')
+    if (hash) setActive(hash)
+    else if (location.pathname === '/') setActive('home')
+  }, [location])
+
+  // IntersectionObserver — most visible section wins
+  useEffect(() => {
+    const ratios = {}
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          ratios[e.target.id] = e.intersectionRatio
+        })
+
+        // Find section with highest visibility
+        let bestId = null
+        let bestRatio = 0
+        Object.entries(ratios).forEach(([id, ratio]) => {
+          if (ratio > bestRatio) {
+            bestRatio = ratio
+            bestId = id
+          }
+        })
+
+        if (bestId && bestRatio > 0) setActive(bestId)
+      },
+      {
+        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+        rootMargin: '-64px 0px 0px 0px', // offset for fixed header
+      }
+    )
+
+    const ids = ['home', 'about', 'services', 'projects', 'contact']
+    ids.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) { ratios[id] = 0; observer.observe(el) }
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  // Header shadow on scroll
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', fn)
+    window.addEventListener('scroll', fn, { passive: true })
+    fn()
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
-  const links = ['Home', 'About', 'Services', 'Projects', 'Contact']
+  const handleNavClick = (id) => {
+    setActive(id)
+    setMenuOpen(false)
+  }
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? 'bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800'
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      scrolled ? 'bg-zinc-950/90 backdrop-blur-xl' : 'bg-transparent'
+    }`}>
+      {scrolled && (
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent" />
+      )}
+
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-lime-400 rounded-sm flex items-center justify-center">
-            <span className="text-zinc-950 font-black text-sm leading-none">P</span>
+        <a href="/#home" onClick={() => handleNavClick('home')} className="flex items-center gap-2.5 group shrink-0">
+          <div className="w-8 h-8 bg-lime-400 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:shadow-[0_0_16px_rgba(163,230,53,0.5)]">
+            <span className="text-zinc-950 font-black text-sm leading-none">S</span>
           </div>
-          <span className="text-white font-bold text-base tracking-tight">
-            Port<span className="text-lime-400">folio</span>
-          </span>
+          <div className="hidden sm:block">
+            <div className="text-white font-black text-sm leading-none tracking-tight">Subhas</div>
+            <div className="text-zinc-600 text-xs">Mondal</div>
+          </div>
         </a>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-1 bg-zinc-900/60 border border-zinc-800/60 backdrop-blur-sm rounded-full px-2 py-1.5">
           {links.map((l) => (
             <a
-              key={l}
-              href="#"
-              className="text-zinc-400 hover:text-lime-400 text-sm font-medium tracking-wide transition-colors duration-200 relative group"
+              key={l.label}
+              href={l.href}
+              onClick={() => handleNavClick(l.id)}
+              className={`relative px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 ${
+                active === l.id
+                  ? 'text-zinc-950 bg-lime-400'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
             >
-              {l}
-              <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-lime-400 group-hover:w-full transition-all duration-300" />
+              {l.label}
             </a>
           ))}
         </nav>
 
         {/* CTA */}
-        <a
-          href="#"
-          className="hidden md:inline-flex items-center gap-2 bg-lime-400 text-zinc-950 text-sm font-bold px-5 py-2.5 rounded-full hover:bg-lime-300 transition-colors duration-200"
-        >
-          View Resume
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </a>
+        <div className="hidden md:flex items-center gap-3">
+          <a
+            href="/#contact"
+            onClick={() => handleNavClick('contact')}
+            className="inline-flex items-center gap-2 bg-lime-400 text-zinc-950 text-xs font-black px-4 py-2 rounded-full hover:bg-lime-300 hover:shadow-[0_0_20px_rgba(163,230,53,0.35)] transition-all duration-300"
+          >
+            Hire Me
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </a>
+        </div>
 
-        {/* Mobile menu btn */}
+        {/* Mobile hamburger */}
         <button
-          className="md:hidden text-white p-1"
+          className="md:hidden relative w-8 h-8 flex flex-col items-center justify-center gap-1.5"
           onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
         >
-          <div className={`w-6 h-0.5 bg-current mb-1.5 transition-all ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-          <div className={`w-6 h-0.5 bg-current mb-1.5 transition-all ${menuOpen ? 'opacity-0' : ''}`} />
-          <div className={`w-6 h-0.5 bg-current transition-all ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+          <span className={`block w-5 h-0.5 bg-white rounded-full transition-all duration-300 origin-center ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+          <span className={`block w-5 h-0.5 bg-white rounded-full transition-all duration-300 ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
+          <span className={`block w-5 h-0.5 bg-white rounded-full transition-all duration-300 origin-center ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
         </button>
       </div>
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-zinc-950 border-t border-zinc-800 px-6 py-6 flex flex-col gap-4">
-          {links.map((l) => (
-            <a key={l} href="#" className="text-zinc-300 hover:text-lime-400 text-base font-medium transition-colors">
-              {l}
-            </a>
-          ))}
-          <a href="#" className="inline-flex items-center gap-2 bg-lime-400 text-zinc-950 text-sm font-bold px-5 py-2.5 rounded-full w-fit mt-2">
-            Start a Project →
+        <div className="md:hidden bg-zinc-950/98 backdrop-blur-xl border-t border-zinc-800/60 px-6 pt-4 pb-6">
+          <div className="flex flex-col gap-1 mb-5">
+            {links.map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+                onClick={() => handleNavClick(l.id)}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                  active === l.id
+                    ? 'bg-lime-400/10 text-lime-400 border border-lime-400/20'
+                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${active === l.id ? 'bg-lime-400' : 'bg-zinc-700'}`} />
+                {l.label}
+              </a>
+            ))}
+          </div>
+          <a
+            href="/#contact"
+            onClick={() => handleNavClick('contact')}
+            className="flex items-center justify-center gap-2 bg-lime-400 text-zinc-950 text-sm font-black px-5 py-3 rounded-xl w-full"
+          >
+            Hire Me →
           </a>
         </div>
       )}
@@ -87,69 +196,107 @@ function Header() {
 
 /* ── Footer ──────────────────────────────────────────── */
 function Footer() {
-  const cols = [
-    {
-      title: 'Services',
-      links: ['UI/UX Design', 'Web Development', 'Branding', 'Motion Design', 'Product Design'],
-    },
-    {
-      title: 'Company',
-      links: ['About', 'Projects', 'Process', 'Testimonials', 'Blog'],
-    },
-    {
-      title: 'Connect',
-      links: ['Twitter / X', 'LinkedIn', 'Dribbble', 'GitHub', 'Behance'],
-    },
+  const services = ['Fullstack Development', 'Frontend Development', 'Backend Development', 'Database Design', 'API Integration']
+  const socials = [
+    { label: 'GitHub',   href: 'https://github.com/Subhas6033',         Icon: GithubIcon   },
+    { label: 'LinkedIn', href: 'https://linkedin.com/in/subhas-mondal', Icon: LinkedinIcon },
+    { label: 'Twitter',  href: 'https://x.com',                         Icon: TwitterIcon  },
+    { label: 'Email',    href: 'mailto:goalkeepersubhas07@gmail.com',    Icon: EmailIcon    },
   ]
 
   return (
-    <footer className="bg-zinc-950 border-t border-zinc-800">
-      <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
-        {/* Top */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
-          {/* Brand col */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-lime-400 rounded-sm flex items-center justify-center">
-                <span className="text-zinc-950 font-black text-sm">P</span>
-              </div>
-              <span className="text-white font-bold text-base">
-                Port<span className="text-lime-400">folio</span>
-              </span>
-            </div>
-            <p className="text-zinc-500 text-sm leading-relaxed max-w-xs mb-6">
-              A passionate product designer &amp; developer crafting functional, beautiful digital experiences for ambitious brands.
-            </p>
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 bg-lime-400 text-zinc-950 text-sm font-bold px-5 py-2.5 rounded-full hover:bg-lime-300 transition-colors"
-            >
-              Start a Project →
-            </a>
-          </div>
+    <footer className="bg-zinc-950 relative overflow-hidden">
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-lime-400/40 to-transparent" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse, rgba(163,230,53,0.04) 0%, transparent 70%)', filter: 'blur(40px)' }} />
 
-          {/* Link cols */}
-          {cols.map((col) => (
-            <div key={col.title}>
-              <h4 className="text-white text-sm font-bold uppercase tracking-widest mb-5">{col.title}</h4>
-              <ul className="space-y-3">
-                {col.links.map((l) => (
-                  <li key={l}>
-                    <a href="#" className="text-zinc-500 hover:text-lime-400 text-sm transition-colors">{l}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+      <div className="max-w-7xl mx-auto px-6 pt-16 pb-8 relative z-10">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 mb-14 pb-14 border-b border-zinc-800/60">
+          <div>
+            <p className="text-zinc-600 text-xs uppercase tracking-widest mb-3">Open to work</p>
+            <h2 className="font-black text-white tracking-tighter leading-none" style={{ fontSize: 'clamp(32px, 5vw, 56px)' }}>
+              Let's build something<br />
+              <span style={{ WebkitTextStroke: '1.5px #a3e635', color: 'transparent' }}>great together.</span>
+            </h2>
+          </div>
+          <a href="/#contact" className="shrink-0 inline-flex items-center gap-2 bg-lime-400 text-zinc-950 text-sm font-black px-6 py-3 rounded-full hover:bg-lime-300 hover:shadow-[0_0_30px_rgba(163,230,53,0.3)] transition-all duration-300">
+            Start a Project
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </a>
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-zinc-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-zinc-600 text-xs">© 2025 Portfolio. All rights reserved.</p>
-          <div className="flex items-center gap-6">
-            {['Privacy Policy', 'Terms of Service', 'Cookies'].map((l) => (
-              <a key={l} href="#" className="text-zinc-600 hover:text-zinc-400 text-xs transition-colors">{l}</a>
-            ))}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-14">
+          <div>
+            <div className="flex items-center gap-2.5 mb-5">
+              <div className="w-9 h-9 bg-lime-400 rounded-lg flex items-center justify-center shadow-[0_0_20px_rgba(163,230,53,0.3)]">
+                <span className="text-zinc-950 font-black text-base leading-none">S</span>
+              </div>
+              <div>
+                <div className="text-white font-black text-sm leading-none">Subhas Mondal</div>
+                <div className="text-zinc-600 text-xs mt-0.5">Fullstack Developer</div>
+              </div>
+            </div>
+            <p className="text-zinc-600 text-sm leading-relaxed mb-6">
+              Building fast, scalable web applications with the MERN stack — clean code, sharp UIs, real impact.
+            </p>
+            <div className="flex items-center gap-2">
+              {socials.map(({ label, href, Icon }) => (
+                <a key={label} href={href} target="_blank" rel="noreferrer" title={label}
+                  className="w-9 h-9 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 hover:border-lime-400/40 hover:text-lime-400 hover:bg-lime-400/10 transition-all duration-200">
+                  <Icon />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-zinc-400 text-xs font-bold uppercase tracking-widest mb-5">Services</h4>
+            <ul className="space-y-2.5">
+              {services.map(s => (
+                <li key={s}>
+                  <a href="/#services" className="group flex items-center gap-2 text-zinc-600 hover:text-lime-400 text-sm transition-colors duration-200">
+                    <span className="w-1 h-1 rounded-full bg-zinc-700 group-hover:bg-lime-400 transition-colors duration-200 shrink-0" />
+                    {s}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-zinc-400 text-xs font-bold uppercase tracking-widest mb-5">Contact</h4>
+            <ul className="space-y-3">
+              {[
+                { icon: '✉', val: 'goalkeepersubhas07@gmail.com', href: 'mailto:goalkeepersubhas07@gmail.com' },
+                { icon: '📞', val: '+91 9832395096',               href: 'tel:+919832395096' },
+                { icon: '📍', val: 'West Bengal, India',           href: null },
+                { icon: '🌐', val: 'subhas.vercel.app',            href: 'https://subhas.vercel.app' },
+              ].map(c => (
+                <li key={c.val}>
+                  {c.href ? (
+                    <a href={c.href} className="flex items-center gap-2.5 text-zinc-600 hover:text-lime-400 text-sm transition-colors duration-200">
+                      <span className="text-base shrink-0">{c.icon}</span>
+                      <span className="truncate">{c.val}</span>
+                    </a>
+                  ) : (
+                    <span className="flex items-center gap-2.5 text-zinc-600 text-sm">
+                      <span className="text-base shrink-0">{c.icon}</span>
+                      {c.val}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t border-zinc-800/60 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-zinc-700 text-xs">© {new Date().getFullYear()} Subhas Mondal. All rights reserved.</p>
+          <div className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-lime-400 animate-pulse" />
+            <span className="text-zinc-700 text-xs">Available for new projects</span>
           </div>
         </div>
       </div>
@@ -158,14 +305,12 @@ function Footer() {
 }
 
 /* ── Layout ──────────────────────────────────────────── */
-const Layout = ({ children }) => {
-  return (
-    <div className="min-h-screen bg-zinc-950 text-white">
-      <Header />
-      <main>{children}</main>
-      <Footer />
-    </div>
-  )
-}
+const Layout = ({ children }) => (
+  <div className="min-h-screen bg-zinc-950 text-white">
+    <Header />
+    <main>{children}</main>
+    <Footer />
+  </div>
+)
 
 export default Layout

@@ -13,6 +13,7 @@ const RouteTitleUpdater = () => {
       "/contact": "Contact me | FUll stack Developer",
     };
     document.title = titles[location.pathname] || "Subhas Mondal || Full stack Developer";
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, [location]);
   return null;
 };
