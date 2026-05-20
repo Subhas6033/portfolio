@@ -202,12 +202,6 @@ async function validateEmailDomain(
 
 export { validateEmailDomain };
 
-/**
- * ---------------------------------------------------------
- * CLI TESTING
- * ---------------------------------------------------------
- */
-
 // Allow running this file directly for quick testing
 const __filename = fileURLToPath(import.meta.url);
 

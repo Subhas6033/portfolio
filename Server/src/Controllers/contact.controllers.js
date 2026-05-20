@@ -19,9 +19,7 @@ const handleContactForm = asyncHandeler(
       message,
     } = req.body;
 
-    /**
-     * Validate fields
-     */
+
     if (
       [
         userName,
@@ -37,9 +35,7 @@ const handleContactForm = asyncHandeler(
       );
     }
 
-    /**
-     * Validate email
-     */
+    // Main validation logic
     const emailValidation =
       await validateEmailDomain(email);
 
@@ -50,9 +46,6 @@ const handleContactForm = asyncHandeler(
       );
     }
 
-    /**
-     * Save contact
-     */
     const savedContact = await Contact.create({
       userName,
       email,
@@ -61,9 +54,7 @@ const handleContactForm = asyncHandeler(
       message,
     });
 
-    /**
-     * Email template params
-     */
+
     const templateParams = {
       userName,
       email,
@@ -73,9 +64,7 @@ const handleContactForm = asyncHandeler(
     };
 
     try {
-      /**
-       * Send confirmation email to user
-       */
+      // Send user confirmation email
       const userEmail = emailjs.send(
         process.env.EMAILJS_SERVICE_ID,
         process.env.EMAILJS_USER_TEMPLATE_ID,
@@ -88,9 +77,7 @@ const handleContactForm = asyncHandeler(
         }
       );
 
-      /**
-       * Send owner/admin notification
-       */
+// Send owner/admin notification
       const ownerEmail = emailjs.send(
         process.env.EMAILJS_SERVICE_ID,
         process.env.EMAILJS_OWNER_TEMPLATE_ID,
