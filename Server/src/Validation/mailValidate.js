@@ -56,15 +56,46 @@ function parseEmail(email) {
   return { local, domain };
 }
 
-// Abstract API email verification
+// Known providers that block SMTP probing but are always valid
+const TRUSTED_DOMAINS = new Set([
+  "gmail.com",
+  "yahoo.com",
+  "yahoo.in",
+  "outlook.com",
+  "hotmail.com",
+  "live.com",
+  "icloud.com",
+  "me.com",
+  "protonmail.com",
+  "proton.me",
+  "@jgec.ac.in",
+  "@ce.jgec.ac.in",
+  "@ee.jgec.ac.in",
+  "@me.jgec.ac.in",
+  "@cse.jgec.ac.in",
+  "@ece.jgec.ac.in",
+  "@it.jgec.ac.in"
+]);
+
+// Verify email using AbstractAPI's Email Reputation endpoint
 async function verifyWithAbstractAPI(email) {
   const apiKey = process.env.ABSTRACT_API_KEY;
 
   if (!apiKey) {
     return {
       valid: false,
-      reason:
-        "ABSTRACT_API_KEY is missing in environment variables.",
+      reason: "ABSTRACT_API_KEY is missing in environment variables.",
+    };
+  }
+
+  // ✅ Skip SMTP probing for trusted providers — they always block it
+  const domain = email.split("@")[1]?.toLowerCase();
+  if (TRUSTED_DOMAINS.has(domain)) {
+    return {
+      valid: true,
+      freeEmail: true,
+      domain,
+      meta: { skipped: "trusted_domain" },
     };
   }
 
@@ -75,32 +106,20 @@ async function verifyWithAbstractAPI(email) {
 
   const data = await fetchJson(url);
 
-  /**
-   * Network / parse failure — fail closed
-   */
   if (!data) {
     return {
       valid: false,
-      reason:
-        "Unable to verify email address at this time. Please try again.",
+      reason: "Unable to verify email address at this time. Please try again.",
     };
   }
 
-  /**
-   * API error
-   */
   if (data.error) {
     return {
       valid: false,
-      reason:
-        data.error.message ||
-        "Email verification failed.",
+      reason: data.error.message || "Email verification failed.",
     };
   }
 
-  /**
-   * MX not found — domain cannot receive emails
-   */
   if (data.is_mx_found === false) {
     return {
       valid: false,
@@ -108,51 +127,35 @@ async function verifyWithAbstractAPI(email) {
     };
   }
 
-  /**
-   * SMTP invalid — mailbox does not exist
-   */
-  if (data.is_smtp_valid === false) {
+  // ⚠️ Only block on SMTP if AbstractAPI is confident (not just unverified)
+  if (data.is_smtp_valid === false && data.is_mx_found === true) {
     return {
       valid: false,
-      reason:
-        "This email address does not exist or cannot receive emails.",
+      reason: "This email address does not exist or cannot receive emails.",
     };
   }
 
-  /**
-   * Disposable email
-   */
   if (data.is_disposable_email === true) {
     return {
       valid: false,
-      reason:
-        "Disposable email addresses are not allowed.",
+      reason: "Disposable email addresses are not allowed.",
     };
   }
 
-  /**
-   * Deliverability check
-   */
+  // ✅ Only hard-block on "undeliverable", not "unknown" or "risky"
   if (
-    data.email_deliverability &&
-    data.email_deliverability.status !== "DELIVERABLE"
+    data.email_deliverability?.status === "UNDELIVERABLE"
   ) {
     return {
       valid: false,
-      reason:
-        data.email_deliverability.status === "undeliverable"
-          ? "This email address does not exist."
-          : "This email address is not deliverable.",
+      reason: "This email address does not exist.",
     };
   }
 
-  /**
-   * SUCCESS
-   */
   return {
     valid: true,
     freeEmail: data.is_free_email === true,
-    domain: email.split("@")[1].toLowerCase(),
+    domain,
     meta: data,
   };
 }
