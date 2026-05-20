@@ -10,7 +10,7 @@ connectDB()
 
     app.listen(process.env.PORT || 8000, () => {
       console.log(
-        `Server is Running on PORT : http://localhost:${
+        `Server is Running on PORT : ${
           process.env.PORT || 8000
         }`
       );
