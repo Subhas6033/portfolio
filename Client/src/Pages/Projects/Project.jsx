@@ -13,7 +13,6 @@ const PROJECTS = [
     title: 'Talk2Hire',
     subtitle: 'AI powered Hiring & Interview Platform',
     tags: ['React', 'Node.js', 'AI', 'MongoDB'],
-    github: 'https://github.com/Subhas6033',
     live: 'https://talk2hire.com',
     featured: true,
   },
@@ -23,8 +22,8 @@ const PROJECTS = [
     title: 'CDC Portal',
     subtitle: 'Carrier and Development Cell – JGEC',
     tags: ['MERN', 'MongoDB', 'College'],
-    github: 'https://github.com/Subhas6033',
-    live: '#',
+    github: 'https://github.com/Subhas6033/CDC-Backend',
+    live: 'https://cdcjgec.vercel.app',
   },
   {
     category: 'Frontend',
