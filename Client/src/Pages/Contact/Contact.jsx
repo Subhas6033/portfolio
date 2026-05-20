@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Send, Loader2 } from 'lucide-react'
+import { Send, Loader2, MailCheck, CircleX } from 'lucide-react'
 import axios from 'axios'
 import { KEYFRAMES } from '../../Components/ui/animations'
 
@@ -19,6 +19,7 @@ export default function Contact() {
   const { register, handleSubmit, reset } = useForm()
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const onSubmit = async (data) => {
     try {
@@ -30,8 +31,23 @@ export default function Contact() {
       )
       reset()
       setStatus('success')
-    } catch {
+      setErrorMessage(null)
+    } catch (err) {
       setStatus('error')
+
+      const statusCode = err.response?.status
+      const backendMessage = err.response?.data?.message || ''
+
+      if (statusCode === 422) {
+        // Disposable email
+        setErrorMessage('Please use a valid email address, not a disposable one.')
+      } else if (statusCode === 400) {
+        // Invalid / undeliverable email — show backend reason directly
+        setErrorMessage(backendMessage || 'Please enter a valid email address.')
+      } else {
+        // 500 or network error — generic message
+        setErrorMessage('Failed to send message. Please try again later.')
+      }
     } finally {
       setLoading(false)
     }
@@ -196,9 +212,9 @@ export default function Contact() {
               ? 'bg-zinc-900/90 border-lime-400/30 text-lime-400'
               : 'bg-zinc-900/90 border-red-500/30 text-red-400'
           }`}>
-            <span>{status === 'success' ? '✅' : '❌'}</span>
+            <span>{status === 'success' ? <MailCheck/> : <CircleX />}</span>
             <span className="text-sm font-semibold">
-              {status === 'success' ? 'Message sent successfully!' : 'Failed to send. Try again.'}
+              {status === 'success' ? 'Message sent successfully!' : errorMessage}
             </span>
           </div>
         )}

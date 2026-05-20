@@ -3,7 +3,7 @@ const asyncHandeler = (requestHandeler) => async (req, res, next) => {
     return requestHandeler(req, res);
   } catch (error) {
     console.log("Error coming from Asynchandeler !!!", error);
-    req.status(error.code || 500).json({
+    res.status(error.code || 500).json({
       success: false,
       message: error.message,
     });

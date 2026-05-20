@@ -10,7 +10,7 @@ const WORDS = ['Fullstack Developer', 'MERN Stack Developer', 'Problem Solver', 
 function StatsRow() {
   const [ref, inView] = useInView()
   const projects = useCounter(20, inView)
-  const months = useCounter(1, inView)
+  const months = useCounter(3, inView)
 
   return (
     <div ref={ref} className="flex items-center gap-10">
