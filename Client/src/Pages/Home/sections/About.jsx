@@ -196,6 +196,7 @@ export default function About() {
             <Reveal dir="right" delay={0.1}>
               <div className="relative rounded-2xl overflow-hidden border border-zinc-800 group"
                 style={{ height: '320px' }}>
+                  {/* TODO: Update the image url */}
                 <img
                   src="/Image/My Picture3.jpg"
                   alt="Subhas Mondal"
