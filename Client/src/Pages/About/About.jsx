@@ -1,140 +1,267 @@
 import React from "react";
-import {Link} from 'react-router-dom'
-import { Card, Button, Academic } from "../../Components/index";
-import { ProfileImage } from "../../Components/profileImage/Image";
-import { Eye } from 'lucide-react';
-import { LuSquareArrowOutUpRight } from "react-icons/lu";
+import { Link } from "react-router-dom";
 import {
-  FadeInSlideUpAnimation,
-  SlideLeftAnimation,
-  SlideUpAnimation,
-} from "../../utils/Animation";
+  GraduationCap,
+  Eye,
+  MapPin,
+  Calendar,
+  Code,
+  Globe,
+  Award,
+} from "lucide-react";
+import { Timeline, ProfileImage } from "../../Components/index";
+import { SlideLeftAnimation, SlideUpAnimation } from "../../utils/Animation";
+import { KEYFRAMES } from "../../Components/ui/animations";
 
-const Project = () => {
+const educationData = [
+  {
+    title: "B.Tech in IT",
+    institution: "Jalpaiguri Government Engineering College",
+    period: "2023 - 2027",
+    description:
+      "Pursuing B.Tech in Information Technology department. Secured 7.2 DGPA with focus on software development and web technologies.",
+    resultUrl:
+      "https://drive.google.com/file/d/12zrDxno-YFq3RrKnvk2-TdJtauOabt5P/view?usp=sharing",
+    align: "left",
+  },
+  {
+    title: "Higher Secondary",
+    institution: "Kotalpur High School",
+    period: "2020 - 2022",
+    description:
+      "Science stream with Physics, Chemistry, Mathematics, and Biology. Secured 372 out of 500 marks, affiliated with WBCHSE.",
+    resultUrl:
+      "https://drive.google.com/file/d/14KT2z0JYxmaf2iPtcBrxO7hcE64aPLHc/view?usp=sharing",
+    align: "right",
+  },
+  {
+    title: "Secondary",
+    institution: "Balitha High School",
+    period: "2015 - 2020",
+    description:
+      "Secured 647 out of 700 marks, affiliated with West Bengal Council of Higher Secondary Education.",
+    resultUrl:
+      "https://drive.google.com/file/d/1lWRINT_aThbhnxO0rt8oOEtvua-4USuS/view?usp=sharing",
+    align: "left",
+  },
+];
+
+const About = () => {
   return (
-    <section className="min-h-screen w-full flex flex-col items-center justify-center px-6 md:px-20 py-16 md:py-36 gap-20">
-      {/* Top Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center w-full max-w-7xl">
-        {/* Text Section - Left */}
-        <SlideLeftAnimation className="space-y-6 text-white order-2 md:order-1">
-          <span className="text-lg md:text-xl font-semibold">Hello,👋</span>
-          <p className="text-sm md:text-base leading-relaxed">
-            I'm <strong className="text-yellow-300">Subhas Mondal</strong>, from
-            Kotulpur, West Bengal. I am a pre-final-year student pursuing a
-            B.Tech. in Information Technology Dept. from Jalpaiguri Government
-            Engineering College. I am proficient in{" "}
-            <strong className="text-yellow-300">data structures</strong>,
-            algorithms, and programming languages like{" "}
-            <strong className="text-yellow-300">C++</strong>,{" "}
-            <strong className="text-yellow-300">Java</strong>, and{" "}
-            <strong className="text-yellow-300">Python</strong>. I'm also a{" "}
-            <strong className="text-yellow-300">
-              Full Stack (MERN & Next.js)
-            </strong>{" "}
-            and <strong className="text-yellow-300">React Native</strong>{" "}
-            developer. I’m enthusiastic about software development and currently
-            looking for an{" "}
-            <strong className="text-yellow-300">internship</strong> or{" "}
-            <strong className="text-yellow-300">full-time opportunity</strong>.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-4 text-center">
-            <Button className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer">
-              <Link to={'/projects'}>
-                <span className="flex justify-center items-center gap-3">
-                  <span>View my work</span>
-              <span><LuSquareArrowOutUpRight /></span>
+    <>
+      <style>{KEYFRAMES}</style>
+      <div className="min-h-screen bg-zinc-950 pt-28 pb-24 px-6 overflow-hidden relative">
+        <div className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(163,230,53,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(163,230,53,0.03) 1px,transparent 1px)',
+            backgroundSize: '80px 80px'
+          }} />
+        <div className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(163,230,53,0.07) 0%, transparent 65%)', filter: 'blur(60px)' }} />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(163,230,53,0.05) 0%, transparent 65%)', filter: 'blur(80px)' }} />
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Header */}
+          <div className="anim-fadeUp mb-16">
+            <div className="flex items-center gap-3 mb-4">
+              <div
+                className="w-5 h-5 bg-lime-400/10 border border-lime-400/30 rounded flex items-center justify-center"
+                style={{ animation: "pulseGlow 2.5s ease-in-out infinite" }}
+              >
+                <div className="w-2 h-2 bg-lime-400 rounded-sm" />
+              </div>
+              <span className="text-lime-400 text-xs font-bold uppercase tracking-widest">
+                About Me
               </span>
-              </Link>
-            </Button>
-            <Button className="flex items-center gap-2 border-2 border-white text-white px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-all font-semibold shadow-md hover:cursor-pointer"
-            onClick={() => {
-    window.open("https://drive.google.com/file/d/1Du7IFCujKnLB4m3vwFuowdjJYCsFQIgg/view?usp=sharing")
-  }}
+            </div>
+            <h1
+              className="font-black text-white tracking-tighter leading-none mb-4"
+              style={{ fontSize: "clamp(40px, 7vw, 80px)" }}
             >
-              <span className="flex justify-center items-center gap-3">
-                <span><Eye /></span>
-                <span>Resume</span>
-              </span>
-            </Button>
+              Get to <span className="shimmer-text">Know Me</span>
+            </h1>
           </div>
-        </SlideLeftAnimation>
 
-        {/* Image Section - Right */}
-        <div className="order-1 md:order-2">
-          <ProfileImage
-            imageUrl={"./Image/My Picture3.jpg"}
-            alt={"My picture"}
-          />
+          {/* Profile Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-20">
+            {/* Text Content */}
+            <div className="order-1 space-y-6">
+              <SlideLeftAnimation>
+                <p className="text-lg md:text-xl text-zinc-300 leading-relaxed">
+                  Hello!{" "}
+                  <span className="text-lime-400">I'm Subhas Mondal</span>, from
+                  Kotulpur, West Bengal. I am a pre-final-year student pursuing
+                  <span className="text-lime-400">
+                    {" "}
+                    B.Tech in Information Technology
+                  </span>{" "}
+                  from Jalpaiguri Government Engineering College.
+                </p>
+              </SlideLeftAnimation>
+
+              <SlideLeftAnimation>
+                <p className="text-zinc-400 leading-relaxed">
+                  I am proficient in{" "}
+                  <span className="text-white font-semibold">
+                    data structures
+                  </span>{" "}
+                  and
+                  <span className="text-white font-semibold"> algorithms</span>,
+                  and programming languages like
+                  <span className="text-white font-semibold"> C++</span>,{" "}
+                  <span className="text-white font-semibold">Java</span>, and{" "}
+                  <span className="text-white font-semibold">Python</span>. I'm
+                  also a{" "}
+                  <span className="text-lime-400 font-semibold">
+                    Full Stack Developer
+                  </span>{" "}
+                  specializing in MERN & Next.js and{" "}
+                  <span className="text-white font-semibold">React Native</span>{" "}
+                  development.
+                </p>
+              </SlideLeftAnimation>
+
+              <SlideLeftAnimation>
+                <p className="text-zinc-400 leading-relaxed">
+                  I'm enthusiastic about software development and currently
+                  looking for an{" "}
+                  <span className="text-lime-400 font-semibold">
+                    internship
+                  </span>{" "}
+                  or{" "}
+                  <span className="text-lime-400 font-semibold">
+                    full-time opportunity
+                  </span>
+                  .
+                </p>
+              </SlideLeftAnimation>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-4 pt-4">
+                <Link
+                  to={"/projects"}
+                  className="inline-flex items-center gap-2 bg-lime-400 text-zinc-950 font-bold text-sm px-6 py-3 rounded-full hover:bg-lime-300 hover:shadow-[0_0_30px_rgba(163,230,53,0.35)] transition-all duration-300"
+                >
+                  View My Work
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path
+                      d="M2 7h10M8 3l4 4-4 4"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </Link>
+                <button
+                  onClick={() =>
+                    window.open(
+                      "https://drive.google.com/file/d/1Du7IFCujKnLB4m3vwFuowdjJYCsFQIgg/view?usp=sharing",
+                    )
+                  }
+                  className="inline-flex items-center gap-2 border-2 border-zinc-700 text-zinc-300 font-bold text-sm px-6 py-3 rounded-full hover:border-lime-400/50 hover:text-lime-400 hover:bg-lime-400/10 transition-all duration-300"
+                >
+                  <Eye size={16} />
+                  Resume
+                </button>
+              </div>
+            </div>
+
+            {/* Image */}
+            <div className="order-2">
+              <ProfileImage
+                imageUrl={"./Image/My Picture3.jpg"}
+                alt={"My picture"}
+              />
+            </div>
+          </div>
+
+          {/* Info Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+            <SlideUpAnimation>
+              <div className="p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/60 h-full">
+                <div className="flex items-center gap-3 mb-4">
+                  <Globe size={20} className="text-lime-400" />
+                  <h3 className="text-lg font-bold text-white">Languages</h3>
+                </div>
+                <ul className="space-y-2 text-zinc-400 text-sm">
+                  <li className="flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-lime-400" />
+                    Bengali (Native)
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-lime-400" />
+                    English
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-lime-400" />
+                    Hindi
+                  </li>
+                </ul>
+              </div>
+            </SlideUpAnimation>
+
+            <SlideUpAnimation>
+              <div className="p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/60 h-full">
+                <div className="flex items-center gap-3 mb-4">
+                  <MapPin size={20} className="text-lime-400" />
+                  <h3 className="text-lg font-bold text-white">Location</h3>
+                </div>
+                <ul className="space-y-2 text-zinc-400 text-sm">
+                  <li className="flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-lime-400" />
+                    Kotulpur, West Bengal
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-lime-400" />
+                    Currently: Jalpaiguri
+                  </li>
+                </ul>
+              </div>
+            </SlideUpAnimation>
+
+            <SlideUpAnimation>
+              <div className="p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/60 h-full">
+                <div className="flex items-center gap-3 mb-4">
+                  <Code size={20} className="text-lime-400" />
+                  <h3 className="text-lg font-bold text-white">Coding</h3>
+                </div>
+                <ul className="space-y-2 text-zinc-400 text-sm">
+                  <li className="flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-lime-400" />
+                    LeetCode
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-lime-400" />
+                    GeeksforGeeks
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-lime-400" />
+                    Codeforces
+                  </li>
+                </ul>
+              </div>
+            </SlideUpAnimation>
+          </div>
+
+          {/* Education Timeline */}
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+              <GraduationCap size={24} className="text-lime-400" />
+              Education Journey
+            </h2>
+            <Timeline
+              data={educationData}
+              icon={GraduationCap}
+              subtitleKey="institution"
+              linkLabel="View Result"
+              linkKey="resultUrl"
+            />
+          </div>
         </div>
       </div>
-
-      {/* Card Section */}
-      <div className="mt-5 md:mt-16 w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <FadeInSlideUpAnimation>
-          <Card
-            cardClassName="min-h-[200px] w-full flex flex-col justify-between border border-white/20 backdrop-blur-md"
-            shadow="shadow-lg"
-            rounded="rounded-2xl"
-            background="bg-white/10"
-            padding="p-6"
-          >
-            <h1 className="text-xl font-bold mb-4 text-white underline">
-              Language I Speak
-            </h1>
-            <ul className="list-disc list-inside text-sm text-white/90 space-y-1">
-              <li>Bengali</li>
-              <li>English</li>
-              <li>Hindi</li>
-            </ul>
-          </Card>
-        </FadeInSlideUpAnimation>
-
-        <FadeInSlideUpAnimation>
-          <Card
-            cardClassName="min-h-[200px] w-full flex flex-col justify-between border border-white/20 backdrop-blur-md hover:scale-[1.02] transition-all duration-300"
-            shadow="shadow-xl"
-            rounded="rounded-2xl"
-            background="bg-white/10"
-            padding="p-6"
-          >
-            <h1 className="text-xl font-semibold mb-4 text-white underline">
-              Personal Details
-            </h1>
-            <p className="text-sm text-white/90">
-              📅 Date of Birth: 11/08/2003
-            </p>
-            <p className="text-sm text-white/90">📍 Place: Jalpaiguri</p>
-          </Card>
-        </FadeInSlideUpAnimation>
-
-        <FadeInSlideUpAnimation>
-          <Card
-            cardClassName="min-h-[200px] w-full flex flex-col justify-between border border-white/20 backdrop-blur-md hover:scale-[1.02] transition-all duration-300"
-            shadow="shadow-xl"
-            rounded="rounded-2xl"
-            background="bg-white/10"
-            padding="p-6"
-          >
-            <h1 className="text-xl font-semibold mb-4 text-white underline">
-              Coding Platforms
-            </h1>
-            <ul className="list-disc list-inside text-sm text-white/90 space-y-1">
-              <li>LeetCode</li>
-              <li>GeeksforGeeks</li>
-              <li>Codeforces</li>
-            </ul>
-          </Card>
-        </FadeInSlideUpAnimation>
-      </div>
-      
-      {/* Academic Details */}
-      <SlideUpAnimation>
-        <p className="my-5 text-2xl font-orbitron text-center text-white font-bold tracking-widest underline">Academic Details</p>
-        <Academic />
-          </SlideUpAnimation>
-    </section>
+    </>
   );
 };
 
-export default Project;
+export default About;

@@ -7,7 +7,7 @@ import Input from "./Input/Input.jsx";
 import Skill from "./Skill/Skill.jsx";
 import Project from "./Project/Project.jsx";
 import ProjectCard from "./Project/ProjectCard.jsx";
-import Academic from './Academic/Academic.jsx'
+import Timeline from './Academic/Academic.jsx'
 import { ProfileImage, Image } from "./profileImage/Image.jsx";
 
 export {
@@ -20,7 +20,7 @@ export {
     Skill,
     Project,
     ProjectCard,
-    Academic,
+    Timeline,
     ProfileImage,
     Image
 }
