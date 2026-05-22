@@ -6,15 +6,13 @@ import {
   SlideUpAnimation,
 } from "../../utils/Animation";
 
-/**
- * Reusable Timeline component
- * @param {Array} data - Array of timeline items
- * @param {React.Component} icon - Icon component to display
- * @param {string} subtitleKey - Key for subtitle field (e.g., 'institution', 'company')
- * @param {string} linkLabel - Optional label for the link button
- * @param {string} linkKey - Optional key for the link URL field
- */
-const Timeline = ({ data, icon: Icon, subtitleKey = "institution", linkLabel, linkKey }) => {
+const Timeline = ({
+  data,
+  icon: Icon,
+  subtitleKey = "institution",
+  linkLabel,
+  linkKey,
+}) => {
   return (
     <section className="relative flex flex-col items-center py-12">
       <div className="relative w-full max-w-5xl">
@@ -57,9 +55,7 @@ const Timeline = ({ data, icon: Icon, subtitleKey = "institution", linkLabel, li
                   </p>
                 )}
                 {item.location && (
-                  <p className="text-sm text-zinc-500 mt-1">
-                    {item.location}
-                  </p>
+                  <p className="text-sm text-zinc-500 mt-1">{item.location}</p>
                 )}
                 <p className="mt-4 text-sm leading-relaxed text-zinc-400">
                   {item.description}
