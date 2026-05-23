@@ -11,7 +11,9 @@ export default function ExperiencePage() {
   useEffect(() => {
     const fetchExperience = async () => {
       try {
-        const response = await fetch("http://localhost:3500/api/experiences");
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/api/experiences`,
+        );
         if (!response.ok) throw new Error("Failed to fetch experiences");
         const data = await response.json();
         setExperienceData(data.data || []);
