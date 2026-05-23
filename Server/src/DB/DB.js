@@ -4,11 +4,11 @@ import { DB_NAME } from "../Constants/constant.js";
 const connectDB = async () => {
   try {
     const connectDbInstance = await mongoose.connect(
-      `${process.env.MONGODB_URL}/${DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`
+      `${process.env.MONGODB_URL}/${DB_NAME}?appName=Cluster0`,
     );
     console.log(`MongoDB connected: ${connectDbInstance.connection.host}`);
   } catch (error) {
-    console.log("ERR!! While Connecting to DB : " + process.env.MONGODB_URL)
+    console.log("ERR!! While Connecting to DB : " + process.env.MONGODB_URL);
   }
 };
 

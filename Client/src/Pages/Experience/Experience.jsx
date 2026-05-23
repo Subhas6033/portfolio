@@ -11,10 +11,10 @@ export default function ExperiencePage() {
   useEffect(() => {
     const fetchExperience = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/experiences");
+        const response = await fetch("http://localhost:3500/api/experiences");
         if (!response.ok) throw new Error("Failed to fetch experiences");
         const data = await response.json();
-        setExperienceData(data);
+        setExperienceData(data.data || []);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -86,6 +86,8 @@ export default function ExperiencePage() {
               data={experienceData}
               icon={Briefcase}
               subtitleKey="company"
+              linkLabel="View Certificate"
+              linkKey="fileUrl"
             />
           </div>
         </div>

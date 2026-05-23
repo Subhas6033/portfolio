@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { UploadButton } from "../../utils/uploadthing";
+import { ProfileImageUploadButton } from "../../utils/uploadthing";
 import api from "../../utils/api";
 
-const AdminResume = () => {
-  const [resumeUrl, setResumeUrl] = useState("");
-  const [resumeFileName, setResumeFileName] = useState("");
+const AdminProfileImage = () => {
+  const [imageUrl, setImageUrl] = useState("");
+  const [imageName, setImageName] = useState("");
   const [message, setMessage] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
 
   const queryClient = useQueryClient();
 
   const { isLoading } = useQuery({
-    queryKey: ["resume"],
+    queryKey: ["profileImage"],
     queryFn: async () => {
-      const res = await api.get("/api/resume");
+      const res = await api.get("/api/profile");
       if (res.data.data) {
-        setResumeUrl(res.data.data.resumeUrl || "");
-        setResumeFileName(res.data.data.resumeFileName || "");
+        setImageUrl(res.data.data.imageUrl || "");
+        setImageName(res.data.data.imageName || "");
       }
       return res.data.data;
     },
@@ -25,17 +25,17 @@ const AdminResume = () => {
 
   const uploadMutation = useMutation({
     mutationFn: async (fileData) => {
-      return api.put("/api/resume", fileData);
+      return api.put("/api/profile", fileData);
     },
     onSuccess: (response) => {
-      setMessage("Resume uploaded successfully!");
-      setResumeUrl(response.data.data.resumeUrl);
-      setResumeFileName(response.data.data.resumeFileName);
+      setMessage("Profile image uploaded successfully!");
+      setImageUrl(response.data.data.imageUrl);
+      setImageName(response.data.data.imageName);
       setUploadedFile(null);
-      queryClient.invalidateQueries(["resume"]);
+      queryClient.invalidateQueries(["profileImage"]);
     },
     onError: (error) => {
-      setMessage(error.response?.data?.message || "Failed to upload resume");
+      setMessage(error.response?.data?.message || "Failed to upload image");
     },
   });
 
@@ -55,12 +55,11 @@ const AdminResume = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-white mb-6">Resume</h1>
+      <h1 className="text-2xl font-bold text-white mb-6">Profile Image</h1>
 
       <div className="bg-zinc-900 p-6 rounded-lg max-w-xl">
         <p className="text-zinc-400 mb-4">
-          Upload your resume (PDF, DOC, DOCX). It will be uploaded to
-          Uploadthing and the link will be stored in the database.
+          Upload your profile image. This will be displayed on the Home and About pages.
         </p>
 
         {message && (
@@ -76,9 +75,9 @@ const AdminResume = () => {
         )}
 
         <div className="mb-4">
-          <label className="block text-zinc-400 mb-2">Select Resume File</label>
-          <UploadButton
-            endpoint="resumeUploader"
+          <label className="block text-zinc-400 mb-2">Select Image</label>
+          <ProfileImageUploadButton
+            endpoint="profileImageUploader"
             onClientUploadComplete={handleUploadComplete}
             onUploadError={(error) => {
               setMessage("Upload error: " + error.message);
@@ -86,19 +85,14 @@ const AdminResume = () => {
           />
         </div>
 
-        {resumeUrl && (
+        {imageUrl && (
           <div className="mt-6">
-            <p className="text-zinc-400 mb-2">
-              Current resume: {resumeFileName}
-            </p>
-            <a
-              href={resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-lime-400 hover:underline"
-            >
-              View Resume
-            </a>
+            <p className="text-zinc-400 mb-2">Current image: {imageName}</p>
+            <img
+              src={imageUrl}
+              alt="Profile"
+              className="w-48 h-64 object-cover rounded-lg border border-zinc-700"
+            />
           </div>
         )}
       </div>
@@ -106,4 +100,4 @@ const AdminResume = () => {
   );
 };
 
-export default AdminResume;
+export default AdminProfileImage;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import {
   GraduationCap,
@@ -16,45 +16,98 @@ import { KEYFRAMES } from "../../Components/ui/animations";
 const About = () => {
   const [educationData, setEducationData] = useState([]);
   const [resumeUrl, setResumeUrl] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [eduResponse, resumeResponse] = await Promise.all([
-          fetch("http://localhost:8000/api/education"),
-          fetch("http://localhost:8000/api/resume"),
-        ]);
-        if (!eduResponse.ok) throw new Error("Failed to fetch education");
-        if (!resumeResponse.ok) throw new Error("Failed to fetch resume");
+  const fetchData = useCallback(async () => {
+    try {
+      const [eduResponse, resumeResponse, profileResponse] = await Promise.all([
+        fetch("http://localhost:3500/api/education"),
+        fetch("http://localhost:3500/api/resume"),
+        fetch("http://localhost:3500/api/profile"),
+      ]);
+      if (!eduResponse.ok) throw new Error("Failed to fetch education");
+      if (!resumeResponse.ok) throw new Error("Failed to fetch resume");
+      if (!profileResponse.ok) throw new Error("Failed to fetch profile image");
 
-        const eduData = await eduResponse.json();
-        const resumeData = await resumeResponse.json();
+      const eduData = await eduResponse.json();
+      const resumeData = await resumeResponse.json();
+      const profileData = await profileResponse.json();
 
-        setEducationData(eduData);
-        setResumeUrl(resumeData.url || "");
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+      setEducationData(eduData.data || []);
+      setResumeUrl(resumeData.data?.resumeUrl || "");
+      setProfileImage(profileData.data?.imageUrl || null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-zinc-950 pt-28 pb-24 px-6 flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-zinc-950 pt-28 pb-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-6 text-center">
+            <p className="text-red-400 font-medium">Error loading data</p>
+            <p className="text-zinc-500 text-sm mt-2">{error}</p>
+            <button
+              onClick={() => {
+                setError(null);
+                setLoading(true);
+                fetchData();
+              }}
+              className="mt-4 text-lime-400 hover:underline"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <style>{KEYFRAMES}</style>
       <div className="min-h-screen bg-zinc-950 pt-28 pb-24 px-6 overflow-hidden relative">
-        <div className="absolute inset-0 pointer-events-none"
+        <div
+          className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundImage: 'linear-gradient(rgba(163,230,53,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(163,230,53,0.03) 1px,transparent 1px)',
-            backgroundSize: '80px 80px'
-          }} />
-        <div className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(163,230,53,0.07) 0%, transparent 65%)', filter: 'blur(60px)' }} />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(163,230,53,0.05) 0%, transparent 65%)', filter: 'blur(80px)' }} />
+            backgroundImage:
+              "linear-gradient(rgba(163,230,53,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(163,230,53,0.03) 1px,transparent 1px)",
+            backgroundSize: "80px 80px",
+          }}
+        />
+        <div
+          className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(163,230,53,0.07) 0%, transparent 65%)",
+            filter: "blur(60px)",
+          }}
+        />
+        <div
+          className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(163,230,53,0.05) 0%, transparent 65%)",
+            filter: "blur(80px)",
+          }}
+        />
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Header */}
           <div className="anim-fadeUp mb-16">
@@ -149,9 +202,7 @@ const About = () => {
                   </svg>
                 </Link>
                 <button
-                  onClick={() =>
-                    resumeUrl && window.open(resumeUrl)
-                  }
+                  onClick={() => window.open(resumeUrl || "https://drive.google.com/file/d/1Du7IFCujKnLB4m3vwFuowdjJYCsFQIgg/view?usp=sharing")}
                   className="inline-flex items-center gap-2 border-2 border-zinc-700 text-zinc-300 font-bold text-sm px-6 py-3 rounded-full hover:border-lime-400/50 hover:text-lime-400 hover:bg-lime-400/10 transition-all duration-300"
                 >
                   <Eye size={16} />
@@ -163,7 +214,7 @@ const About = () => {
             {/* Image */}
             <div className="order-2">
               <ProfileImage
-                imageUrl={"./Image/My Picture3.jpg"}
+                imageUrl={profileImage || "./Image/My Picture3.jpg"}
                 alt={"My picture"}
               />
             </div>
@@ -248,7 +299,7 @@ const About = () => {
               icon={GraduationCap}
               subtitleKey="institution"
               linkLabel="View Result"
-              linkKey="resultUrl"
+              linkKey="resultFileUrl"
             />
           </div>
         </div>

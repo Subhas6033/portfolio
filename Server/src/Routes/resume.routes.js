@@ -1,9 +1,17 @@
-import { Router } from 'express';
-import { getResume, updateResume } from "../Controllers/resume.controllers.js";
+import { Router } from "express";
+import {
+  getResume,
+  updateResume,
+  deleteResume,
+} from "../Controllers/resume.controllers.js";
 import authMiddleware from "../Middleware/auth.middleware.js";
 
 const router = Router();
 
-router.route("/").get(getResume).put(authMiddleware, updateResume);
+// Note: uploadthing route is now mounted at app level in app.js
+
+router.get("/", getResume);
+router.put("/", authMiddleware, updateResume);
+router.delete("/", authMiddleware, deleteResume);
 
 export default router;

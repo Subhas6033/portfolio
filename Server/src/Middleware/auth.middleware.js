@@ -2,14 +2,14 @@ import jwt from "jsonwebtoken";
 import { asyncHandeler, ApiError } from "../Utils/index.js";
 
 const authMiddleware = asyncHandeler(async (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
+  const accessToken = req.cookies.accessToken;
 
-  if (!token) {
+  if (!accessToken) {
     throw new ApiError(401, "Authentication required");
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
     req.adminId = decoded.id;
     next();
   } catch (error) {

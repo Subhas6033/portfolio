@@ -6,6 +6,9 @@ const educationSchema = new mongoose.Schema({
   period: { type: String, required: true },
   description: { type: String, default: "" },
   resultUrl: { type: String, default: "" },
+  resultFileUrl: { type: String, default: "" },
+  resultFileName: { type: String, default: "" },
+  resultFileKey: { type: String, default: "" },
   align: { type: String, enum: ['left', 'right'], default: 'left' }
 }, { timestamps: true });
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { MoveUpRight, Github } from 'lucide-react'
 import { SlideInViewAnimation } from '../../utils/Animation'
@@ -6,53 +6,63 @@ import { KEYFRAMES } from '../../Components/ui/animations'
 
 const CATEGORIES = ['All', 'Fullstack', 'Frontend', 'Backend', 'College Related']
 
-const PROJECTS = [
+const serverUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3500";
+
+const DEFAULT_PROJECTS = [
   {
     category: 'Fullstack',
-    image: '/Projects/Talk2Hire.png',
+    imageURL: '/Projects/Talk2Hire.png',
     title: 'Talk2Hire',
-    subtitle: 'AI powered Hiring & Interview Platform',
-    tags: ['React', 'Node.js', 'AI', 'MongoDB'],
-    live: 'https://talk2hire.com',
-    featured: true,
+    description: 'AI powered Hiring & Interview Platform',
+    githubLink: '',
+    liveLink: 'https://talk2hire.com',
   },
   {
     category: 'College Related',
-    image: '/Projects/CDC.png',
+    imageURL: '/Projects/CDC.png',
     title: 'CDC Portal',
-    subtitle: 'Carrier and Development Cell – JGEC',
-    tags: ['MERN', 'MongoDB', 'College'],
-    github: 'https://github.com/Subhas6033/CDC-Backend',
-    live: 'https://cdcjgec.vercel.app',
+    description: 'Carrier and Development Cell – JGEC',
+    githubLink: 'https://github.com/Subhas6033/CDC-Backend',
+    liveLink: 'https://cdcjgec.vercel.app',
   },
   {
     category: 'Frontend',
-    image: '/Projects/EV.png',
+    imageURL: '/Projects/EV.png',
     title: 'EV Dashboard',
-    subtitle: 'Electrical Vehicle Dashboard',
-    tags: ['React', 'Tailwind', 'Data Viz'],
-    github: 'https://github.com/Subhas6033/Electric-Vehicle-Dashboard',
-    live: 'https://ev-eosin.vercel.app/',
+    description: 'Electrical Vehicle Dashboard',
+    githubLink: 'https://github.com/Subhas6033/Electric-Vehicle-Dashboard',
+    liveLink: 'https://ev-eosin.vercel.app/',
   },
   {
     category: 'Fullstack',
-    image: '/Projects/employee.png',
+    imageURL: '/Projects/employee.png',
     title: 'Employee Management System',
-    subtitle: 'Role-based task & team management app',
-    tags: ['MERN', 'Socket.io', 'Auth'],
-    github: 'https://github.com/Subhas6033/Employee-Management-System',
-    live: 'https://emsbysubhas.vercel.app/',
+    description: 'Role-based task & team management app',
+    githubLink: 'https://github.com/Subhas6033/Employee-Management-System',
+    liveLink: 'https://emsbysubhas.vercel.app/',
   },
   {
     category: 'Frontend',
-    image: '/Projects/PanduAI.png',
+    imageURL: '/Projects/PanduAI.png',
     title: 'PANDU the AI',
-    subtitle: 'Voice & text powered personal AI assistant',
-    tags: ['React', 'AI', 'Voice API'],
-    github: 'https://github.com/Subhas6033/PANDU',
-    live: 'https://pandutheai.netlify.app/',
+    description: 'Voice & text powered personal AI assistant',
+    githubLink: 'https://github.com/Subhas6033/PANDU',
+    liveLink: 'https://pandutheai.netlify.app/',
   },
 ]
+
+function transformProject(apiProject) {
+  return {
+    title: apiProject.title,
+    subtitle: apiProject.description,
+    category: apiProject.category,
+    image: apiProject.imageURL,
+    github: apiProject.githubLink || '#',
+    live: apiProject.liveLink || '#',
+    tags: [],
+    featured: false,
+  }
+}
 
 function ProjectCard({ project, index }) {
   return (
@@ -99,7 +109,9 @@ function ProjectCard({ project, index }) {
           <p className="text-zinc-500 text-xs mb-5 leading-relaxed">{project.subtitle}</p>
 
           {/* Links */}
+          {(project.github && project.github !== '#' || project.live && project.live !== '#') && (
           <div className="flex items-center gap-3 pt-4 border-t border-zinc-800">
+            {project.github && project.github !== '#' && (
             <Link
               to={project.github}
               target="_blank"
@@ -107,6 +119,8 @@ function ProjectCard({ project, index }) {
             >
               <Github size={13} /> Code
             </Link>
+            )}
+            {project.live && project.live !== '#' && (
             <Link
               to={project.live}
               target="_blank"
@@ -114,7 +128,9 @@ function ProjectCard({ project, index }) {
             >
               <MoveUpRight size={13} /> Live
             </Link>
+            )}
           </div>
+          )}
         </div>
       </div>
     </SlideInViewAnimation>
@@ -123,10 +139,24 @@ function ProjectCard({ project, index }) {
 
 const Project = () => {
   const [active, setActive] = useState('All')
+  const [projects, setProjects] = useState([])
+
+  useEffect(() => {
+    fetch(`${serverUrl}/api/projects`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.data && data.data.length > 0) {
+          setProjects(data.data.map(transformProject))
+        }
+      })
+      .catch(console.error)
+  }, [])
+
+  const displayProjects = projects.length > 0 ? projects : DEFAULT_PROJECTS.map(transformProject)
 
   const filtered = active === 'All'
-    ? PROJECTS
-    : PROJECTS.filter(p => p.category === active)
+    ? displayProjects
+    : displayProjects.filter(p => p.category === active)
 
   return (
     <>

@@ -1,6 +1,6 @@
 const asyncHandeler = (requestHandeler) => async (req, res, next) => {
   try {
-    return requestHandeler(req, res);
+    return requestHandeler(req, res, next);
   } catch (error) {
     console.log("Error coming from Asynchandeler !!!", error);
     res.status(error.code || 500).json({
@@ -11,4 +11,4 @@ const asyncHandeler = (requestHandeler) => async (req, res, next) => {
   }
 };
 
-export default asyncHandeler
+export default asyncHandeler;

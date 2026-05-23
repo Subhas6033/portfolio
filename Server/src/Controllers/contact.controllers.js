@@ -1,19 +1,15 @@
 import nodemailer from "nodemailer";
-import {
-  asyncHandeler,
-  ApiError,
-  ApiResponse,
-} from "../Utils/index.js";
+import { asyncHandeler, ApiError, ApiResponse } from "../Utils/index.js";
 
 import { Contact } from "../Models/Contact.models.js";
 import { validateEmailDomain } from "../Validation/mailValidate.js";
 
 // Create transporter once (reused across requests)
 const transporter = nodemailer.createTransport({
-  service: "gmail",                       
+  service: "gmail",
   auth: {
-    user: process.env.OWNER_EMAIL,         
-    pass: process.env.OWNER_EMAIL_PASSWORD, 
+    user: process.env.OWNER_EMAIL,
+    pass: process.env.OWNER_EMAIL_PASSWORD,
   },
 });
 
@@ -22,13 +18,13 @@ const handleContactForm = asyncHandeler(async (req, res) => {
 
   if (
     [userName, email, mobileNumber, subject, message].some(
-      (f) => !f || f.trim() === ""
+      (f) => !f || f.trim() === "",
     )
   ) {
     throw new ApiError(400, "All fields are required!");
   }
 
-  const emailValidation = await validateEmailDomain(email);
+  // const emailValidation = await validateEmailDomain(email);
 
   if (!emailValidation.valid) {
     throw new ApiError(400, emailValidation.reason);
@@ -80,19 +76,21 @@ const handleContactForm = asyncHandeler(async (req, res) => {
       transporter.sendMail(ownerMailOptions),
     ]);
 
-    return res.status(200).json(
-      new ApiResponse(
-        200,
-        "Emails sent and contact saved successfully",
-        savedContact
-      )
-    );
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          "Emails sent and contact saved successfully",
+          savedContact,
+        ),
+      );
   } catch (error) {
     console.error("Nodemailer Error:", error);
 
     throw new ApiError(
       500,
-      `Failed to send emails: ${error?.message || "Unknown error"}`
+      `Failed to send emails: ${error?.message || "Unknown error"}`,
     );
   }
 });
