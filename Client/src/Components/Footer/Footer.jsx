@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "../Button/Button";
 
 /* ── Social SVG Icons ─────────────────────────────────── */
 const GithubIcon = () => (
@@ -114,7 +115,7 @@ function Footer() {
               </span>
             </h2>
           </div>
-          <button
+          <Button
             onClick={() => {
               navigate("/contact");
               window.scrollTo({ top: 0, behavior: "smooth" });
@@ -131,7 +132,7 @@ function Footer() {
                 strokeLinejoin="round"
               />
             </svg>
-          </button>
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-14">
@@ -178,13 +179,13 @@ function Footer() {
             <ul className="space-y-2.5">
               {services.map((s) => (
                 <li key={s}>
-                  <button
+                  <Button
                     onClick={() => scrollToSection("services")}
                     className="group flex items-center gap-2 text-zinc-600 hover:text-lime-400 text-sm transition-colors duration-200 text-left"
                   >
                     <span className="w-1 h-1 rounded-full bg-zinc-700 group-hover:bg-lime-400 transition-colors duration-200 shrink-0" />
                     {s}
-                  </button>
+                  </Button>
                 </li>
               ))}
             </ul>

@@ -7,16 +7,18 @@ import useCounter from '../../../hooks/useCounter'
 
 const WORDS = ['Fullstack Developer', 'MERN Stack Developer', 'Problem Solver', 'Builder']
 
-function StatsRow() {
+const serverUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3500";
+
+function StatsRow({ months }) {
   const [ref, inView] = useInView()
   const projects = useCounter(20, inView)
-  const months = useCounter(3, inView)
+  const displayMonths = useCounter(months, inView)
 
   return (
     <div ref={ref} className="flex items-center gap-10">
       {[
         { val: projects, suffix: '+', label: 'Projects Shipped' },
-        { val: months,   suffix: '+', label: 'Months Experience' },
+        { val: displayMonths, suffix: '+', label: 'Months Experience' },
         { val: '∞',      suffix: '',  label: 'Lines of Code',    static: true },
       ].map(s => (
         <div key={s.label}>
@@ -33,8 +35,40 @@ function StatsRow() {
 export default function Hero() {
   const [typed, setTyped] = useState('')
   const [phase, setPhase] = useState('typing')
+  const [profileImage, setProfileImage] = useState(null)
+  const [resumeUrl, setResumeUrl] = useState(null)
+  const [months, setMonths] = useState(3)
   const wRef = useRef(0)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    Promise.all([
+      fetch(`${serverUrl}/api/profile`).then(res => res.json()),
+      fetch(`${serverUrl}/api/resume`).then(res => res.json()),
+      fetch(`${serverUrl}/api/experiences`).then(res => res.json())
+    ])
+      .then(([profileData, resumeData, experienceData]) => {
+        if (profileData.data?.imageUrl) {
+          setProfileImage(profileData.data.imageUrl)
+        }
+        if (resumeData.data?.resumeUrl) {
+          setResumeUrl(resumeData.data.resumeUrl)
+        }
+        const startDate = new Date('2026-01-01')
+          const now = new Date()
+          const monthsPassed = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth())
+          if (experienceData.data && experienceData.data.length > 0) {
+            const expMonths = experienceData.data.reduce((sum, exp) => {
+              return sum + (parseInt(exp.durationMonths) || 0)
+            }, 0)
+            setMonths(Math.max(monthsPassed + 1, expMonths + 1))
+          } else {
+            setMonths(monthsPassed + 1)
+          }
+      })
+      .catch(console.error)
+  }, [])
+
   useEffect(() => {
     const word = WORDS[wRef.current]
     if (phase === 'typing') {
@@ -117,13 +151,13 @@ export default function Hero() {
 
             {/* CTAs */}
             <div className="anim-fadeUp d-5 flex items-center gap-4 mb-12">
-              <ArrowBtn onClick={() => window.open("https://drive.google.com/file/d/1Du7IFCujKnLB4m3vwFuowdjJYCsFQIgg/view?usp=sharing")}>See my CV</ArrowBtn>
+              <ArrowBtn onClick={() => window.open(resumeUrl || "https://drive.google.com/file/d/1Du7IFCujKnLB4m3vwFuowdjJYCsFQIgg/view?usp=sharing")}>See my CV</ArrowBtn>
               <ArrowBtn outline onClick={() => navigate("/projects")}>View My Work</ArrowBtn>
             </div>
 
             {/* Stats */}
             <div className="anim-fadeUp d-6 pt-8 border-t border-zinc-800/60">
-              <StatsRow />
+              <StatsRow months={months} />
             </div>
           </div>
 
@@ -139,7 +173,7 @@ export default function Hero() {
               <div className="absolute -bottom-3 -right-3 w-16 h-16 border-b-2 border-r-2 border-lime-400 rounded-br-xl" />
 
               <div className="w-72 aspect-[3/4] rounded-2xl overflow-hidden border border-zinc-700/60 relative bg-zinc-900">
-                <img src="/Image/My Picture3.jpg" alt="Subhas Mondal"
+                <img src={profileImage || "/Image/My Picture3.jpg"} alt="Subhas Mondal"
                   className="absolute inset-0 w-full h-full object-cover object-top" />
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent" />
 

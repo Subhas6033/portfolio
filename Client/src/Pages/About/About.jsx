@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import {
   GraduationCap,
@@ -13,53 +13,101 @@ import { Timeline, ProfileImage } from "../../Components/index";
 import { SlideLeftAnimation, SlideUpAnimation } from "../../utils/Animation";
 import { KEYFRAMES } from "../../Components/ui/animations";
 
-const educationData = [
-  {
-    title: "B.Tech in IT",
-    institution: "Jalpaiguri Government Engineering College",
-    period: "2023 - 2027",
-    description:
-      "Pursuing B.Tech in Information Technology department. Secured 7.2 DGPA with focus on software development and web technologies.",
-    resultUrl:
-      "https://drive.google.com/file/d/12zrDxno-YFq3RrKnvk2-TdJtauOabt5P/view?usp=sharing",
-    align: "left",
-  },
-  {
-    title: "Higher Secondary",
-    institution: "Kotalpur High School",
-    period: "2020 - 2022",
-    description:
-      "Science stream with Physics, Chemistry, Mathematics, and Biology. Secured 372 out of 500 marks, affiliated with WBCHSE.",
-    resultUrl:
-      "https://drive.google.com/file/d/14KT2z0JYxmaf2iPtcBrxO7hcE64aPLHc/view?usp=sharing",
-    align: "right",
-  },
-  {
-    title: "Secondary",
-    institution: "Balitha High School",
-    period: "2015 - 2020",
-    description:
-      "Secured 647 out of 700 marks, affiliated with West Bengal Council of Higher Secondary Education.",
-    resultUrl:
-      "https://drive.google.com/file/d/1lWRINT_aThbhnxO0rt8oOEtvua-4USuS/view?usp=sharing",
-    align: "left",
-  },
-];
-
 const About = () => {
+  const [educationData, setEducationData] = useState([]);
+  const [resumeUrl, setResumeUrl] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchData = useCallback(async () => {
+    try {
+      const [eduResponse, resumeResponse, profileResponse] = await Promise.all([
+        fetch("http://localhost:3500/api/education"),
+        fetch("http://localhost:3500/api/resume"),
+        fetch("http://localhost:3500/api/profile"),
+      ]);
+      if (!eduResponse.ok) throw new Error("Failed to fetch education");
+      if (!resumeResponse.ok) throw new Error("Failed to fetch resume");
+      if (!profileResponse.ok) throw new Error("Failed to fetch profile image");
+
+      const eduData = await eduResponse.json();
+      const resumeData = await resumeResponse.json();
+      const profileData = await profileResponse.json();
+
+      setEducationData(eduData.data || []);
+      setResumeUrl(resumeData.data?.resumeUrl || "");
+      setProfileImage(profileData.data?.imageUrl || null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-zinc-950 pt-28 pb-24 px-6 flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-zinc-950 pt-28 pb-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-6 text-center">
+            <p className="text-red-400 font-medium">Error loading data</p>
+            <p className="text-zinc-500 text-sm mt-2">{error}</p>
+            <button
+              onClick={() => {
+                setError(null);
+                setLoading(true);
+                fetchData();
+              }}
+              className="mt-4 text-lime-400 hover:underline"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <style>{KEYFRAMES}</style>
       <div className="min-h-screen bg-zinc-950 pt-28 pb-24 px-6 overflow-hidden relative">
-        <div className="absolute inset-0 pointer-events-none"
+        <div
+          className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundImage: 'linear-gradient(rgba(163,230,53,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(163,230,53,0.03) 1px,transparent 1px)',
-            backgroundSize: '80px 80px'
-          }} />
-        <div className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(163,230,53,0.07) 0%, transparent 65%)', filter: 'blur(60px)' }} />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(163,230,53,0.05) 0%, transparent 65%)', filter: 'blur(80px)' }} />
+            backgroundImage:
+              "linear-gradient(rgba(163,230,53,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(163,230,53,0.03) 1px,transparent 1px)",
+            backgroundSize: "80px 80px",
+          }}
+        />
+        <div
+          className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(163,230,53,0.07) 0%, transparent 65%)",
+            filter: "blur(60px)",
+          }}
+        />
+        <div
+          className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(163,230,53,0.05) 0%, transparent 65%)",
+            filter: "blur(80px)",
+          }}
+        />
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Header */}
           <div className="anim-fadeUp mb-16">
@@ -154,11 +202,7 @@ const About = () => {
                   </svg>
                 </Link>
                 <button
-                  onClick={() =>
-                    window.open(
-                      "https://drive.google.com/file/d/1Du7IFCujKnLB4m3vwFuowdjJYCsFQIgg/view?usp=sharing",
-                    )
-                  }
+                  onClick={() => window.open(resumeUrl || "https://drive.google.com/file/d/1Du7IFCujKnLB4m3vwFuowdjJYCsFQIgg/view?usp=sharing")}
                   className="inline-flex items-center gap-2 border-2 border-zinc-700 text-zinc-300 font-bold text-sm px-6 py-3 rounded-full hover:border-lime-400/50 hover:text-lime-400 hover:bg-lime-400/10 transition-all duration-300"
                 >
                   <Eye size={16} />
@@ -170,7 +214,7 @@ const About = () => {
             {/* Image */}
             <div className="order-2">
               <ProfileImage
-                imageUrl={"./Image/My Picture3.jpg"}
+                imageUrl={profileImage || "./Image/My Picture3.jpg"}
                 alt={"My picture"}
               />
             </div>
@@ -255,7 +299,7 @@ const About = () => {
               icon={GraduationCap}
               subtitleKey="institution"
               linkLabel="View Result"
-              linkKey="resultUrl"
+              linkKey="resultFileUrl"
             />
           </div>
         </div>
