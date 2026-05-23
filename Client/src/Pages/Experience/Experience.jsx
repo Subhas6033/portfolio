@@ -1,30 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { GraduationCap, Briefcase } from "lucide-react";
 import { Timeline } from "../../Components/index";
 import { KEYFRAMES } from "../../Components/ui/animations";
 
-const experienceData = [
-  {
-    title: "Full Stack Developer Intern",
-    company: "Quantumhash Corporation",
-    period: "January 2026 – April 2026",
-    location: "Remote",
-    description:
-      "Contributed to the development of scalable full-stack web applications using the MERN stack. Implemented RESTful APIs, integrated real-time functionalities, optimized application performance, and collaborated with the development team to build efficient and user-friendly solutions.",
-    align: "left",
-  },
-  {
-    title: "Fullstack Developer Fulltime",
-    company: "Quantumhash Corporation",
-    period: "2026 May - Present",
-    location: "Remote",
-    description:
-      "Building and maintaining scalable full-stack web applications using React, Next.js, Node.js, and Tailwind CSS. Developing responsive, high-performance user interfaces, integrating backend APIs, and collaborating with cross-functional teams to deliver seamless user experiences and production-ready features.",
-    align: "right",
-  },
-];
-
 export default function ExperiencePage() {
+  const [experienceData, setExperienceData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchExperience = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api/experiences");
+        if (!response.ok) throw new Error("Failed to fetch experiences");
+        const data = await response.json();
+        setExperienceData(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchExperience();
+  }, []);
   return (
     <>
       <style>{KEYFRAMES}</style>

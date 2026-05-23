@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   GraduationCap,
@@ -13,40 +13,35 @@ import { Timeline, ProfileImage } from "../../Components/index";
 import { SlideLeftAnimation, SlideUpAnimation } from "../../utils/Animation";
 import { KEYFRAMES } from "../../Components/ui/animations";
 
-const educationData = [
-  {
-    title: "B.Tech in IT",
-    institution: "Jalpaiguri Government Engineering College",
-    period: "2023 - 2027",
-    description:
-      "Pursuing B.Tech in Information Technology department. Secured 7.2 DGPA with focus on software development and web technologies.",
-    resultUrl:
-      "https://drive.google.com/file/d/12zrDxno-YFq3RrKnvk2-TdJtauOabt5P/view?usp=sharing",
-    align: "left",
-  },
-  {
-    title: "Higher Secondary",
-    institution: "Kotalpur High School",
-    period: "2020 - 2022",
-    description:
-      "Science stream with Physics, Chemistry, Mathematics, and Biology. Secured 372 out of 500 marks, affiliated with WBCHSE.",
-    resultUrl:
-      "https://drive.google.com/file/d/14KT2z0JYxmaf2iPtcBrxO7hcE64aPLHc/view?usp=sharing",
-    align: "right",
-  },
-  {
-    title: "Secondary",
-    institution: "Balitha High School",
-    period: "2015 - 2020",
-    description:
-      "Secured 647 out of 700 marks, affiliated with West Bengal Council of Higher Secondary Education.",
-    resultUrl:
-      "https://drive.google.com/file/d/1lWRINT_aThbhnxO0rt8oOEtvua-4USuS/view?usp=sharing",
-    align: "left",
-  },
-];
-
 const About = () => {
+  const [educationData, setEducationData] = useState([]);
+  const [resumeUrl, setResumeUrl] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [eduResponse, resumeResponse] = await Promise.all([
+          fetch("http://localhost:8000/api/education"),
+          fetch("http://localhost:8000/api/resume"),
+        ]);
+        if (!eduResponse.ok) throw new Error("Failed to fetch education");
+        if (!resumeResponse.ok) throw new Error("Failed to fetch resume");
+
+        const eduData = await eduResponse.json();
+        const resumeData = await resumeResponse.json();
+
+        setEducationData(eduData);
+        setResumeUrl(resumeData.url || "");
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <>
       <style>{KEYFRAMES}</style>
@@ -155,9 +150,7 @@ const About = () => {
                 </Link>
                 <button
                   onClick={() =>
-                    window.open(
-                      "https://drive.google.com/file/d/1Du7IFCujKnLB4m3vwFuowdjJYCsFQIgg/view?usp=sharing",
-                    )
+                    resumeUrl && window.open(resumeUrl)
                   }
                   className="inline-flex items-center gap-2 border-2 border-zinc-700 text-zinc-300 font-bold text-sm px-6 py-3 rounded-full hover:border-lime-400/50 hover:text-lime-400 hover:bg-lime-400/10 transition-all duration-300"
                 >

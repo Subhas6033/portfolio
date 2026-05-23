@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowCircleRight } from "react-icons/fa";
 import { Button } from "../index";
@@ -7,36 +7,25 @@ import ProjectCard from "./ProjectCard";
 
 const Project = () => {
   const navigate = useNavigate();
+  const [projectData, setProjectData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const projectData = [
-    {
-      category: "Frontend",
-      imageURL: "./Projects/EV.jpeg",
-      title: "Electric Vehicle Dashboard",
-      description:
-        "is a React-based web application that allows users to explore detailed information about electric vehicles. Users can view specifications, track vehicle data, and explore manufacturing history based on selected years for deeper insights.",
-      githubLink: "https://github.com/Subhas6033/Electric-Vehicle-Dashboard",
-      liveLink: "https://ev-eosin.vercel.app/",
-    },
-    {
-      category: "Fullstack",
-      imageURL: "./Projects/employee.png",
-      title: "Employee Management System",
-      description:
-        "is a role-based web application that streamlines workplace operations with task assignment, real-time chat, and instant notifications. Designed to enhance collaboration between employees and co-workers while ensuring secure access control.",
-      githubLink: "https://github.com/Subhas6033/Employee-Management-System",
-      liveLink: "https://emsbysubhas.vercel.app/",
-    },
-    {
-      category: "Frontend",
-      imageURL: "./Projects/PanduAI.png",
-      title: "PANDU the AI",
-      description:
-        "is an AI-powered personal assistant that can play songs, search the internet, and launch applications using your custom voice or text commands. I have to fix the issue or bug that is occuring here is about the height of the card.",
-      githubLink: "https://github.com/Subhas6033/PANDU",
-      liveLink: "https://pandutheai.netlify.app/",
-    },
-  ];
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api/projects");
+        if (!response.ok) throw new Error("Failed to fetch projects");
+        const data = await response.json();
+        setProjectData(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
 
   return (
     <SlideUpAnimation className="mt-5 px-2 overflow-x-hidden">
