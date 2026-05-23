@@ -23,9 +23,9 @@ const About = () => {
   const fetchData = useCallback(async () => {
     try {
       const [eduResponse, resumeResponse, profileResponse] = await Promise.all([
-        fetch("http://localhost:3500/api/education"),
-        fetch("http://localhost:3500/api/resume"),
-        fetch("http://localhost:3500/api/profile"),
+        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/education`),
+        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/resume`),
+        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/profile`),
       ]);
       if (!eduResponse.ok) throw new Error("Failed to fetch education");
       if (!resumeResponse.ok) throw new Error("Failed to fetch resume");
@@ -202,7 +202,12 @@ const About = () => {
                   </svg>
                 </Link>
                 <button
-                  onClick={() => window.open(resumeUrl || "https://drive.google.com/file/d/1Du7IFCujKnLB4m3vwFuowdjJYCsFQIgg/view?usp=sharing")}
+                  onClick={() =>
+                    window.open(
+                      resumeUrl ||
+                        "https://drive.google.com/file/d/1Du7IFCujKnLB4m3vwFuowdjJYCsFQIgg/view?usp=sharing",
+                    )
+                  }
                   className="inline-flex items-center gap-2 border-2 border-zinc-700 text-zinc-300 font-bold text-sm px-6 py-3 rounded-full hover:border-lime-400/50 hover:text-lime-400 hover:bg-lime-400/10 transition-all duration-300"
                 >
                   <Eye size={16} />
