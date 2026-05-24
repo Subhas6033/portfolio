@@ -6,7 +6,16 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const queryClient = new QueryClient();
-import { Home, About, Project, Contact, Achievements, ProjectDetail, Experience } from "./Pages/index.js";
+import {
+  Home,
+  About,
+  Project,
+  Contact,
+  Achievements,
+  ProjectDetail,
+  Experience,
+  NotFound,
+} from "./Pages/index.js";
 import RouteTitleUpdater from "./Components/RouteTitleUpdater.jsx";
 import AdminLayout from "./Pages/Admin/AdminLayout";
 import AdminLogin from "./Pages/Admin/AdminLogin";
@@ -60,14 +69,36 @@ const Router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-      { path: "experiences", element: <AdminExperiences /> },
-      { path: "projects", element: <AdminProjects /> },
-      { path: "education", element: <AdminEducation /> },
-      { path: "resume", element: <AdminResume /> },
-      { path: "profile-image", element: <AdminProfileImage /> },
+      {
+        path: "experiences",
+        element: <AdminExperiences />,
+      },
+      {
+        path: "projects",
+        element: <AdminProjects />,
+      },
+      {
+        path: "education",
+        element: <AdminEducation />,
+      },
+      {
+        path: "resume",
+        element: <AdminResume />,
+      },
+      {
+        path: "profile-image",
+        element: <AdminProfileImage />,
+      },
     ],
   },
-  { path: "/admin/login", element: <AdminLogin /> },
+  {
+    path: "/admin/login",
+    element: <AdminLogin />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(
@@ -75,5 +106,5 @@ createRoot(document.getElementById("root")).render(
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={Router} />
     </QueryClientProvider>
-  </StrictMode>
+  </StrictMode>,
 );
