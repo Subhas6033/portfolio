@@ -24,12 +24,12 @@ const handleContactForm = asyncHandeler(async (req, res) => {
     throw new ApiError(400, "All fields are required!");
   }
 
-  // const emailValidation = await validateEmailDomain(email);
+  /*  const emailValidation = await validateEmailDomain(email);
 
   if (!emailValidation.valid) {
     throw new ApiError(400, emailValidation.reason);
   }
-
+*/
   const savedContact = await Contact.create({
     userName,
     email,
