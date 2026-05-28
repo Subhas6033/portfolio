@@ -24,6 +24,9 @@ const verifyRecaptcha = async (req, res, next) => {
     next();
   } catch (error) {
     if (error instanceof ApiError) throw error;
+
+    // Log the real cause before wrapping it
+    console.error("reCAPTCHA middleware error:", error?.message || error);
     throw new ApiError(400, "Recaptcha verification failed.");
   }
 };

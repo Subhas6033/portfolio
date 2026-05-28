@@ -38,12 +38,30 @@ app.use(
   }),
 );
 
+// Trust the first proxy (if behind a reverse proxy like Nginx or Heroku) to get correct client IP for rate limiting and secure cookies
+app.set("trust proxy", 1);
+
 // Mount uploadthing at app level to avoid conflicts with other routes
-app.use("/api/resume/uploadthing", createRouteHandler({ router: uploadRouter }));
-app.use("/api/profile/uploadthing", createRouteHandler({ router: uploadRouter }));
-app.use("/api/education/uploadthing", createRouteHandler({ router: uploadRouter }));
-app.use("/api/experiences/uploadthing", createRouteHandler({ router: uploadRouter }));
-app.use("/api/projects/uploadthing", createRouteHandler({ router: uploadRouter }));
+app.use(
+  "/api/resume/uploadthing",
+  createRouteHandler({ router: uploadRouter }),
+);
+app.use(
+  "/api/profile/uploadthing",
+  createRouteHandler({ router: uploadRouter }),
+);
+app.use(
+  "/api/education/uploadthing",
+  createRouteHandler({ router: uploadRouter }),
+);
+app.use(
+  "/api/experiences/uploadthing",
+  createRouteHandler({ router: uploadRouter }),
+);
+app.use(
+  "/api/projects/uploadthing",
+  createRouteHandler({ router: uploadRouter }),
+);
 
 app.use("/api/v1", contactRouter);
 app.use("/api/experiences", experienceRoutes);
