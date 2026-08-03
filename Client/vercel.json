@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  
+
   "rewrites": [
     {
       "source": "/api/(.*)",
@@ -9,6 +9,26 @@
     {
       "source": "/(.*)",
       "destination": "/"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/robots.txt",
+      "headers": [{ "key": "Content-Type", "value": "text/plain" }]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [{ "key": "Content-Type", "value": "application/xml" }]
+    },
+    {
+      "source": "/manifest.webmanifest",
+      "headers": [
+        { "key": "Content-Type", "value": "application/manifest+json" }
+      ]
+    },
+    {
+      "source": "/.well-known/security.txt",
+      "headers": [{ "key": "Content-Type", "value": "text/plain" }]
     }
   ]
 }

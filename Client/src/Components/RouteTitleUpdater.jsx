@@ -11,6 +11,7 @@ const RouteTitleUpdater = () => {
       "/projects": "Projects | Full stack Developer",
       "/achievement": "Achievements | Full stack Developer",
       "/contact": "Contact me | FUll stack Developer",
+      "/experience": "Experience | Full stack Developer",
     };
     document.title = titles[location.pathname] || "Subhas Mondal || Full stack Developer";
     window.scrollTo({ top: 0, behavior: 'instant' });
