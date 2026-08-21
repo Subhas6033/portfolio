@@ -21,7 +21,7 @@ app.use(
   }),
 );
 
-app.use(cookieParser());
+app.use(cookieParser())
 
 // Configuration for handelling the JSON data
 app.use(

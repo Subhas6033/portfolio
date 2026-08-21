@@ -16,7 +16,7 @@ import {
   Experience,
   NotFound,
 } from "./Pages/index.js";
-import RouteTitleUpdater from "./Components/RouteTitleUpdater.jsx";
+import RouteTitleUpdater from "./Components/RouteTitleUpdater.jsx"
 import AdminLayout from "./Pages/Admin/AdminLayout";
 import AdminLogin from "./Pages/Admin/AdminLogin";
 import AdminExperiences from "./Pages/Admin/AdminExperiences";
@@ -24,7 +24,7 @@ import AdminProjects from "./Pages/Admin/AdminProjects";
 import AdminEducation from "./Pages/Admin/AdminEducation";
 import AdminResume from "./Pages/Admin/AdminResume";
 import AdminProfileImage from "./Pages/Admin/AdminProfileImage";
-import ProtectedRoute from "./Components/ProtectedRoute.jsx";
+import ProtectedRoute from "./Components/ProtectedRoute.jsx"
 
 const Router = createBrowserRouter([
   {
@@ -99,7 +99,7 @@ const Router = createBrowserRouter([
     path: "*",
     element: <NotFound />,
   },
-]);
+])
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
